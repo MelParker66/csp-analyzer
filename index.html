@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSP Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <header class="app-header">
+        CSP Analyzer — Conservative Put Selection Tool
+    </header>
+
+    <main class="layout">
+
+        <section class="card card-expiration" aria-labelledby="exp-heading">
+            <h2 id="exp-heading" class="card-title">Expiration</h2>
+            <div id="expiration-inputs" class="expiration-row">
+                <label for="expDate">Expiration Date</label>
+                <input type="text" id="expDate" placeholder="May 15, 2026" />
+                <label for="dte">DTE</label>
+                <input type="number" id="dte" placeholder="28" min="1" />
+            </div>
+        </section>
+
+        <section class="card card-candidates" aria-labelledby="cand-heading">
+            <h2 id="cand-heading" class="card-title">PUT candidates</h2>
+            <p class="manual-hint">Enter one row per candidate (up to 10). Leave a row blank to skip it.</p>
+            <div class="candidates-wrap">
+                <table class="candidates-table" id="candidates-table">
+                    <thead>
+                        <tr>
+                            <th>Strike</th>
+                            <th>Bid</th>
+                            <th>Ask</th>
+                            <th>Prob ITM</th>
+                            <th>Delta</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="candidates"></tbody>
+                </table>
+            </div>
+            <div class="manual-actions">
+                <button type="button" id="add-row" class="btn">Add Row</button>
+                <button type="button" id="analyze" class="btn">Analyze</button>
+            </div>
+        </section>
+
+        <div id="results"></div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
