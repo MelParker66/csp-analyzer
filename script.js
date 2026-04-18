@@ -185,6 +185,13 @@ function pickBestCSP(data) {
     return fallback.reduce((a, b) => (b.returnPct > a.returnPct ? b : a));
 }
 
+function formatMoney(amount) {
+    return amount.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+}
+
 // -----------------------------
 // Render Results Table (shared; targets panel via resultsEl)
 // -----------------------------
@@ -258,7 +265,7 @@ function renderTable(data, expDate, dte, resultsEl) {
                 </p>
                 <p class="rec-detail"><strong>Return %:</strong> ${best.returnPct.toFixed(2)}%</p>
                 <p class="rec-detail"><strong>Dollar Return:</strong> $${dollarReturn}</p>
-                <p class="rec-detail"><strong>Capital Required:</strong> $${best.capitalRequired.toFixed(2)}</p>
+                <p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(best.capitalRequired)}</p>
                 <p class="rec-detail"><strong>Annualized Return:</strong> ${best.annualized.toFixed(2)}%</p>
                 <p class="rec-detail"><strong>Prob OTM:</strong> ${best.probOTM.toFixed(2)}%</p>
                 <p class="rec-detail"><strong>Breakeven:</strong> $${best.breakeven.toFixed(2)}</p>
