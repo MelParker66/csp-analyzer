@@ -33,11 +33,24 @@ body {
     line-height: 1.35;
 }
 
-/* Centered layout */
+/* Two-panel layout */
 .layout {
-    max-width: 1000px;
+    display: flex;
+    gap: 20px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 28px 20px 40px;
+}
+
+@media (max-width: 900px) {
+    .layout {
+        flex-direction: column;
+    }
+}
+
+.panel {
+    flex: 1;
+    min-width: 0;
 }
 
 /* Cards */
@@ -84,11 +97,13 @@ body {
     background: #fff;
 }
 
-.card-expiration input#expDate {
+.card-expiration input#expDate,
+.card-expiration input#expDate2 {
     width: 180px;
 }
 
-.card-expiration input#dte {
+.card-expiration input#dte,
+.card-expiration input#dte2 {
     width: 88px;
 }
 
@@ -223,15 +238,18 @@ body {
 }
 
 /* Results area */
-#results {
+#results,
+#results2 {
     margin-top: 0;
 }
 
-#results .card {
+#results .card,
+#results2 .card {
     margin-bottom: 28px;
 }
 
-#results .card:last-child {
+#results .card:last-child,
+#results2 .card:last-child {
     margin-bottom: 0;
 }
 

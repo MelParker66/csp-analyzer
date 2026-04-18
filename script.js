@@ -1,13 +1,18 @@
 // -----------------------------
-// Manual PUT candidates (1–10 rows)
+// Manual PUT candidates (1–10 rows) — two independent panels
 // -----------------------------
 const MAX_ROWS = 10;
-const results = document.getElementById("results");
-const candidatesBody = document.getElementById("candidates");
-const addRowBtn = document.getElementById("add-row");
-const analyzeBtn = document.getElementById("analyze");
 
-function createCandidateRow() {
+const results = document.getElementById("results");
+const results2 = document.getElementById("results2");
+const candidatesBody = document.getElementById("candidatesBody");
+const candidatesBody2 = document.getElementById("candidatesBody2");
+const addRowBtn = document.getElementById("addRowBtn");
+const addRowBtn2 = document.getElementById("addRowBtn2");
+const analyzeBtn = document.getElementById("analyzeBtn");
+const analyzeBtn2 = document.getElementById("analyzeBtn2");
+
+function createCandidateRow(candidatesBodyEl, addRowBtnEl) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
         <td><input type="number" class="inp-strike" step="any" placeholder="0" /></td>
@@ -18,29 +23,36 @@ function createCandidateRow() {
         <td><button type="button" class="remove-row" title="Remove row">Remove</button></td>
     `;
     tr.querySelector(".remove-row").addEventListener("click", () => {
-        if (candidatesBody.querySelectorAll("tr").length <= 1) return;
+        if (candidatesBodyEl.querySelectorAll("tr").length <= 1) return;
         tr.remove();
-        updateAddButtonState();
+        updateAddButtonState(candidatesBodyEl, addRowBtnEl);
     });
     return tr;
 }
 
-function updateAddButtonState() {
-    const n = candidatesBody.querySelectorAll("tr").length;
-    addRowBtn.disabled = n >= MAX_ROWS;
+function updateAddButtonState(candidatesBodyEl, addRowBtnEl) {
+    const n = candidatesBodyEl.querySelectorAll("tr").length;
+    addRowBtnEl.disabled = n >= MAX_ROWS;
 }
 
 addRowBtn.addEventListener("click", () => {
     if (candidatesBody.querySelectorAll("tr").length >= MAX_ROWS) return;
-    candidatesBody.appendChild(createCandidateRow());
-    updateAddButtonState();
+    candidatesBody.appendChild(createCandidateRow(candidatesBody, addRowBtn));
+    updateAddButtonState(candidatesBody, addRowBtn);
+});
+
+addRowBtn2.addEventListener("click", () => {
+    if (candidatesBody2.querySelectorAll("tr").length >= MAX_ROWS) return;
+    candidatesBody2.appendChild(createCandidateRow(candidatesBody2, addRowBtn2));
+    updateAddButtonState(candidatesBody2, addRowBtn2);
 });
 
 analyzeBtn.addEventListener("click", runAnalysis);
+analyzeBtn2.addEventListener("click", runAnalysis2);
 
-function readCandidateRows() {
+function readCandidateRowsFrom(tbody) {
     const rows = [];
-    for (const tr of candidatesBody.querySelectorAll("tr")) {
+    for (const tr of tbody.querySelectorAll("tr")) {
         const strike = parseFloat(tr.querySelector(".inp-strike").value);
         const bid = parseFloat(tr.querySelector(".inp-bid").value);
         const ask = parseFloat(tr.querySelector(".inp-ask").value);
@@ -86,7 +98,7 @@ function runAnalysis() {
         return;
     }
 
-    const parsed = readCandidateRows();
+    const parsed = readCandidateRowsFrom(candidatesBody);
     if (parsed.error) {
         results.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml(parsed.error)}</p></div>`;
         return;
@@ -98,11 +110,35 @@ function runAnalysis() {
     }
 
     const analyzed = analyzeCSP(parsed.rows, dte);
-    renderTable(analyzed, expDate, dte);
+    renderTable(analyzed, expDate, dte, results);
+}
+
+function runAnalysis2() {
+    const expDate2 = document.getElementById("expDate2").value;
+    const dte2 = parseInt(document.getElementById("dte2").value, 10);
+
+    if (!Number.isFinite(dte2) || dte2 < 1) {
+        results2.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml("Please enter a valid DTE (at least 1 day).")}</p></div>`;
+        return;
+    }
+
+    const parsed = readCandidateRowsFrom(candidatesBody2);
+    if (parsed.error) {
+        results2.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml(parsed.error)}</p></div>`;
+        return;
+    }
+
+    if (parsed.rows.length === 0) {
+        results2.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml("Enter at least one complete PUT candidate row.")}</p></div>`;
+        return;
+    }
+
+    const analyzed = analyzeCSP(parsed.rows, dte2);
+    renderTable(analyzed, expDate2, dte2, results2);
 }
 
 // -----------------------------
-// CSP Math
+// CSP Math (shared)
 // -----------------------------
 function analyzeCSP(rows, dte) {
     return rows.map(r => {
@@ -150,11 +186,11 @@ function pickBestCSP(data) {
 }
 
 // -----------------------------
-// Render Results Table
+// Render Results Table (shared; targets panel via resultsEl)
 // -----------------------------
-function renderTable(data, expDate, dte) {
+function renderTable(data, expDate, dte, resultsEl) {
     if (data.length === 0) {
-        results.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml("No candidate rows to analyze.")}</p></div>`;
+        resultsEl.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml("No candidate rows to analyze.")}</p></div>`;
         return;
     }
 
@@ -232,7 +268,7 @@ function renderTable(data, expDate, dte) {
         `;
     }
 
-    results.innerHTML = html;
+    resultsEl.innerHTML = html;
 }
 
 function escapeHtml(s) {
@@ -243,5 +279,8 @@ function escapeHtml(s) {
         .replace(/"/g, "&quot;");
 }
 
-candidatesBody.appendChild(createCandidateRow());
-updateAddButtonState();
+candidatesBody.appendChild(createCandidateRow(candidatesBody, addRowBtn));
+updateAddButtonState(candidatesBody, addRowBtn);
+
+candidatesBody2.appendChild(createCandidateRow(candidatesBody2, addRowBtn2));
+updateAddButtonState(candidatesBody2, addRowBtn2);

@@ -16,45 +16,85 @@
     </header>
     <p class="header-ref">Conservative Parameters: Δ 0.20–0.30 · Return 1.5–3.0% · Prob OTM ≥ 70%</p>
 
-    <main class="layout">
+    <div class="layout">
 
-        <section class="card card-expiration" aria-labelledby="exp-heading">
-            <h2 id="exp-heading" class="card-title">Expiration</h2>
-            <div id="expiration-inputs" class="expiration-row">
-                <label for="expDate">Expiration Date</label>
-                <input type="text" id="expDate" placeholder="May 15, 2026" />
-                <label for="dte">DTE</label>
-                <input type="number" id="dte" placeholder="28" min="1" />
-            </div>
-        </section>
+        <div class="panel" id="panel1">
+            <section class="card card-expiration" aria-labelledby="exp-heading">
+                <h2 id="exp-heading" class="card-title">Expiration</h2>
+                <div id="expiration-inputs" class="expiration-row">
+                    <label for="expDate">Expiration Date</label>
+                    <input type="text" id="expDate" placeholder="May 15, 2026" />
+                    <label for="dte">DTE</label>
+                    <input type="number" id="dte" placeholder="28" min="1" />
+                </div>
+            </section>
 
-        <section class="card card-candidates" aria-labelledby="cand-heading">
-            <h2 id="cand-heading" class="card-title">PUT candidates</h2>
-            <p class="manual-hint">Enter one row per candidate (up to 10). Leave a row blank to skip it.</p>
-            <div class="candidates-wrap">
-                <table class="candidates-table" id="candidates-table">
-                    <thead>
-                        <tr>
-                            <th>Strike</th>
-                            <th>Bid</th>
-                            <th>Ask</th>
-                            <th>Prob ITM</th>
-                            <th>Delta</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="candidates"></tbody>
-                </table>
-            </div>
-            <div class="manual-actions">
-                <button type="button" id="add-row" class="btn">Add Row</button>
-                <button type="button" id="analyze" class="btn">Analyze</button>
-            </div>
-        </section>
+            <section class="card card-candidates" aria-labelledby="cand-heading">
+                <h2 id="cand-heading" class="card-title">PUT candidates</h2>
+                <p class="manual-hint">Enter one row per candidate (up to 10). Leave a row blank to skip it.</p>
+                <div class="candidates-wrap">
+                    <table class="candidates-table" id="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Strike</th>
+                                <th>Bid</th>
+                                <th>Ask</th>
+                                <th>Prob ITM</th>
+                                <th>Delta</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="candidatesBody"></tbody>
+                    </table>
+                </div>
+                <div class="manual-actions">
+                    <button type="button" id="addRowBtn" class="btn">Add Row</button>
+                    <button type="button" id="analyzeBtn" class="btn">Analyze</button>
+                </div>
+            </section>
 
-        <div id="results"></div>
+            <div id="results"></div>
+        </div>
 
-    </main>
+        <div class="panel" id="panel2">
+            <section class="card card-expiration" aria-labelledby="exp-heading2">
+                <h2 id="exp-heading2" class="card-title">Expiration</h2>
+                <div id="expiration-inputs2" class="expiration-row">
+                    <label for="expDate2">Expiration Date</label>
+                    <input type="text" id="expDate2" placeholder="May 15, 2026" />
+                    <label for="dte2">DTE</label>
+                    <input type="number" id="dte2" placeholder="28" min="1" />
+                </div>
+            </section>
+
+            <section class="card card-candidates" aria-labelledby="cand-heading2">
+                <h2 id="cand-heading2" class="card-title">PUT candidates</h2>
+                <p class="manual-hint">Enter one row per candidate (up to 10). Leave a row blank to skip it.</p>
+                <div class="candidates-wrap">
+                    <table class="candidates-table" id="candidates-table2">
+                        <thead>
+                            <tr>
+                                <th>Strike</th>
+                                <th>Bid</th>
+                                <th>Ask</th>
+                                <th>Prob ITM</th>
+                                <th>Delta</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="candidatesBody2"></tbody>
+                    </table>
+                </div>
+                <div class="manual-actions">
+                    <button type="button" id="addRowBtn2" class="btn">Add Row</button>
+                    <button type="button" id="analyzeBtn2" class="btn">Analyze</button>
+                </div>
+            </section>
+
+            <div id="results2"></div>
+        </div>
+
+    </div>
 
     <script src="script.js"></script>
 </body>
