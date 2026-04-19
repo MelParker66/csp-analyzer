@@ -517,3 +517,39 @@ body {
 .ladder-results {
     margin-top: 0;
 }
+
+/* Ladder summary (bottom of ladder page) */
+.ladder-summary-mount {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+}
+
+.ladder-summary-card {
+    margin-top: 8px;
+}
+
+.ladder-summary-title {
+    margin-bottom: 10px;
+}
+
+.ladder-summary-rule {
+    border: none;
+    border-top: 1px solid #e8ecf1;
+    margin: 0 0 16px 0;
+}
+
+.ladder-summary-line {
+    margin: 0.65em 0;
+    font-size: 0.98rem;
+    color: #333;
+}
+
+.ladder-summary-line strong {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.analysis-th-select {
+    min-width: 5.5rem;
+}

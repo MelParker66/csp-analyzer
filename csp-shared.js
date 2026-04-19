@@ -68,17 +68,21 @@ function renderCspDetailBox(row, fallbackExp, fallbackDte) {
     `;
 }
 
-function renderTable(data, expDate, dte, resultsEl) {
+function renderTable(data, expDate, dte, resultsEl, ladderOptions) {
     if (data.length === 0) {
         resultsEl.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml("No candidate rows to analyze.")}</p></div>`;
         return;
     }
 
     const rid = resultsEl.id || "results";
+    const rungKey = ladderOptions && ladderOptions.rungKey;
+    const detailColspan = rungKey ? 8 : 7;
 
     const expLine = expDate && String(expDate).trim()
         ? `<p class="analysis-intro"><strong>Expiration:</strong> ${escapeHtml(String(expDate).trim())}</p>`
         : "";
+
+    const selectHeader = rungKey ? `<th class="analysis-th-select">Select</th>` : "";
 
     let html = `
         <section class="card">
@@ -94,6 +98,7 @@ function renderTable(data, expDate, dte, resultsEl) {
                         <th>Prob OTM</th>
                         <th>Delta</th>
                         <th></th>
+                        ${selectHeader}
                     </tr>
                 </thead>
                 <tbody>
@@ -101,6 +106,11 @@ function renderTable(data, expDate, dte, resultsEl) {
 
     data.forEach((row, i) => {
         const detailId = `${rid}-csp-detail-${i}`;
+        const selectCell = rungKey
+            ? `<td>
+                    <button type="button" class="btn ladder-select-btn" data-row-index="${i}">Select</button>
+                </td>`
+            : "";
         html += `
             <tr class="analysis-data-row">
                 <td>${row.strike}</td>
@@ -112,9 +122,10 @@ function renderTable(data, expDate, dte, resultsEl) {
                 <td>
                     <button type="button" class="btn show-row-details-btn" data-detail-target="${detailId}" aria-expanded="false" aria-controls="${detailId}">Show Details</button>
                 </td>
+                ${selectCell}
             </tr>
             <tr id="${detailId}" class="csp-detail-row" hidden>
-                <td colspan="7">
+                <td colspan="${detailColspan}">
                     ${renderCspDetailBox(row, expDate, dte)}
                 </td>
             </tr>
@@ -138,4 +149,14 @@ function renderTable(data, expDate, dte, resultsEl) {
             btn.setAttribute("aria-expanded", detailRow.hidden ? "false" : "true");
         });
     });
+
+    if (rungKey && typeof window.selectRung === "function") {
+        resultsEl.querySelectorAll(".ladder-select-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const idx = parseInt(btn.getAttribute("data-row-index"), 10);
+                if (!Number.isFinite(idx) || data[idx] === undefined) return;
+                window.selectRung(rungKey, data[idx]);
+            });
+        });
+    }
 }

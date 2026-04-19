@@ -1,5 +1,68 @@
 // CSP Ladder Builder — four independent rungs; depends on csp-shared.js
 
+const selectedRungs = {
+    rung1: null,
+    rung2: null,
+    rung3: null,
+    rung4: null
+};
+
+window.selectedRungs = selectedRungs;
+
+function selectRung(rungId, rowData) {
+    selectedRungs[rungId] = {
+        dollarReturn: rowData.dollarReturn,
+        capitalRequired: rowData.capitalRequired,
+        probOTM: rowData.probOTM
+    };
+    updateLadderSummary();
+}
+
+window.selectRung = selectRung;
+
+function updateLadderSummary() {
+    const mount = document.getElementById("ladder-summary");
+    if (!mount) return;
+
+    let totalDollarReturn = 0;
+    let totalCapitalRequired = 0;
+    let sumProbOTM = 0;
+    let count = 0;
+
+    for (const key of ["rung1", "rung2", "rung3", "rung4"]) {
+        const entry = selectedRungs[key];
+        if (entry == null) continue;
+        totalDollarReturn += entry.dollarReturn;
+        totalCapitalRequired += entry.capitalRequired;
+        sumProbOTM += entry.probOTM;
+        count += 1;
+    }
+
+    const averageProbOTM = count > 0 ? sumProbOTM / count : 0;
+
+    const dollarStr = totalDollarReturn.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+    const capStr = totalCapitalRequired.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+    const avgStr = `${averageProbOTM.toFixed(2)}%`;
+
+    mount.innerHTML = `
+        <section class="card ladder-summary-card">
+            <h2 class="card-title ladder-summary-title">Ladder Summary</h2>
+            <hr class="ladder-summary-rule" />
+            <p class="ladder-summary-line"><strong>Total Dollar Return:</strong> ${dollarStr}</p>
+            <p class="ladder-summary-line"><strong>Total Capital Required:</strong> ${capStr}</p>
+            <p class="ladder-summary-line"><strong>Average Prob OTM:</strong> ${avgStr}</p>
+        </section>
+    `;
+}
+
+window.updateLadderSummary = updateLadderSummary;
+
 (function () {
     const RUNGS = [
         { id: 1, title: "Rung 1: 5–7 DTE", dteMin: 5, dteMax: 7 },
@@ -7,6 +70,10 @@
         { id: 3, title: "Rung 3: 18–25 DTE", dteMin: 18, dteMax: 25 },
         { id: 4, title: "Rung 4: 25–35 DTE", dteMin: 25, dteMax: 35 }
     ];
+
+    function rungKeyFor(id) {
+        return `rung${id}`;
+    }
 
     function createInputRow(rung, isFirst) {
         const row = document.createElement("div");
@@ -109,6 +176,7 @@
     function wireRung(sectionEl, rung) {
         const stack = sectionEl.querySelector(".ladder-input-stack");
         const resultsEl = sectionEl.querySelector(".ladder-results");
+        const rk = rungKeyFor(rung.id);
 
         const firstRow = stack.querySelector(".ladder-input-row");
 
@@ -142,7 +210,7 @@
                     ? parsed.rows[0].expDate
                     : "";
             const primaryDte = fallbackDte;
-            renderTable(analyzed, primaryExp, primaryDte, resultsEl);
+            renderTable(analyzed, primaryExp, primaryDte, resultsEl, { rungKey: rk });
         });
     }
 
@@ -165,6 +233,8 @@
             root.appendChild(section);
             wireRung(section, rung);
         }
+
+        updateLadderSummary();
     }
 
     if (document.readyState === "loading") {
