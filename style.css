@@ -33,6 +33,34 @@ body {
     line-height: 1.35;
 }
 
+/* Site navigation */
+.site-nav {
+    text-align: center;
+    font-size: 0.95rem;
+    margin: 12px 0 0 0;
+    padding: 0 16px;
+}
+
+.site-nav a {
+    color: #3a7afe;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.site-nav a:hover {
+    text-decoration: underline;
+}
+
+.site-nav-sep {
+    color: #9ca3af;
+    margin: 0 0.5em;
+}
+
+.site-nav-current {
+    color: #4b5563;
+    font-weight: 500;
+}
+
 /* Two-panel layout */
 .layout {
     display: flex;
@@ -46,6 +74,19 @@ body {
     .layout {
         flex-direction: column;
     }
+}
+
+.layout-single {
+    flex-direction: column;
+    max-width: 1200px;
+}
+
+.ladder-page {
+    padding-top: 20px;
+}
+
+.ladder-root {
+    width: 100%;
 }
 
 .panel {
@@ -244,12 +285,14 @@ body {
 }
 
 #results .card,
-#results2 .card {
+#results2 .card,
+.ladder-results .card {
     margin-bottom: 28px;
 }
 
 #results .card:last-child,
-#results2 .card:last-child {
+#results2 .card:last-child,
+.ladder-results .card:last-child {
     margin-bottom: 0;
 }
 
@@ -365,4 +408,112 @@ body {
     margin: 0 0 4px 0;
     font-size: 0.95rem;
     color: #5c6370;
+}
+
+/* Ladder Builder — stacked horizontal input rows */
+.ladder-rung {
+    margin-bottom: 28px;
+}
+
+.ladder-rung:last-child {
+    margin-bottom: 0;
+}
+
+.ladder-rung-title {
+    margin-bottom: 8px;
+}
+
+.ladder-rung-hint {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #5c6370;
+    margin: 0 0 16px 0;
+}
+
+.ladder-input-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.ladder-input-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px 12px;
+    padding: 12px 14px;
+    background: #f7f9fc;
+    border: 1px solid #e8ecf1;
+    border-radius: 8px;
+}
+
+.ladder-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.ladder-field-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7280;
+}
+
+.ladder-field input {
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid #d8dde4;
+    border-radius: 6px;
+    background: #fff;
+    min-width: 0;
+}
+
+.ladder-field input:focus {
+    outline: none;
+    border-color: #3a7afe;
+    box-shadow: 0 0 0 2px rgba(58, 122, 254, 0.15);
+}
+
+.ladder-field .ladder-inp-exp {
+    width: 150px;
+}
+
+.ladder-field .ladder-inp-dte {
+    width: 88px;
+}
+
+.ladder-field .ladder-inp-strike,
+.ladder-field .ladder-inp-bid,
+.ladder-field .ladder-inp-ask,
+.ladder-field .ladder-inp-prob-itm,
+.ladder-field .ladder-inp-delta {
+    width: 96px;
+}
+
+.ladder-row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.btn-secondary {
+    background: #fff;
+    color: #4a5568;
+    border: 1px solid #d8dde4;
+}
+
+.btn-secondary:hover {
+    background: #f0f2f5;
+    border-color: #c5ccd6;
+}
+
+.ladder-results {
+    margin-top: 0;
 }

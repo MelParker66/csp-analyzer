@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSP Ladder Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header class="app-header">
+        CSP Ladder Builder
+    </header>
+    <p class="header-ref">Four independent rungs — add rows per rung, then Analyze for CSP metrics.</p>
+
+    <nav class="site-nav" aria-label="Main">
+        <a href="index.html">CSP Analyzer</a>
+        <span class="site-nav-sep" aria-hidden="true">·</span>
+        <span class="site-nav-current">CSP Ladder Builder</span>
+    </nav>
+
+    <main class="layout layout-single ladder-page">
+        <div id="ladder-root" class="ladder-root"></div>
+    </main>
+
+    <script src="csp-shared.js"></script>
+    <script src="LadderBuilder.js"></script>
+</body>
+</html>
