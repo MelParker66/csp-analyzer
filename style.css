@@ -115,43 +115,17 @@ body {
     color: #1a1a1a;
 }
 
-/* Expiration inputs */
+/* Expiration inputs (match Ladder Builder: .ladder-field + native date picker) */
 .card-expiration .expiration-row {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     gap: 12px 16px;
 }
 
-.card-expiration label {
-    font-weight: 500;
-    color: #333;
-}
-
-.card-expiration input {
-    padding: 8px 12px;
-    font-size: 1rem;
-    font-family: inherit;
-    border: 1px solid #d8dde4;
-    border-radius: 6px;
-    background: #fff;
-}
-
-.card-expiration input#expDate,
-.card-expiration input#expDate2 {
-    width: 180px;
-}
-
-.card-expiration input#dte,
-.card-expiration input#dte2 {
-    width: 88px;
-}
-
-.card-expiration input:focus {
-    outline: none;
-    border-color: #3a7afe;
-    box-shadow: 0 0 0 2px rgba(58, 122, 254, 0.2);
+.card-expiration .expiration-row .ladder-field {
+    margin: 0;
 }
 
 /* PUT candidates */
@@ -487,6 +461,7 @@ body {
     width: 88px;
 }
 
+.ladder-field .ladder-inp-ticker,
 .ladder-field .ladder-inp-strike,
 .ladder-field .ladder-inp-bid,
 .ladder-field .ladder-inp-ask,
@@ -522,7 +497,14 @@ body {
 .ladder-summary-mount {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px 24px;
+}
+
+.ladder-export-bar {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 0 20px 40px;
+    text-align: center;
 }
 
 .ladder-summary-card {

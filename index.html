@@ -28,10 +28,14 @@
             <section class="card card-expiration" aria-labelledby="exp-heading">
                 <h2 id="exp-heading" class="card-title">Expiration</h2>
                 <div id="expiration-inputs" class="expiration-row">
-                    <label for="expDate">Expiration Date</label>
-                    <input type="text" id="expDate" placeholder="May 15, 2026" />
-                    <label for="dte">DTE</label>
-                    <input type="number" id="dte" placeholder="28" min="1" />
+                    <label class="ladder-field" for="expDate">
+                        <span class="ladder-field-label">Expiration</span>
+                        <input type="date" id="expDate" class="ladder-inp-exp" />
+                    </label>
+                    <label class="ladder-field" for="dte">
+                        <span class="ladder-field-label">DTE</span>
+                        <input type="number" id="dte" class="ladder-inp-dte" min="1" step="1" placeholder="28" />
+                    </label>
                 </div>
             </section>
 
@@ -66,10 +70,14 @@
             <section class="card card-expiration" aria-labelledby="exp-heading2">
                 <h2 id="exp-heading2" class="card-title">Expiration</h2>
                 <div id="expiration-inputs2" class="expiration-row">
-                    <label for="expDate2">Expiration Date</label>
-                    <input type="text" id="expDate2" placeholder="May 15, 2026" />
-                    <label for="dte2">DTE</label>
-                    <input type="number" id="dte2" placeholder="28" min="1" />
+                    <label class="ladder-field" for="expDate2">
+                        <span class="ladder-field-label">Expiration</span>
+                        <input type="date" id="expDate2" class="ladder-inp-exp" />
+                    </label>
+                    <label class="ladder-field" for="dte2">
+                        <span class="ladder-field-label">DTE</span>
+                        <input type="number" id="dte2" class="ladder-inp-dte" min="1" step="1" placeholder="28" />
+                    </label>
                 </div>
             </section>
 

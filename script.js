@@ -51,6 +51,44 @@ addRowBtn2.addEventListener("click", () => {
 analyzeBtn.addEventListener("click", runAnalysis);
 analyzeBtn2.addEventListener("click", runAnalysis2);
 
+/** Calendar days from today to expiration (YYYY-MM-DD), same basis as typical option DTE. */
+function daysToExpirationFromIso(isoDateStr) {
+    if (!isoDateStr || !/^\d{4}-\d{2}-\d{2}$/.test(isoDateStr)) return NaN;
+    const [y, m, d] = isoDateStr.split("-").map(Number);
+    const exp = new Date(y, m - 1, d);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    exp.setHours(0, 0, 0, 0);
+    return Math.round((exp - today) / 86400000);
+}
+
+function wireExpirationToDte(expInputId, dteInputId) {
+    const expEl = document.getElementById(expInputId);
+    const dteEl = document.getElementById(dteInputId);
+    if (!expEl || !dteEl) return;
+
+    function syncDteFromExpiration() {
+        const v = expEl.value;
+        if (!v) {
+            dteEl.value = "";
+            return;
+        }
+        const days = daysToExpirationFromIso(v);
+        if (!Number.isFinite(days)) return;
+        if (days >= 1) {
+            dteEl.value = String(days);
+        } else {
+            dteEl.value = "";
+        }
+    }
+
+    expEl.addEventListener("change", syncDteFromExpiration);
+    expEl.addEventListener("input", syncDteFromExpiration);
+}
+
+wireExpirationToDte("expDate", "dte");
+wireExpirationToDte("expDate2", "dte2");
+
 function readCandidateRowsFrom(tbody) {
     const rows = [];
     for (const tr of tbody.querySelectorAll("tr")) {

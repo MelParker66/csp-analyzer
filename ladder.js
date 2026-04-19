@@ -10,11 +10,17 @@ const selectedRungs = {
 window.selectedRungs = selectedRungs;
 
 function selectRung(rungId, rowData) {
+    const ticker =
+        rowData.ticker != null && String(rowData.ticker).trim() !== ""
+            ? String(rowData.ticker).trim()
+            : "";
     selectedRungs[rungId] = {
+        ticker,
         dollarReturn: rowData.dollarReturn,
         capitalRequired: rowData.capitalRequired,
         probOTM: rowData.probOTM,
-        dte: rowData.dte
+        dte: rowData.dte,
+        analysis: rowData
     };
     updateLadderSummary();
 }
@@ -81,6 +87,58 @@ function updateLadderSummary() {
 
 window.updateLadderSummary = updateLadderSummary;
 
+function exportLadderToExcel() {
+    const keys = ["rung1", "rung2", "rung3", "rung4"];
+    const selected = keys.map(k => selectedRungs[k]).filter(e => e != null);
+    if (selected.length === 0) {
+        alert("Select at least one rung before exporting.");
+        return;
+    }
+    if (typeof XLSX === "undefined") {
+        alert("Excel library failed to load. Please refresh the page.");
+        return;
+    }
+
+    const sheet1Headers = ["Ticker", "Expiration", "DTE", "Strike", "Bid", "Ask", "Prob ITM", "Delta"];
+    const sheet1Data = [sheet1Headers];
+    const analysisRows = [];
+
+    for (const entry of selected) {
+        const a = entry.analysis;
+        const t = entry.ticker !== undefined && entry.ticker !== "" ? entry.ticker : a.ticker ?? "";
+        const dteVal = a.dteUsed != null ? a.dteUsed : a.dte;
+        sheet1Data.push([
+            t,
+            a.expDate ?? "",
+            dteVal,
+            a.strike,
+            a.bid,
+            a.ask,
+            a.probITM,
+            a.delta
+        ]);
+
+        analysisRows.push(["Ticker", t]);
+        analysisRows.push(["Expiration", a.expDate ?? ""]);
+        analysisRows.push(["Strike", a.strike]);
+        analysisRows.push(["Premium", a.premium]);
+        analysisRows.push(["Return %", a.returnPct]);
+        analysisRows.push(["Breakeven", a.breakeven]);
+        analysisRows.push(["Prob OTM", a.probOTM]);
+        analysisRows.push(["Delta", a.delta]);
+        analysisRows.push(["Capital Required", a.capitalRequired]);
+        analysisRows.push(["Dollar Return", a.dollarReturn]);
+        analysisRows.push([]);
+    }
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sheet1Data), "Selected Rungs");
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(analysisRows), "Analysis");
+    XLSX.writeFile(wb, "csp-ladder-export.xlsx");
+}
+
+window.exportLadderToExcel = exportLadderToExcel;
+
 (function () {
     const RUNGS = [
         { id: 1, title: "Rung 1: 5–7 DTE", dteMin: 5, dteMax: 7 },
@@ -97,6 +155,9 @@ window.updateLadderSummary = updateLadderSummary;
         const row = document.createElement("div");
         row.className = "ladder-input-row";
         row.innerHTML = `
+            <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
+                <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
+            </label>
             <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
                 <input type="date" class="ladder-inp-exp" />
             </label>
@@ -133,6 +194,7 @@ window.updateLadderSummary = updateLadderSummary;
     function readRowsFromStack(stackEl, rung) {
         const out = [];
         for (const rowEl of stackEl.querySelectorAll(".ladder-input-row")) {
+            const ticker = rowEl.querySelector(".ladder-inp-ticker")?.value?.trim() ?? "";
             const expDate = rowEl.querySelector(".ladder-inp-exp")?.value ?? "";
             const dte = parseInt(rowEl.querySelector(".ladder-inp-dte")?.value, 10);
             const strike = parseFloat(rowEl.querySelector(".ladder-inp-strike")?.value);
@@ -142,6 +204,7 @@ window.updateLadderSummary = updateLadderSummary;
             const delta = parseFloat(rowEl.querySelector(".ladder-inp-delta")?.value);
 
             const raw = [
+                ticker,
                 rowEl.querySelector(".ladder-inp-exp")?.value?.trim() ?? "",
                 rowEl.querySelector(".ladder-inp-dte")?.value?.trim() ?? "",
                 rowEl.querySelector(".ladder-inp-strike")?.value?.trim() ?? "",
@@ -179,6 +242,7 @@ window.updateLadderSummary = updateLadderSummary;
             }
 
             out.push({
+                ticker,
                 strike,
                 bid,
                 ask,
@@ -253,6 +317,11 @@ window.updateLadderSummary = updateLadderSummary;
         }
 
         updateLadderSummary();
+
+        const exportBtn = document.getElementById("ladder-export-excel");
+        if (exportBtn) {
+            exportBtn.addEventListener("click", exportLadderToExcel);
+        }
     }
 
     if (document.readyState === "loading") {
