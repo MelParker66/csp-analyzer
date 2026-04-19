@@ -13,7 +13,8 @@ function selectRung(rungId, rowData) {
     selectedRungs[rungId] = {
         dollarReturn: rowData.dollarReturn,
         capitalRequired: rowData.capitalRequired,
-        probOTM: rowData.probOTM
+        probOTM: rowData.probOTM,
+        dte: rowData.dte
     };
     updateLadderSummary();
 }
@@ -40,6 +41,17 @@ function updateLadderSummary() {
 
     const averageProbOTM = count > 0 ? sumProbOTM / count : 0;
 
+    const ladderReturn =
+        totalCapitalRequired > 0 ? totalDollarReturn / totalCapitalRequired : 0;
+
+    const dteList = Object.values(selectedRungs)
+        .filter(r => r && r.dte !== undefined)
+        .map(r => r.dte);
+    const maxDTE = dteList.length > 0 ? Math.max(...dteList) : 0;
+
+    const annualizedReturn =
+        ladderReturn > 0 && maxDTE > 0 ? ladderReturn * (365 / maxDTE) : 0;
+
     const dollarStr = totalDollarReturn.toLocaleString("en-US", {
         style: "currency",
         currency: "USD"
@@ -57,6 +69,12 @@ function updateLadderSummary() {
             <p class="ladder-summary-line"><strong>Total Dollar Return:</strong> ${dollarStr}</p>
             <p class="ladder-summary-line"><strong>Total Capital Required:</strong> ${capStr}</p>
             <p class="ladder-summary-line"><strong>Average Prob OTM:</strong> ${avgStr}</p>
+            <div class="ladder-summary-line">
+                Ladder Return: ${(ladderReturn * 100).toFixed(3)}%
+            </div>
+            <div class="ladder-summary-line">
+                Annualized Return: ${(annualizedReturn * 100).toFixed(2)}%
+            </div>
         </section>
     `;
 }
