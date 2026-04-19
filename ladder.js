@@ -9,7 +9,27 @@ const selectedRungs = {
 
 window.selectedRungs = selectedRungs;
 
-function selectRung(rungId, rowData) {
+const selectedRowIndexByRung = {
+    rung1: null,
+    rung2: null,
+    rung3: null,
+    rung4: null
+};
+
+const ladderAnalysisCache = {};
+
+function refreshLadderRungTable(rungKey) {
+    const c = ladderAnalysisCache[rungKey];
+    const id = parseInt(String(rungKey).replace(/\D/g, ""), 10);
+    const resultsEl = document.getElementById(`ladder-results-${id}`);
+    if (!c || !resultsEl) return;
+    renderTable(c.data, c.expDate, c.dte, resultsEl, {
+        rungKey,
+        selectedRowIndex: selectedRowIndexByRung[rungKey]
+    });
+}
+
+function selectRung(rungId, rowData, rowIndex) {
     const ticker =
         rowData.ticker != null && String(rowData.ticker).trim() !== ""
             ? String(rowData.ticker).trim()
@@ -22,10 +42,22 @@ function selectRung(rungId, rowData) {
         dte: rowData.dte,
         analysis: rowData
     };
+    selectedRowIndexByRung[rungId] =
+        typeof rowIndex === "number" && Number.isFinite(rowIndex) ? rowIndex : null;
     updateLadderSummary();
+    refreshLadderRungTable(rungId);
 }
 
 window.selectRung = selectRung;
+
+function deselectRung(rungId) {
+    selectedRungs[rungId] = null;
+    selectedRowIndexByRung[rungId] = null;
+    updateLadderSummary();
+    refreshLadderRungTable(rungId);
+}
+
+window.deselectRung = deselectRung;
 
 function updateLadderSummary() {
     const mount = document.getElementById("ladder-summary");
@@ -292,7 +324,20 @@ window.exportLadderToExcel = exportLadderToExcel;
                     ? parsed.rows[0].expDate
                     : "";
             const primaryDte = fallbackDte;
-            renderTable(analyzed, primaryExp, primaryDte, resultsEl, { rungKey: rk });
+
+            selectedRungs[rk] = null;
+            selectedRowIndexByRung[rk] = null;
+            ladderAnalysisCache[rk] = {
+                data: analyzed,
+                expDate: primaryExp,
+                dte: primaryDte
+            };
+            updateLadderSummary();
+
+            renderTable(analyzed, primaryExp, primaryDte, resultsEl, {
+                rungKey: rk,
+                selectedRowIndex: null
+            });
         });
     }
 

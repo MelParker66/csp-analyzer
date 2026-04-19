@@ -68,21 +68,29 @@ function renderCspDetailBox(row, fallbackExp, fallbackDte) {
     `;
 }
 
-function renderTable(data, expDate, dte, resultsEl, ladderOptions) {
+function renderTable(data, expDate, dte, resultsEl, tableOptions) {
     if (data.length === 0) {
         resultsEl.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml("No candidate rows to analyze.")}</p></div>`;
         return;
     }
 
     const rid = resultsEl.id || "results";
-    const rungKey = ladderOptions && ladderOptions.rungKey;
-    const detailColspan = rungKey ? 8 : 7;
+    const rungKey = tableOptions && tableOptions.rungKey;
+    const selectedRowIndex =
+        tableOptions && tableOptions.selectedRowIndex !== undefined
+            ? tableOptions.selectedRowIndex
+            : null;
+    const analyzerPanel = tableOptions && tableOptions.analyzerPanel;
+    const selectedIndices = tableOptions && tableOptions.selectedIndices;
+
+    const hasSelectColumn = Boolean(rungKey || analyzerPanel);
+    const detailColspan = hasSelectColumn ? 8 : 7;
 
     const expLine = expDate && String(expDate).trim()
         ? `<p class="analysis-intro"><strong>Expiration:</strong> ${escapeHtml(String(expDate).trim())}</p>`
         : "";
 
-    const selectHeader = rungKey ? `<th class="analysis-th-select">Select</th>` : "";
+    const selectHeader = hasSelectColumn ? `<th class="analysis-th-select"></th>` : "";
 
     let html = `
         <section class="card">
@@ -106,13 +114,32 @@ function renderTable(data, expDate, dte, resultsEl, ladderOptions) {
 
     data.forEach((row, i) => {
         const detailId = `${rid}-csp-detail-${i}`;
-        const selectCell = rungKey
-            ? `<td>
-                    <button type="button" class="btn ladder-select-btn" data-row-index="${i}">Select</button>
+        let selectCell = "";
+        let rowSelected = false;
+
+        if (rungKey) {
+            rowSelected = selectedRowIndex === i;
+            selectCell = rowSelected
+                ? `<td class="analysis-td-select">
+                    <button type="button" class="btn btn-secondary ladder-deselect-btn">Deselect</button>
                 </td>`
-            : "";
+                : `<td class="analysis-td-select">
+                    <button type="button" class="btn ladder-select-btn" data-row-index="${i}">Select</button>
+                </td>`;
+        } else if (analyzerPanel && selectedIndices) {
+            rowSelected = typeof selectedIndices.has === "function" && selectedIndices.has(i);
+            selectCell = rowSelected
+                ? `<td class="analysis-td-select">
+                    <button type="button" class="btn btn-secondary analyzer-deselect-btn" data-row-index="${i}">Deselect</button>
+                </td>`
+                : `<td class="analysis-td-select">
+                    <button type="button" class="btn analyzer-select-btn" data-row-index="${i}">Select</button>
+                </td>`;
+        }
+
+        const rowClass = `analysis-data-row${rowSelected ? " csp-selected-row" : ""}`;
         html += `
-            <tr class="analysis-data-row">
+            <tr class="${rowClass}">
                 <td>${row.strike}</td>
                 <td>${row.premium.toFixed(2)}</td>
                 <td>${row.returnPct.toFixed(2)}%</td>
@@ -155,7 +182,31 @@ function renderTable(data, expDate, dte, resultsEl, ladderOptions) {
             btn.addEventListener("click", () => {
                 const idx = parseInt(btn.getAttribute("data-row-index"), 10);
                 if (!Number.isFinite(idx) || data[idx] === undefined) return;
-                window.selectRung(rungKey, data[idx]);
+                window.selectRung(rungKey, data[idx], idx);
+            });
+        });
+        resultsEl.querySelectorAll(".ladder-deselect-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (typeof window.deselectRung === "function") window.deselectRung(rungKey);
+            });
+        });
+    }
+
+    if (analyzerPanel && typeof window.selectAnalyzerRow === "function") {
+        resultsEl.querySelectorAll(".analyzer-select-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const idx = parseInt(btn.getAttribute("data-row-index"), 10);
+                if (!Number.isFinite(idx) || data[idx] === undefined) return;
+                window.selectAnalyzerRow(analyzerPanel, idx, data[idx]);
+            });
+        });
+        resultsEl.querySelectorAll(".analyzer-deselect-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const idx = parseInt(btn.getAttribute("data-row-index"), 10);
+                if (!Number.isFinite(idx)) return;
+                if (typeof window.deselectAnalyzerRow === "function") {
+                    window.deselectAnalyzerRow(analyzerPanel, idx);
+                }
             });
         });
     }

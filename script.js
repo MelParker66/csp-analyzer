@@ -89,6 +89,39 @@ function wireExpirationToDte(expInputId, dteInputId) {
 wireExpirationToDte("expDate", "dte");
 wireExpirationToDte("expDate2", "dte2");
 
+const analyzerRowSelected = {
+    results: new Set(),
+    results2: new Set()
+};
+
+const analyzerAnalysisCache = {
+    results: null,
+    results2: null
+};
+
+function refreshAnalyzerTable(panelKey) {
+    const c = analyzerAnalysisCache[panelKey];
+    const el = document.getElementById(panelKey);
+    if (!c || !el) return;
+    renderTable(c.data, c.expDate, c.dte, el, {
+        analyzerPanel: panelKey,
+        selectedIndices: analyzerRowSelected[panelKey]
+    });
+}
+
+function selectAnalyzerRow(panelKey, rowIndex, rowData) {
+    analyzerRowSelected[panelKey].add(rowIndex);
+    refreshAnalyzerTable(panelKey);
+}
+
+function deselectAnalyzerRow(panelKey, rowIndex) {
+    analyzerRowSelected[panelKey].delete(rowIndex);
+    refreshAnalyzerTable(panelKey);
+}
+
+window.selectAnalyzerRow = selectAnalyzerRow;
+window.deselectAnalyzerRow = deselectAnalyzerRow;
+
 function readCandidateRowsFrom(tbody) {
     const rows = [];
     for (const tr of tbody.querySelectorAll("tr")) {
@@ -148,8 +181,13 @@ function runAnalysis() {
         return;
     }
 
+    analyzerRowSelected.results.clear();
     const analyzed = analyzeCSP(parsed.rows, dte).map(a => ({ ...a, expDate }));
-    renderTable(analyzed, expDate, dte, results);
+    analyzerAnalysisCache.results = { data: analyzed, expDate, dte };
+    renderTable(analyzed, expDate, dte, results, {
+        analyzerPanel: "results",
+        selectedIndices: analyzerRowSelected.results
+    });
 }
 
 function runAnalysis2() {
@@ -172,8 +210,13 @@ function runAnalysis2() {
         return;
     }
 
+    analyzerRowSelected.results2.clear();
     const analyzed = analyzeCSP(parsed.rows, dte2).map(a => ({ ...a, expDate: expDate2 }));
-    renderTable(analyzed, expDate2, dte2, results2);
+    analyzerAnalysisCache.results2 = { data: analyzed, expDate: expDate2, dte: dte2 };
+    renderTable(analyzed, expDate2, dte2, results2, {
+        analyzerPanel: "results2",
+        selectedIndices: analyzerRowSelected.results2
+    });
 }
 
 candidatesBody.appendChild(createCandidateRow(candidatesBody, addRowBtn));

@@ -312,6 +312,15 @@ body {
     background: #fafbfc;
 }
 
+.csp-selected-row {
+    background-color: #e8fbe8; /* very light green */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.analysis-table tbody tr.analysis-data-row.csp-selected-row {
+    background-color: #e8fbe8;
+}
+
 .analysis-table tbody tr:last-child td {
     border-bottom: none;
 }
