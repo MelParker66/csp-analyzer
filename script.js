@@ -169,6 +169,14 @@ function getReturnBounds(dte) {
     return { minReturn, maxReturn };
 }
 
+function pickClosestCandidate(data) {
+    if (data.length === 0) return null;
+    return data.reduce((a, b) => {
+        if (b.probOTM !== a.probOTM) return b.probOTM > a.probOTM ? b : a;
+        return b.returnPct > a.returnPct ? b : a;
+    });
+}
+
 function pickBestCSP(data, dte) {
     const { minReturn, maxReturn } = getReturnBounds(dte);
 
@@ -181,16 +189,21 @@ function pickBestCSP(data, dte) {
     );
 
     if (passes.length > 0) {
-        return passes.reduce((a, b) => {
+        const best = passes.reduce((a, b) => {
             if (b.probOTM !== a.probOTM) return b.probOTM > a.probOTM ? b : a;
             return b.returnPct > a.returnPct ? b : a;
         });
+        return { best, hasConservativeMatch: true, closest: null };
     }
 
-    const fallback = data.filter(r => r.probOTM >= 70);
-    if (fallback.length === 0) return null;
+    const closest = pickClosestCandidate(data);
 
-    return fallback.reduce((a, b) => (b.returnPct > a.returnPct ? b : a));
+    const fallback = data.filter(r => r.probOTM >= 70);
+    const best = fallback.length === 0
+        ? null
+        : fallback.reduce((a, b) => (b.returnPct > a.returnPct ? b : a));
+
+    return { best, hasConservativeMatch: false, closest };
 }
 
 function formatMoney(amount) {
@@ -198,6 +211,30 @@ function formatMoney(amount) {
         style: "currency",
         currency: "USD"
     });
+}
+
+function renderCandidateDetailsNotRecommended(row, expDate, dte) {
+    const dollarReturn = row.dollarReturn.toFixed(2);
+    const expDisp = expDate && String(expDate).trim()
+        ? `<p class="rec-detail"><strong>Expiration Date:</strong> ${escapeHtml(String(expDate).trim())}</p>`
+        : `<p class="rec-detail"><strong>Expiration Date:</strong> —</p>`;
+
+    return `
+            <section class="card recommended-csp candidate-details-not-recommended">
+                <h3 class="rec-heading">Candidate Details (Not Recommended)</h3>
+                <p class="rec-hero">
+                    <span class="rec-strike">Strike ${row.strike}</span><span class="rec-sep">·</span><span class="rec-premium">$${row.premium.toFixed(2)}</span>
+                </p>
+                <p class="rec-detail"><strong>Return %:</strong> ${row.returnPct.toFixed(2)}%</p>
+                <p class="rec-detail"><strong>Dollar Return:</strong> $${dollarReturn}</p>
+                <p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(row.capitalRequired)}</p>
+                <p class="rec-detail"><strong>Annualized Return:</strong> ${row.annualized.toFixed(2)}%</p>
+                <p class="rec-detail"><strong>Prob OTM:</strong> ${row.probOTM.toFixed(2)}%</p>
+                <p class="rec-detail"><strong>Breakeven:</strong> $${row.breakeven.toFixed(2)}</p>
+                ${expDisp}
+                <p class="rec-detail"><strong>DTE:</strong> ${dte}</p>
+            </section>
+    `;
 }
 
 function getColorClass(result, dte) {
@@ -227,7 +264,7 @@ function renderTable(data, expDate, dte, resultsEl) {
         return;
     }
 
-    const best = pickBestCSP(data, dte);
+    const { best, hasConservativeMatch, closest } = pickBestCSP(data, dte);
 
     const expLine = expDate && String(expDate).trim()
         ? `<p class="analysis-intro"><strong>Expiration:</strong> ${escapeHtml(String(expDate).trim())}</p>`
@@ -277,7 +314,7 @@ function renderTable(data, expDate, dte, resultsEl) {
 
     html += `</section>`;
 
-    if (best) {
+    if (hasConservativeMatch && best) {
         const dollarReturn = best.dollarReturn.toFixed(2);
         const expDisp = expDate && String(expDate).trim()
             ? `<p class="rec-detail"><strong>Expiration Date:</strong> ${escapeHtml(String(expDate).trim())}</p>`
@@ -300,9 +337,29 @@ function renderTable(data, expDate, dte, resultsEl) {
                 <p class="rec-detail"><strong>DTE:</strong> ${dte}</p>
             </section>
         `;
+    } else if (!hasConservativeMatch && closest) {
+        html += `
+            <div class="show-details-panel">
+                <button type="button" class="btn show-details-btn">Show Details</button>
+                <div class="candidate-details-hidden" hidden>
+                    ${renderCandidateDetailsNotRecommended(closest, expDate, dte)}
+                </div>
+            </div>
+        `;
     }
 
     resultsEl.innerHTML = html;
+
+    const detailsPanel = resultsEl.querySelector(".show-details-panel");
+    if (detailsPanel) {
+        const btn = detailsPanel.querySelector(".show-details-btn");
+        const hiddenWrap = detailsPanel.querySelector(".candidate-details-hidden");
+        if (btn && hiddenWrap) {
+            btn.addEventListener("click", () => {
+                hiddenWrap.hidden = false;
+            });
+        }
+    }
 }
 
 function escapeHtml(s) {

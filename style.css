@@ -329,6 +329,24 @@ body {
     border-left-color: #ef4444;
 }
 
+.recommended-csp.candidate-details-not-recommended {
+    background: #fffbeb;
+    border-left-color: #eab308;
+}
+
+.show-details-panel {
+    text-align: center;
+    margin-top: 8px;
+}
+
+.show-details-panel .candidate-details-hidden {
+    text-align: left;
+}
+
+.show-details-panel .candidate-details-hidden .card {
+    margin-top: 16px;
+}
+
 .recommended-csp .rec-heading {
     font-size: 1rem;
     font-weight: 600;
