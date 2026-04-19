@@ -163,49 +163,6 @@ function analyzeCSP(rows, dte) {
     });
 }
 
-function getReturnBounds(dte) {
-    const maxReturn = 3.5;
-    const minReturn = dte <= 15 ? 1.0 : 2.0;
-    return { minReturn, maxReturn };
-}
-
-function pickClosestCandidate(data) {
-    if (data.length === 0) return null;
-    return data.reduce((a, b) => {
-        if (b.probOTM !== a.probOTM) return b.probOTM > a.probOTM ? b : a;
-        return b.returnPct > a.returnPct ? b : a;
-    });
-}
-
-function pickBestCSP(data, dte) {
-    const { minReturn, maxReturn } = getReturnBounds(dte);
-
-    const passes = data.filter(r =>
-        Math.abs(r.delta) >= 0.20 &&
-        Math.abs(r.delta) <= 0.35 &&
-        r.returnPct >= minReturn &&
-        r.returnPct <= maxReturn &&
-        r.probOTM >= 70
-    );
-
-    if (passes.length > 0) {
-        const best = passes.reduce((a, b) => {
-            if (b.probOTM !== a.probOTM) return b.probOTM > a.probOTM ? b : a;
-            return b.returnPct > a.returnPct ? b : a;
-        });
-        return { best, hasConservativeMatch: true, closest: null };
-    }
-
-    const closest = pickClosestCandidate(data);
-
-    const fallback = data.filter(r => r.probOTM >= 70);
-    const best = fallback.length === 0
-        ? null
-        : fallback.reduce((a, b) => (b.returnPct > a.returnPct ? b : a));
-
-    return { best, hasConservativeMatch: false, closest };
-}
-
 function formatMoney(amount) {
     return amount.toLocaleString("en-US", {
         style: "currency",
@@ -213,46 +170,26 @@ function formatMoney(amount) {
     });
 }
 
-function renderCandidateDetailsNotRecommended(row, expDate, dte) {
+function renderCspDetailBox(row, expDate, dte) {
     const dollarReturn = row.dollarReturn.toFixed(2);
     const expDisp = expDate && String(expDate).trim()
         ? `<p class="rec-detail"><strong>Expiration Date:</strong> ${escapeHtml(String(expDate).trim())}</p>`
         : `<p class="rec-detail"><strong>Expiration Date:</strong> —</p>`;
 
     return `
-            <section class="card recommended-csp candidate-details-not-recommended">
-                <h3 class="rec-heading">Candidate Details (Not Recommended)</h3>
-                <p class="rec-hero">
-                    <span class="rec-strike">Strike ${row.strike}</span><span class="rec-sep">·</span><span class="rec-premium">$${row.premium.toFixed(2)}</span>
-                </p>
-                <p class="rec-detail"><strong>Return %:</strong> ${row.returnPct.toFixed(2)}%</p>
-                <p class="rec-detail"><strong>Dollar Return:</strong> $${dollarReturn}</p>
-                <p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(row.capitalRequired)}</p>
-                <p class="rec-detail"><strong>Annualized Return:</strong> ${row.annualized.toFixed(2)}%</p>
-                <p class="rec-detail"><strong>Prob OTM:</strong> ${row.probOTM.toFixed(2)}%</p>
-                <p class="rec-detail"><strong>Breakeven:</strong> $${row.breakeven.toFixed(2)}</p>
-                ${expDisp}
-                <p class="rec-detail"><strong>DTE:</strong> ${dte}</p>
-            </section>
+                <section class="card recommended-csp csp-row-detail-box">
+                    <p class="rec-detail"><strong>Strike:</strong> ${row.strike}</p>
+                    <p class="rec-detail"><strong>Premium:</strong> $${row.premium.toFixed(2)}</p>
+                    <p class="rec-detail"><strong>Return %:</strong> ${row.returnPct.toFixed(2)}%</p>
+                    <p class="rec-detail"><strong>Dollar Return:</strong> $${dollarReturn}</p>
+                    <p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(row.capitalRequired)}</p>
+                    <p class="rec-detail"><strong>Annualized Return:</strong> ${row.annualized.toFixed(2)}%</p>
+                    <p class="rec-detail"><strong>Prob OTM:</strong> ${row.probOTM.toFixed(2)}%</p>
+                    <p class="rec-detail"><strong>Breakeven:</strong> $${row.breakeven.toFixed(2)}</p>
+                    ${expDisp}
+                    <p class="rec-detail"><strong>DTE:</strong> ${dte}</p>
+                </section>
     `;
-}
-
-function getColorClass(result, dte) {
-    const { minReturn, maxReturn } = getReturnBounds(dte);
-    const ad = Math.abs(result.delta);
-    const inDelta = ad >= 0.20 && ad <= 0.35;
-    const inProb = result.probOTM >= 70;
-    const inReturn = result.returnPct >= minReturn && result.returnPct <= maxReturn;
-
-    if (inDelta && inProb && inReturn) return "good";
-
-    const clearlyBelowReturn = result.returnPct < minReturn - 0.5;
-    const deltaClearlyBad = ad < 0.10 || ad > 0.55;
-    const probClearlyBad = result.probOTM < 55;
-
-    if (clearlyBelowReturn || deltaClearlyBad || probClearlyBad || result.returnPct > 5.0) return "bad";
-
-    return "warning";
 }
 
 // -----------------------------
@@ -264,7 +201,7 @@ function renderTable(data, expDate, dte, resultsEl) {
         return;
     }
 
-    const { best, hasConservativeMatch, closest } = pickBestCSP(data, dte);
+    const rid = resultsEl.id || "results";
 
     const expLine = expDate && String(expDate).trim()
         ? `<p class="analysis-intro"><strong>Expiration:</strong> ${escapeHtml(String(expDate).trim())}</p>`
@@ -283,83 +220,51 @@ function renderTable(data, expDate, dte, resultsEl) {
                         <th>Breakeven</th>
                         <th>Prob OTM</th>
                         <th>Delta</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
     `;
 
-    for (const row of data) {
-        const rowClass = best && row === best ? ` class="row-recommended"` : "";
-
+    data.forEach((row, i) => {
+        const detailId = `${rid}-csp-detail-${i}`;
         html += `
-            <tr${rowClass}>
+            <tr class="analysis-data-row">
                 <td>${row.strike}</td>
                 <td>${row.premium.toFixed(2)}</td>
                 <td>${row.returnPct.toFixed(2)}%</td>
                 <td>${row.breakeven.toFixed(2)}</td>
                 <td>${row.probOTM.toFixed(2)}%</td>
                 <td>${row.delta}</td>
+                <td>
+                    <button type="button" class="btn show-row-details-btn" data-detail-target="${detailId}" aria-expanded="false" aria-controls="${detailId}">Show Details</button>
+                </td>
+            </tr>
+            <tr id="${detailId}" class="csp-detail-row" hidden>
+                <td colspan="7">
+                    ${renderCspDetailBox(row, expDate, dte)}
+                </td>
             </tr>
         `;
-    }
+    });
 
     html += `
                 </tbody>
             </table>
+        </section>
     `;
-
-    if (!best) {
-        html += `<p class="footnote">No row met the conservative filter; showing table only. No single recommendation.</p>`;
-    }
-
-    html += `</section>`;
-
-    if (hasConservativeMatch && best) {
-        const dollarReturn = best.dollarReturn.toFixed(2);
-        const expDisp = expDate && String(expDate).trim()
-            ? `<p class="rec-detail"><strong>Expiration Date:</strong> ${escapeHtml(String(expDate).trim())}</p>`
-            : `<p class="rec-detail"><strong>Expiration Date:</strong> —</p>`;
-
-        const recClass = getColorClass(best, dte);
-        html += `
-            <section class="card recommended-csp ${recClass}">
-                <h3 class="rec-heading">Recommended CSP</h3>
-                <p class="rec-hero">
-                    <span class="rec-strike">Strike ${best.strike}</span><span class="rec-sep">·</span><span class="rec-premium">$${best.premium.toFixed(2)}</span>
-                </p>
-                <p class="rec-detail"><strong>Return %:</strong> ${best.returnPct.toFixed(2)}%</p>
-                <p class="rec-detail"><strong>Dollar Return:</strong> $${dollarReturn}</p>
-                <p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(best.capitalRequired)}</p>
-                <p class="rec-detail"><strong>Annualized Return:</strong> ${best.annualized.toFixed(2)}%</p>
-                <p class="rec-detail"><strong>Prob OTM:</strong> ${best.probOTM.toFixed(2)}%</p>
-                <p class="rec-detail"><strong>Breakeven:</strong> $${best.breakeven.toFixed(2)}</p>
-                ${expDisp}
-                <p class="rec-detail"><strong>DTE:</strong> ${dte}</p>
-            </section>
-        `;
-    } else if (!hasConservativeMatch && closest) {
-        html += `
-            <div class="show-details-panel">
-                <button type="button" class="btn show-details-btn">Show Details</button>
-                <div class="candidate-details-hidden" hidden>
-                    ${renderCandidateDetailsNotRecommended(closest, expDate, dte)}
-                </div>
-            </div>
-        `;
-    }
 
     resultsEl.innerHTML = html;
 
-    const detailsPanel = resultsEl.querySelector(".show-details-panel");
-    if (detailsPanel) {
-        const btn = detailsPanel.querySelector(".show-details-btn");
-        const hiddenWrap = detailsPanel.querySelector(".candidate-details-hidden");
-        if (btn && hiddenWrap) {
-            btn.addEventListener("click", () => {
-                hiddenWrap.hidden = false;
-            });
-        }
-    }
+    resultsEl.querySelectorAll(".show-row-details-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetId = btn.getAttribute("data-detail-target");
+            const detailRow = targetId ? resultsEl.querySelector(`#${CSS.escape(targetId)}`) : null;
+            if (!detailRow) return;
+            detailRow.hidden = !detailRow.hidden;
+            btn.setAttribute("aria-expanded", detailRow.hidden ? "false" : "true");
+        });
+    });
 }
 
 function escapeHtml(s) {

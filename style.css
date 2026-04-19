@@ -291,7 +291,7 @@ body {
     color: #4a5568;
 }
 
-.analysis-table tbody tr:nth-child(even) {
+.analysis-table tbody tr.analysis-data-row:nth-child(odd) {
     background: #fafbfc;
 }
 
@@ -299,52 +299,17 @@ body {
     border-bottom: none;
 }
 
-.analysis-table tbody tr.row-recommended {
-    background: #e8f8ec !important;
-    font-weight: 600;
+.analysis-table tbody tr.csp-detail-row td {
+    padding: 12px;
+    background: #fff;
+    border-bottom: 1px solid #e8ecf1;
 }
 
-.analysis-table tbody tr.row-recommended td {
-    border-color: #d4edda;
-}
-
-/* Recommended CSP box */
-.recommended-csp {
-    border-left: 6px solid #2ecc71;
-    background: #f9fffb;
-}
-
-.recommended-csp.good {
-    background: #f0fdf4;
-    border-left-color: #22c55e;
-}
-
-.recommended-csp.warning {
+/* Per-row details (yellow box) */
+.recommended-csp.csp-row-detail-box {
+    border-left: 6px solid #eab308;
     background: #fffbeb;
-    border-left-color: #eab308;
-}
-
-.recommended-csp.bad {
-    background: #fef2f2;
-    border-left-color: #ef4444;
-}
-
-.recommended-csp.candidate-details-not-recommended {
-    background: #fffbeb;
-    border-left-color: #eab308;
-}
-
-.show-details-panel {
-    text-align: center;
-    margin-top: 8px;
-}
-
-.show-details-panel .candidate-details-hidden {
-    text-align: left;
-}
-
-.show-details-panel .candidate-details-hidden .card {
-    margin-top: 16px;
+    margin: 0;
 }
 
 .recommended-csp .rec-heading {
