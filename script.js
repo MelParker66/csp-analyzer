@@ -163,12 +163,20 @@ function analyzeCSP(rows, dte) {
     });
 }
 
-function pickBestCSP(data) {
+function getReturnBounds(dte) {
+    const maxReturn = 3.5;
+    const minReturn = dte <= 15 ? 1.0 : 2.0;
+    return { minReturn, maxReturn };
+}
+
+function pickBestCSP(data, dte) {
+    const { minReturn, maxReturn } = getReturnBounds(dte);
+
     const passes = data.filter(r =>
         Math.abs(r.delta) >= 0.20 &&
         Math.abs(r.delta) <= 0.35 &&
-        r.returnPct >= 2.0 &&
-        r.returnPct <= 3.5 &&
+        r.returnPct >= minReturn &&
+        r.returnPct <= maxReturn &&
         r.probOTM >= 70
     );
 
@@ -192,20 +200,21 @@ function formatMoney(amount) {
     });
 }
 
-function getColorClass(result) {
+function getColorClass(result, dte) {
+    const { minReturn, maxReturn } = getReturnBounds(dte);
     const ad = Math.abs(result.delta);
     const inDelta = ad >= 0.20 && ad <= 0.35;
-    const inReturn = result.returnPct >= 2.0 && result.returnPct <= 3.5;
     const inProb = result.probOTM >= 70;
+    const inReturn = result.returnPct >= minReturn && result.returnPct <= maxReturn;
 
-    if (inDelta && inReturn && inProb) return "good";
+    if (inDelta && inProb && inReturn) return "good";
 
-    const clearlyBad =
-        ad < 0.10 || ad > 0.55 ||
-        result.returnPct < 1.5 || result.returnPct > 5.0 ||
-        result.probOTM < 55;
+    const clearlyBelowReturn = result.returnPct < minReturn - 0.5;
+    const deltaClearlyBad = ad < 0.10 || ad > 0.55;
+    const probClearlyBad = result.probOTM < 55;
 
-    if (clearlyBad) return "bad";
+    if (clearlyBelowReturn || deltaClearlyBad || probClearlyBad || result.returnPct > 5.0) return "bad";
+
     return "warning";
 }
 
@@ -218,7 +227,7 @@ function renderTable(data, expDate, dte, resultsEl) {
         return;
     }
 
-    const best = pickBestCSP(data);
+    const best = pickBestCSP(data, dte);
 
     const expLine = expDate && String(expDate).trim()
         ? `<p class="analysis-intro"><strong>Expiration:</strong> ${escapeHtml(String(expDate).trim())}</p>`
@@ -274,7 +283,7 @@ function renderTable(data, expDate, dte, resultsEl) {
             ? `<p class="rec-detail"><strong>Expiration Date:</strong> ${escapeHtml(String(expDate).trim())}</p>`
             : `<p class="rec-detail"><strong>Expiration Date:</strong> —</p>`;
 
-        const recClass = getColorClass(best);
+        const recClass = getColorClass(best, dte);
         html += `
             <section class="card recommended-csp ${recClass}">
                 <h3 class="rec-heading">Recommended CSP</h3>
