@@ -166,9 +166,9 @@ function analyzeCSP(rows, dte) {
 function pickBestCSP(data) {
     const passes = data.filter(r =>
         Math.abs(r.delta) >= 0.20 &&
-        Math.abs(r.delta) <= 0.30 &&
-        r.returnPct >= 1.5 &&
-        r.returnPct <= 3.0 &&
+        Math.abs(r.delta) <= 0.35 &&
+        r.returnPct >= 2.0 &&
+        r.returnPct <= 3.5 &&
         r.probOTM >= 70
     );
 
@@ -190,6 +190,23 @@ function formatMoney(amount) {
         style: "currency",
         currency: "USD"
     });
+}
+
+function getColorClass(result) {
+    const ad = Math.abs(result.delta);
+    const inDelta = ad >= 0.20 && ad <= 0.35;
+    const inReturn = result.returnPct >= 2.0 && result.returnPct <= 3.5;
+    const inProb = result.probOTM >= 70;
+
+    if (inDelta && inReturn && inProb) return "good";
+
+    const clearlyBad =
+        ad < 0.10 || ad > 0.55 ||
+        result.returnPct < 1.5 || result.returnPct > 5.0 ||
+        result.probOTM < 55;
+
+    if (clearlyBad) return "bad";
+    return "warning";
 }
 
 // -----------------------------
@@ -257,8 +274,9 @@ function renderTable(data, expDate, dte, resultsEl) {
             ? `<p class="rec-detail"><strong>Expiration Date:</strong> ${escapeHtml(String(expDate).trim())}</p>`
             : `<p class="rec-detail"><strong>Expiration Date:</strong> —</p>`;
 
+        const recClass = getColorClass(best);
         html += `
-            <section class="card recommended-csp">
+            <section class="card recommended-csp ${recClass}">
                 <h3 class="rec-heading">Recommended CSP</h3>
                 <p class="rec-hero">
                     <span class="rec-strike">Strike ${best.strike}</span><span class="rec-sep">·</span><span class="rec-premium">$${best.premium.toFixed(2)}</span>

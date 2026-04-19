@@ -314,6 +314,21 @@ body {
     background: #f9fffb;
 }
 
+.recommended-csp.good {
+    background: #f0fdf4;
+    border-left-color: #22c55e;
+}
+
+.recommended-csp.warning {
+    background: #fffbeb;
+    border-left-color: #eab308;
+}
+
+.recommended-csp.bad {
+    background: #fef2f2;
+    border-left-color: #ef4444;
+}
+
 .recommended-csp .rec-heading {
     font-size: 1rem;
     font-weight: 600;
