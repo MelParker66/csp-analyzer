@@ -172,8 +172,16 @@ function exportLadderToExcel() {
 window.exportLadderToExcel = exportLadderToExcel;
 
 (function () {
+    /** Rung 1 only: per-row DTE must satisfy minDTE <= DTE <= maxDTE (calendar days). */
+    const RUNG1_DTE_RANGE = { minDTE: 1, maxDTE: 7 };
+
     const RUNGS = [
-        { id: 1, title: "Rung 1: 1–7 DTE", dteMin: 1, dteMax: 7 },
+        {
+            id: 1,
+            title: `Rung 1: ${RUNG1_DTE_RANGE.minDTE}–${RUNG1_DTE_RANGE.maxDTE} DTE`,
+            dteMin: RUNG1_DTE_RANGE.minDTE,
+            dteMax: RUNG1_DTE_RANGE.maxDTE
+        },
         { id: 2, title: "Rung 2: 10–15 DTE", dteMin: 10, dteMax: 15 },
         { id: 3, title: "Rung 3: 18–25 DTE", dteMin: 18, dteMax: 25 },
         { id: 4, title: "Rung 4: 25–35 DTE", dteMin: 25, dteMax: 35 }
