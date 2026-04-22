@@ -173,7 +173,7 @@ window.exportLadderToExcel = exportLadderToExcel;
 
 (function () {
     const RUNGS = [
-        { id: 1, title: "Rung 1: 5–7 DTE", dteMin: 5, dteMax: 7 },
+        { id: 1, title: "Rung 1: 1–7 DTE", dteMin: 1, dteMax: 7 },
         { id: 2, title: "Rung 2: 10–15 DTE", dteMin: 10, dteMax: 15 },
         { id: 3, title: "Rung 3: 18–25 DTE", dteMin: 18, dteMax: 25 },
         { id: 4, title: "Rung 4: 25–35 DTE", dteMin: 25, dteMax: 35 }
