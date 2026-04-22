@@ -97,6 +97,12 @@ body {
     min-width: 200px;
 }
 
+.ladder-sidebar-sticky {
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+}
+
 .ladder-content-column {
     flex: 1;
     min-width: 0;
@@ -165,6 +171,12 @@ body {
     .ladder-sidebar {
         flex: 1 1 auto;
         width: 100%;
+    }
+
+    .ladder-sidebar-sticky {
+        position: static;
+        top: auto;
+        align-self: auto;
     }
 }
 

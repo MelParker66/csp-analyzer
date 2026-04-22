@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CSP Ladder Builder</title>
+    <title>CSP Ladder – High Volume</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -11,20 +11,20 @@
 </head>
 <body>
     <header class="app-header">
-        CSP Ladder Builder
+        CSP Ladder – High Volume
     </header>
-    <p class="header-ref">Four independent rungs — add rows per rung, then Analyze for CSP metrics.</p>
+    <p class="header-ref">10 total rows across 4 rungs — analyze + select trades, then monitor capital deployment.</p>
 
     <nav class="site-nav" aria-label="Main">
         <a href="index.html">CSP Analyzer</a>
         <span class="site-nav-sep" aria-hidden="true">·</span>
-        <span class="site-nav-current">CSP Ladder Builder</span>
+        <a href="ladder.html">CSP Ladder Builder</a>
         <span class="site-nav-sep" aria-hidden="true">·</span>
-        <a href="ladder-high-volume.html">CSP Ladder – High Volume</a>
+        <span class="site-nav-current">CSP Ladder – High Volume</span>
     </nav>
 
     <main class="layout layout-single ladder-page ladder-main-split">
-        <aside class="ladder-sidebar" aria-label="Capital">
+        <aside class="ladder-sidebar ladder-sidebar-sticky" aria-label="Capital">
             <section class="card ladder-capital-card" aria-labelledby="capital-invest-heading">
                 <h2 id="capital-invest-heading" class="card-title ladder-capital-card-title">Capital to Invest</h2>
                 <label class="ladder-capital-label" for="capital-to-invest">Amount (USD)</label>
@@ -45,9 +45,18 @@
                         <strong>Capital Remaining:</strong>
                         <span id="capital-remaining-display">$0.00</span>
                     </p>
+                    <p class="ladder-capital-stat">
+                        <strong>Trades Selected:</strong>
+                        <span id="trades-selected-display">0/10</span>
+                    </p>
+                    <p class="ladder-capital-stat">
+                        <strong>Deployment %:</strong>
+                        <span id="deployment-pct-display">0.0%</span>
+                    </p>
                 </div>
             </section>
         </aside>
+
         <div class="ladder-content-column">
             <div id="ladder-root" class="ladder-root"></div>
         </div>
@@ -55,12 +64,7 @@
 
     <div id="ladder-summary" class="ladder-summary-mount"></div>
 
-    <div class="ladder-export-bar">
-        <button type="button" id="ladder-export-excel" class="btn">Export to Excel</button>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="csp-shared.js"></script>
-    <script src="ladder.js"></script>
+    <script src="ladder-high-volume.js"></script>
 </body>
 </html>
