@@ -89,11 +89,11 @@ body {
     flex-direction: row;
     align-items: flex-start;
     gap: 20px;
-    max-width: 1200px;
+    max-width: 1440px;
 }
 
 .ladder-sidebar {
-    flex: 0 0 260px;
+    flex: 0 0 230px;
     min-width: 200px;
 }
 
@@ -531,6 +531,22 @@ body {
     border-radius: 8px;
 }
 
+@media (min-width: 901px) {
+    .ladder-input-row {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ladder-input-row .ladder-field {
+        flex: 0 0 auto;
+    }
+
+    .ladder-input-row .ladder-row-actions {
+        flex-shrink: 0;
+    }
+}
+
 .ladder-field {
     display: flex;
     flex-direction: column;
@@ -604,13 +620,13 @@ body {
 
 /* Ladder summary (bottom of ladder page) */
 .ladder-summary-mount {
-    max-width: 1200px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 0 20px 24px;
 }
 
 .ladder-export-bar {
-    max-width: 1200px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 0 20px 40px;
     text-align: center;

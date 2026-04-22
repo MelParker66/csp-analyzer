@@ -59,6 +59,33 @@ function deselectRung(rungId) {
 
 window.deselectRung = deselectRung;
 
+/** Parse currency-style input to a non-negative number (no $, commas). */
+function parseCapitalInvestInput(raw) {
+    if (raw == null) return 0;
+    const s = String(raw).replace(/[$,\s]/g, "").trim();
+    if (s === "" || s === ".") return 0;
+    const n = parseFloat(s);
+    return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
+function formatCapitalInvestField(invEl) {
+    if (!invEl) return;
+    const n = parseCapitalInvestInput(invEl.value);
+    invEl.value = formatMoneyFixed2(n);
+}
+
+function wireCapitalInvestInput() {
+    const invEl = document.getElementById("capital-to-invest");
+    if (!invEl) return;
+    invEl.addEventListener("blur", () => {
+        formatCapitalInvestField(invEl);
+        updateCapitalInvestPanel();
+    });
+    invEl.addEventListener("input", () => {
+        updateCapitalInvestPanel();
+    });
+}
+
 function updateCapitalInvestPanel() {
     const usedEl = document.getElementById("capital-used-display");
     const remEl = document.getElementById("capital-remaining-display");
@@ -73,9 +100,7 @@ function updateCapitalInvestPanel() {
         }
     }
 
-    const raw = invEl.value;
-    const parsed = parseFloat(raw);
-    const capitalToInvest = Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+    const capitalToInvest = parseCapitalInvestInput(invEl.value);
     const capitalRemaining = capitalToInvest - capitalUsed;
 
     usedEl.textContent = formatMoneyFixed2(capitalUsed);
@@ -396,11 +421,8 @@ window.exportLadderToExcel = exportLadderToExcel;
 
         updateLadderSummary();
 
-        const capitalInput = document.getElementById("capital-to-invest");
-        if (capitalInput) {
-            capitalInput.addEventListener("input", updateCapitalInvestPanel);
-            capitalInput.addEventListener("change", updateCapitalInvestPanel);
-        }
+        wireCapitalInvestInput();
+        formatCapitalInvestField(document.getElementById("capital-to-invest"));
         updateCapitalInvestPanel();
 
         const exportBtn = document.getElementById("ladder-export-excel");
