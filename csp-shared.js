@@ -33,6 +33,17 @@ function formatMoney(amount) {
     });
 }
 
+/** e.g. $12,345.00 — used for ladder capital display / sidebar */
+function formatMoneyFixed2(amount) {
+    return (
+        "$" +
+        Number(amount).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })
+    );
+}
+
 function escapeHtml(s) {
     return s
         .replace(/&/g, "&amp;")
@@ -41,7 +52,8 @@ function escapeHtml(s) {
         .replace(/"/g, "&quot;");
 }
 
-function renderCspDetailBox(row, fallbackExp, fallbackDte) {
+function renderCspDetailBox(row, fallbackExp, fallbackDte, detailOpts) {
+    const ladderBlock = detailOpts && detailOpts.ladderDetailBlock;
     const exp = row.expDate != null && String(row.expDate).trim()
         ? String(row.expDate).trim()
         : (fallbackExp && String(fallbackExp).trim() ? String(fallbackExp).trim() : "");
@@ -52,18 +64,26 @@ function renderCspDetailBox(row, fallbackExp, fallbackDte) {
         ? `<p class="rec-detail"><strong>Expiration Date:</strong> ${escapeHtml(exp)}</p>`
         : `<p class="rec-detail"><strong>Expiration Date:</strong> —</p>`;
 
-    return `
-                <section class="card recommended-csp csp-row-detail-box">
+    const capReqLadder = `<p class="rec-detail"><strong>Capital Required:</strong> ${formatMoneyFixed2(row.capitalRequired)}</p>`;
+    const capReqDefault = `<p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(row.capitalRequired)}</p>`;
+
+    const inner = `
+                    ${ladderBlock ? capReqLadder : ""}
                     <p class="rec-detail"><strong>Strike:</strong> ${row.strike}</p>
                     <p class="rec-detail"><strong>Premium:</strong> $${row.premium.toFixed(2)}</p>
                     <p class="rec-detail"><strong>Return %:</strong> ${row.returnPct.toFixed(2)}%</p>
                     <p class="rec-detail"><strong>Dollar Return:</strong> $${dollarReturn}</p>
-                    <p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(row.capitalRequired)}</p>
+                    ${ladderBlock ? "" : capReqDefault}
                     <p class="rec-detail"><strong>Annualized Return:</strong> ${row.annualized.toFixed(2)}%</p>
                     <p class="rec-detail"><strong>Prob OTM:</strong> ${row.probOTM.toFixed(2)}%</p>
                     <p class="rec-detail"><strong>Breakeven:</strong> $${row.breakeven.toFixed(2)}</p>
                     ${expDisp}
                     <p class="rec-detail"><strong>DTE:</strong> ${dteVal}</p>
+    `;
+
+    return `
+                <section class="card recommended-csp csp-row-detail-box">
+                    ${ladderBlock ? `<div class="csp-ladder-analysis-block">${inner}</div>` : inner}
                 </section>
     `;
 }
@@ -84,12 +104,14 @@ function renderTable(data, expDate, dte, resultsEl, tableOptions) {
     const selectedIndices = tableOptions && tableOptions.selectedIndices;
 
     const hasSelectColumn = Boolean(rungKey || analyzerPanel);
-    const detailColspan = hasSelectColumn ? 8 : 7;
+    const ladderCapCol = Boolean(rungKey);
+    const detailColspan = ladderCapCol ? 9 : hasSelectColumn ? 8 : 7;
 
     const expLine = expDate && String(expDate).trim()
         ? `<p class="analysis-intro"><strong>Expiration:</strong> ${escapeHtml(String(expDate).trim())}</p>`
         : "";
 
+    const ladderCapHeader = ladderCapCol ? `<th class="analysis-th-capital-req">Capital Required</th>` : "";
     const selectHeader = hasSelectColumn ? `<th class="analysis-th-select"></th>` : "";
 
     let html = `
@@ -105,6 +127,7 @@ function renderTable(data, expDate, dte, resultsEl, tableOptions) {
                         <th>Breakeven</th>
                         <th>Prob OTM</th>
                         <th>Delta</th>
+                        ${ladderCapHeader}
                         <th></th>
                         ${selectHeader}
                     </tr>
@@ -137,6 +160,10 @@ function renderTable(data, expDate, dte, resultsEl, tableOptions) {
                 </td>`;
         }
 
+        const ladderCapCell = ladderCapCol
+            ? `<td class="analysis-td-capital-req">${formatMoneyFixed2(row.capitalRequired)}</td>`
+            : "";
+
         const rowClass = `analysis-data-row${rowSelected ? " csp-selected-row" : ""}`;
         html += `
             <tr class="${rowClass}">
@@ -146,6 +173,7 @@ function renderTable(data, expDate, dte, resultsEl, tableOptions) {
                 <td>${row.breakeven.toFixed(2)}</td>
                 <td>${row.probOTM.toFixed(2)}%</td>
                 <td>${row.delta}</td>
+                ${ladderCapCell}
                 <td>
                     <button type="button" class="btn show-row-details-btn" data-detail-target="${detailId}" aria-expanded="false" aria-controls="${detailId}">Show Details</button>
                 </td>
@@ -153,7 +181,7 @@ function renderTable(data, expDate, dte, resultsEl, tableOptions) {
             </tr>
             <tr id="${detailId}" class="csp-detail-row" hidden>
                 <td colspan="${detailColspan}">
-                    ${renderCspDetailBox(row, expDate, dte)}
+                    ${renderCspDetailBox(row, expDate, dte, ladderCapCol ? { ladderDetailBlock: true } : undefined)}
                 </td>
             </tr>
         `;

@@ -59,6 +59,29 @@ function deselectRung(rungId) {
 
 window.deselectRung = deselectRung;
 
+function updateCapitalInvestPanel() {
+    const usedEl = document.getElementById("capital-used-display");
+    const remEl = document.getElementById("capital-remaining-display");
+    const invEl = document.getElementById("capital-to-invest");
+    if (!usedEl || !remEl || !invEl) return;
+
+    let capitalUsed = 0;
+    for (const key of ["rung1", "rung2", "rung3", "rung4"]) {
+        const entry = selectedRungs[key];
+        if (entry != null && Number.isFinite(entry.capitalRequired)) {
+            capitalUsed += entry.capitalRequired;
+        }
+    }
+
+    const raw = invEl.value;
+    const parsed = parseFloat(raw);
+    const capitalToInvest = Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+    const capitalRemaining = capitalToInvest - capitalUsed;
+
+    usedEl.textContent = formatMoneyFixed2(capitalUsed);
+    remEl.textContent = formatMoneyFixed2(capitalRemaining);
+}
+
 function updateLadderSummary() {
     const mount = document.getElementById("ladder-summary");
     if (!mount) return;
@@ -115,6 +138,8 @@ function updateLadderSummary() {
             </div>
         </section>
     `;
+
+    updateCapitalInvestPanel();
 }
 
 window.updateLadderSummary = updateLadderSummary;
@@ -370,6 +395,13 @@ window.exportLadderToExcel = exportLadderToExcel;
         }
 
         updateLadderSummary();
+
+        const capitalInput = document.getElementById("capital-to-invest");
+        if (capitalInput) {
+            capitalInput.addEventListener("input", updateCapitalInvestPanel);
+            capitalInput.addEventListener("change", updateCapitalInvestPanel);
+        }
+        updateCapitalInvestPanel();
 
         const exportBtn = document.getElementById("ladder-export-excel");
         if (exportBtn) {
