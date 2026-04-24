@@ -1,10 +1,7 @@
-// CSP Ladder – High Volume (10 fixed rows across 4 rungs); depends on csp-shared.js
+// CSP Ladder – High Volume (single rung, 10 fixed rows); depends on csp-shared.js
 
 const selectedRows = {
-    rung1: [null, null, null, null, null],
-    rung2: [null, null],
-    rung3: [null, null],
-    rung4: [null]
+    rung1: [null, null, null, null, null, null, null, null, null, null]
 };
 
 window.selectedRows = selectedRows;
@@ -218,51 +215,10 @@ function updateHighVolumeSummary() {
 }
 
 (function () {
-    const RUNGS = [
-        { id: 1, title: "Rung 1: 1–5 DTE", dteMin: 1, dteMax: 5, rows: 5 },
-        { id: 2, title: "Rung 2: 7–12 DTE", dteMin: 7, dteMax: 12, rows: 2 },
-        { id: 3, title: "Rung 3: 15–25 DTE", dteMin: 15, dteMax: 25, rows: 2 },
-        { id: 4, title: "Rung 4: 25–35 DTE", dteMin: 25, dteMax: 35, rows: 1 }
-    ];
+    const RUNG = { id: 1 };
+    const ROWS = 10;
 
-    function createInputRow(rung, rowIndex) {
-        const row = document.createElement("div");
-        row.className = "ladder-input-row";
-        row.setAttribute("data-row-index", String(rowIndex));
-        row.innerHTML = `
-            <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-            </label>
-            <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                <input type="date" class="ladder-inp-exp" />
-            </label>
-            <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                <input type="number" class="ladder-inp-dte" min="1" step="1" placeholder="${rung.dteMin}–${rung.dteMax}" />
-            </label>
-            <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                <input type="number" class="ladder-inp-strike" step="any" />
-            </label>
-            <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                <input type="number" class="ladder-inp-bid" step="any" />
-            </label>
-            <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                <input type="number" class="ladder-inp-ask" step="any" />
-            </label>
-            <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                <input type="number" class="ladder-inp-prob-itm" step="any" />
-            </label>
-            <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                <input type="number" class="ladder-inp-delta" step="any" />
-            </label>
-            <div class="ladder-row-actions">
-                <button type="button" class="btn ladder-add-row">Add Row</button>
-                <button type="button" class="btn ladder-analyze">Analyze</button>
-            </div>
-        `;
-        return row;
-    }
-
-    function readRow(rowEl, rung) {
+    function readRow(rowEl) {
         const ticker = rowEl.querySelector(".ladder-inp-ticker")?.value?.trim() ?? "";
         const expDate = rowEl.querySelector(".ladder-inp-exp")?.value ?? "";
         const dte = parseInt(rowEl.querySelector(".ladder-inp-dte")?.value, 10);
@@ -285,15 +241,7 @@ function updateHighVolumeSummary() {
         const allEmpty = raw.every(s => s === "");
         if (allEmpty) return { empty: true };
 
-        if (
-            !Number.isFinite(dte) ||
-            dte < 1 ||
-            !Number.isFinite(strike) ||
-            !Number.isFinite(bid) ||
-            !Number.isFinite(ask) ||
-            !Number.isFinite(probITM) ||
-            !Number.isFinite(delta)
-        ) {
+        if (!Number.isFinite(dte) || !Number.isFinite(strike) || !Number.isFinite(bid) || !Number.isFinite(ask) || !Number.isFinite(probITM) || !Number.isFinite(delta)) {
             return {
                 error:
                     "Each non-empty row must have DTE, Strike, Bid, Ask, Prob ITM, and Delta filled with valid numbers."
@@ -301,12 +249,6 @@ function updateHighVolumeSummary() {
         }
 
         if (strike <= 0) return { error: "Strike must be greater than zero." };
-
-        if (dte < rung.dteMin || dte > rung.dteMax) {
-            return {
-                error: `${rung.title} — DTE must be between ${rung.dteMin} and ${rung.dteMax} (got ${dte}).`
-            };
-        }
 
         return {
             row: {
@@ -341,7 +283,7 @@ function updateHighVolumeSummary() {
         });
 
         rowEl.querySelector(".ladder-analyze").addEventListener("click", () => {
-            const parsed = readRow(rowEl, rung);
+            const parsed = readRow(rowEl);
             if (parsed.empty) {
                 resultsEl.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml("Enter a complete row to analyze.")}</p></div>`;
                 return;
@@ -387,34 +329,11 @@ function updateHighVolumeSummary() {
         const root = document.getElementById("ladder-root");
         if (!root) return;
 
-        for (const rung of RUNGS) {
-            const section = document.createElement("section");
-            section.className = "card ladder-rung";
-            section.setAttribute("data-rung-id", String(rung.id));
+        const stack = document.getElementById("hv-stack-rung1");
+        if (!stack) return;
 
-            section.innerHTML = `
-                <h2 class="card-title ladder-rung-title">${escapeHtml(rung.title)}</h2>
-                <p class="ladder-rung-hint">${escapeHtml(`Rows in this rung should be ${rung.dteMin}–${rung.dteMax} DTE.`)}</p>
-                <div class="ladder-input-stack" id="hv-stack-rung${rung.id}"></div>
-                <div class="hv-results-stack" id="hv-results-stack-rung${rung.id}"></div>
-            `;
-
-            const stack = section.querySelector(".ladder-input-stack");
-            const resultsStack = section.querySelector(".hv-results-stack");
-
-            for (let i = 0; i < rung.rows; i += 1) {
-                stack.appendChild(createInputRow(rung, i));
-                const r = document.createElement("div");
-                r.className = "ladder-results";
-                r.id = `hv-results-rung${rung.id}-row${i}`;
-                resultsStack.appendChild(r);
-            }
-
-            root.appendChild(section);
-
-            for (let i = 0; i < rung.rows; i += 1) {
-                wireRowHandlers(stack, rung, i);
-            }
+        for (let i = 0; i < ROWS; i += 1) {
+            wireRowHandlers(stack, RUNG, i);
         }
 
         wireCapitalInvestInput();
