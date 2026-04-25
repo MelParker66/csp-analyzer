@@ -680,9 +680,10 @@ body {
 
 /* Ladder summary (bottom of ladder page) */
 .ladder-summary-mount {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 20px 24px;
+    width: 100%;
+    max-width: none;
+    margin: 20px 0 0 0;
+    padding: 0;
 }
 
 .ladder-export-bar {
