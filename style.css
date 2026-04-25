@@ -674,6 +674,10 @@ body {
     margin-top: 0;
 }
 
+.csp-analysis-card {
+    margin-top: 10px;
+}
+
 /* Ladder summary (bottom of ladder page) */
 .ladder-summary-mount {
     max-width: 1440px;

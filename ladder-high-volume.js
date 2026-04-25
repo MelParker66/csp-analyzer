@@ -266,8 +266,24 @@ function updateHighVolumeSummary() {
 
     function wireRowHandlers(stackEl, rung, rowIndex) {
         const rowEl = stackEl.querySelector(`.ladder-input-row[data-row-index="${CSS.escape(String(rowIndex))}"]`);
-        const resultsEl = document.getElementById(`hv-results-rung${rung.id}-row${rowIndex}`);
-        if (!rowEl || !resultsEl) return;
+        if (!rowEl) return;
+
+        const rowDomId = `row-${rowIndex}`;
+        if (!rowEl.id) rowEl.id = rowDomId;
+
+        function getOrCreateInlineResultsEl() {
+            const mountId = `analysis-row-${rowIndex}`;
+            let mount = document.getElementById(mountId);
+            if (!mount) {
+                const rowElement = document.getElementById(rowDomId) ?? rowEl;
+                rowElement.insertAdjacentHTML(
+                    "afterend",
+                    `<div id="${escapeHtml(mountId)}" class="csp-analysis-card"></div>`
+                );
+                mount = document.getElementById(mountId);
+            }
+            return mount;
+        }
 
         rowEl.querySelector(".ladder-add-row").addEventListener("click", () => {
             const nextIndex = rowIndex + 1;
@@ -283,6 +299,9 @@ function updateHighVolumeSummary() {
         });
 
         rowEl.querySelector(".ladder-analyze").addEventListener("click", () => {
+            const resultsEl = getOrCreateInlineResultsEl();
+            if (!resultsEl) return;
+
             const parsed = readRow(rowEl);
             if (parsed.empty) {
                 resultsEl.innerHTML = `<div class="card"><p class="results-empty">${escapeHtml("Enter a complete row to analyze.")}</p></div>`;
