@@ -687,6 +687,24 @@ body {
     margin-top: 20px;
 }
 
+.ladder-summary-mount .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.ladder-summary-mount .summary-label {
+    flex: 1;
+    white-space: nowrap;
+}
+
+.ladder-summary-mount .summary-value {
+    white-space: nowrap;
+    margin-left: 10px;
+}
+
 .ladder-export-bar {
     max-width: 1440px;
     margin: 0 auto;

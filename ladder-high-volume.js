@@ -200,14 +200,38 @@ function updateHighVolumeSummary() {
         <section class="card ladder-summary-card">
             <h2 class="card-title ladder-summary-title">Summary</h2>
             <hr class="ladder-summary-rule" />
-            <p class="ladder-summary-line"><strong>Total Capital Required:</strong> ${capStr}</p>
-            <p class="ladder-summary-line"><strong>Total Dollar Return:</strong> ${dollarStr}</p>
-            <p class="ladder-summary-line"><strong>Average Prob OTM:</strong> ${averageProbOTM.toFixed(2)}%</p>
-            <p class="ladder-summary-line"><strong>Average Delta:</strong> ${averageDelta.toFixed(3)}</p>
-            <p class="ladder-summary-line"><strong>Ladder Return %:</strong> ${(ladderReturn * 100).toFixed(3)}%</p>
-            <p class="ladder-summary-line"><strong>Annualized Return %:</strong> ${(annualizedReturn * 100).toFixed(2)}%</p>
-            <p class="ladder-summary-line"><strong>Number of Trades Selected:</strong> ${count}</p>
-            <p class="ladder-summary-line"><strong>Capital Deployment %:</strong> ${(deploymentPct * 100).toFixed(1)}%</p>
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>Total Capital Required:</strong></span>
+                <span class="summary-value">${capStr}</span>
+            </div>
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>Total Dollar Return:</strong></span>
+                <span class="summary-value">${dollarStr}</span>
+            </div>
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>Average Prob OTM:</strong></span>
+                <span class="summary-value">${averageProbOTM.toFixed(2)}%</span>
+            </div>
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>Average Delta:</strong></span>
+                <span class="summary-value">${averageDelta.toFixed(3)}</span>
+            </div>
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>Ladder Return %:</strong></span>
+                <span class="summary-value">${(ladderReturn * 100).toFixed(3)}%</span>
+            </div>
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>Annualized Return %:</strong></span>
+                <span class="summary-value">${(annualizedReturn * 100).toFixed(2)}%</span>
+            </div>
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>Number of Trades Selected:</strong></span>
+                <span class="summary-value">${count}</span>
+            </div>
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>Capital Deployment %:</strong></span>
+                <span class="summary-value">${(deploymentPct * 100).toFixed(1)}%</span>
+            </div>
         </section>
     `;
 
