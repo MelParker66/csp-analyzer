@@ -113,8 +113,9 @@ body {
 }
 
 .capital-panel {
-    width: 260px;
-    flex: 0 0 260px;
+    width: 300px;
+    flex: 0 0 300px;
+    box-sizing: border-box;
 }
 
 .ladder-sidebar-sticky {
@@ -680,9 +681,10 @@ body {
 
 /* Ladder summary (bottom of ladder page) */
 .ladder-summary-mount {
-    width: 100%;
-    max-width: none;
-    margin: 20px 0 0 0;
+    width: 300px;
+    max-width: 300px;
+    box-sizing: border-box;
+    margin-top: 20px;
     padding: 0;
 }
 
