@@ -13,7 +13,7 @@
     <header class="app-header">
         CSP Ladder – High Volume
     </header>
-    <p class="header-ref">10 total trades — analyze + select trades, then monitor capital deployment.</p>
+    <p class="header-ref">5 total trades — analyze + select trades, then monitor capital deployment.</p>
 
     <nav class="site-nav" aria-label="Main">
         <span class="site-nav-current">CSP Ladder – High Volume</span>
@@ -43,7 +43,7 @@
                     </p>
                     <p class="ladder-capital-stat">
                         <strong>Trades Selected:</strong>
-                        <span id="trades-selected-display">0/10</span>
+                        <span id="trades-selected-display">0/5</span>
                     </p>
                     <p class="ladder-capital-stat">
                         <strong>Deployment %:</strong>
@@ -210,156 +210,6 @@
                                 <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
                             </div>
                         </div>
-                        <div class="ladder-input-row ladder-row" data-row-index="5">
-                            <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                <input type="date" class="ladder-inp-exp" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                <input type="number" class="ladder-inp-dte" step="1" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                <input type="number" class="ladder-inp-strike" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                <input type="number" class="ladder-inp-bid" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                <input type="number" class="ladder-inp-ask" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                <input type="number" class="ladder-inp-prob-itm" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                <input type="number" class="ladder-inp-delta" step="any" />
-                            </label>
-                            <div class="ladder-row-actions">
-                                <button type="button" class="btn ladder-add-row">Add Row</button>
-                                <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                            </div>
-                        </div>
-                        <div class="ladder-input-row ladder-row" data-row-index="6">
-                            <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                <input type="date" class="ladder-inp-exp" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                <input type="number" class="ladder-inp-dte" step="1" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                <input type="number" class="ladder-inp-strike" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                <input type="number" class="ladder-inp-bid" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                <input type="number" class="ladder-inp-ask" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                <input type="number" class="ladder-inp-prob-itm" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                <input type="number" class="ladder-inp-delta" step="any" />
-                            </label>
-                            <div class="ladder-row-actions">
-                                <button type="button" class="btn ladder-add-row">Add Row</button>
-                                <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                            </div>
-                        </div>
-                        <div class="ladder-input-row ladder-row" data-row-index="7">
-                            <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                <input type="date" class="ladder-inp-exp" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                <input type="number" class="ladder-inp-dte" step="1" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                <input type="number" class="ladder-inp-strike" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                <input type="number" class="ladder-inp-bid" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                <input type="number" class="ladder-inp-ask" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                <input type="number" class="ladder-inp-prob-itm" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                <input type="number" class="ladder-inp-delta" step="any" />
-                            </label>
-                            <div class="ladder-row-actions">
-                                <button type="button" class="btn ladder-add-row">Add Row</button>
-                                <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                            </div>
-                        </div>
-                        <div class="ladder-input-row ladder-row" data-row-index="8">
-                            <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                <input type="date" class="ladder-inp-exp" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                <input type="number" class="ladder-inp-dte" step="1" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                <input type="number" class="ladder-inp-strike" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                <input type="number" class="ladder-inp-bid" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                <input type="number" class="ladder-inp-ask" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                <input type="number" class="ladder-inp-prob-itm" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                <input type="number" class="ladder-inp-delta" step="any" />
-                            </label>
-                            <div class="ladder-row-actions">
-                                <button type="button" class="btn ladder-add-row">Add Row</button>
-                                <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                            </div>
-                        </div>
-                        <div class="ladder-input-row ladder-row" data-row-index="9">
-                            <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                <input type="date" class="ladder-inp-exp" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                <input type="number" class="ladder-inp-dte" step="1" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                <input type="number" class="ladder-inp-strike" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                <input type="number" class="ladder-inp-bid" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                <input type="number" class="ladder-inp-ask" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                <input type="number" class="ladder-inp-prob-itm" step="any" />
-                            </label>
-                            <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                <input type="number" class="ladder-inp-delta" step="any" />
-                            </label>
-                            <div class="ladder-row-actions">
-                                <button type="button" class="btn ladder-add-row">Add Row</button>
-                                <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                            </div>
-                        </div>
                     </div>
                     <div class="hv-results-stack" id="hv-results-stack-rung1">
                         <div class="ladder-results" id="hv-results-rung1-row0"></div>
@@ -367,11 +217,6 @@
                         <div class="ladder-results" id="hv-results-rung1-row2"></div>
                         <div class="ladder-results" id="hv-results-rung1-row3"></div>
                         <div class="ladder-results" id="hv-results-rung1-row4"></div>
-                        <div class="ladder-results" id="hv-results-rung1-row5"></div>
-                        <div class="ladder-results" id="hv-results-rung1-row6"></div>
-                        <div class="ladder-results" id="hv-results-rung1-row7"></div>
-                        <div class="ladder-results" id="hv-results-rung1-row8"></div>
-                        <div class="ladder-results" id="hv-results-rung1-row9"></div>
                     </div>
                 </section>
             </div>

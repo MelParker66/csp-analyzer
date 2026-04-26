@@ -1,7 +1,7 @@
-// CSP Ladder – High Volume (single rung, 10 fixed rows); depends on csp-shared.js
+// CSP Ladder – High Volume (single rung, 5 fixed rows); depends on csp-shared.js
 
 const selectedRows = {
-    rung1: [null, null, null, null, null, null, null, null, null, null]
+    rung1: [null, null, null, null, null]
 };
 
 window.selectedRows = selectedRows;
@@ -133,7 +133,7 @@ function updateCapitalInvestPanel() {
 
     usedEl.textContent = formatMoneyFixed2(capitalUsed);
     remEl.textContent = formatMoneyFixed2(capitalRemaining);
-    tradesEl.textContent = `${tradesSelected}/10`;
+    tradesEl.textContent = `${tradesSelected}/5`;
     depEl.textContent = `${(deploymentPct * 100).toFixed(1)}%`;
 }
 
@@ -240,7 +240,7 @@ function updateHighVolumeSummary() {
 
 (function () {
     const RUNG = { id: 1 };
-    const ROWS = 10;
+    const ROWS = 5;
 
     function readRow(rowEl) {
         const ticker = rowEl.querySelector(".ladder-inp-ticker")?.value?.trim() ?? "";
