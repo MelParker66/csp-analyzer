@@ -61,6 +61,13 @@ body {
     font-weight: 500;
 }
 
+.site-nav a.site-nav-current {
+    color: #4b5563;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: default;
+}
+
 /* Two-panel layout */
 .layout {
     display: flex;
@@ -757,4 +764,71 @@ body {
 
 .analysis-th-select {
     min-width: 5.5rem;
+}
+
+/* Covered Calls ladder (cc-ladder.html) */
+.cc-input-stack {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.cc-field {
+    display: inline-flex;
+    flex-direction: column;
+    margin-right: 14px;
+}
+
+.cc-field input {
+    width: 110px;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid #d8dde4;
+    border-radius: 6px;
+    background: #fff;
+    min-width: 0;
+}
+
+.cc-field input:focus {
+    outline: none;
+    border-color: #3a7afe;
+    box-shadow: 0 0 0 2px rgba(58, 122, 254, 0.15);
+}
+
+.cc-field input.cc-inp-exp {
+    width: 152px;
+    min-width: 152px;
+}
+
+.cc-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    margin-bottom: 18px;
+}
+
+.cc-field-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.cc-row-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.cc-analysis-card {
+    margin-bottom: 12px;
 }
