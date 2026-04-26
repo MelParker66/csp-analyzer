@@ -22,12 +22,34 @@ function parseRowKey(key) {
     return { rungId, rowIndex };
 }
 
+/** After shared renderTable, inject Contracts line into the ladder detail block (high-volume only). */
+function augmentLadderAnalysisContractsDisplay(resultsEl, contracts) {
+    const block = resultsEl.querySelector(".csp-ladder-analysis-block");
+    if (!block) return;
+    block.querySelectorAll("[data-ladder-contracts-line]").forEach(el => el.remove());
+    const firstDetail = block.querySelector(".rec-detail");
+    if (!firstDetail) return;
+    const p = document.createElement("p");
+    p.className = "rec-detail";
+    p.setAttribute("data-ladder-contracts-line", "1");
+    p.innerHTML = `<strong>Contracts:</strong> ${escapeHtml(String(contracts))}`;
+    firstDetail.insertAdjacentElement("afterend", p);
+}
+
+function renderLadderAnalysisTable(resultsEl, data, expDate, dte, tableOptions) {
+    renderTable(data, expDate, dte, resultsEl, tableOptions);
+    const row0 = data[0];
+    if (row0 && Number.isFinite(row0.contracts) && row0.contracts >= 1) {
+        augmentLadderAnalysisContractsDisplay(resultsEl, row0.contracts);
+    }
+}
+
 function refreshRowResults(key) {
     const c = analysisCacheByKey[key];
     if (!c) return;
     const resultsEl = document.getElementById(c.resultsId);
     if (!resultsEl) return;
-    renderTable(c.data, c.expDate, c.dte, resultsEl, {
+    renderLadderAnalysisTable(resultsEl, c.data, c.expDate, c.dte, {
         rungKey: key,
         selectedRowIndex: selectedRowIndexByKey[key]
     });
@@ -249,6 +271,8 @@ function updateHighVolumeSummary() {
         const strike = parseFloat(rowEl.querySelector(".ladder-inp-strike")?.value);
         const bid = parseFloat(rowEl.querySelector(".ladder-inp-bid")?.value);
         const ask = parseFloat(rowEl.querySelector(".ladder-inp-ask")?.value);
+        const contractsInput = rowEl.querySelector(".contracts-input");
+        const contracts = parseInt(contractsInput?.value, 10) || 1;
         const probITM = parseFloat(rowEl.querySelector(".ladder-inp-prob-itm")?.value);
         const delta = parseFloat(rowEl.querySelector(".ladder-inp-delta")?.value);
 
@@ -280,6 +304,7 @@ function updateHighVolumeSummary() {
                 strike,
                 bid,
                 ask,
+                contracts,
                 probITM,
                 delta,
                 dte,
@@ -341,10 +366,14 @@ function updateHighVolumeSummary() {
                 expDate: parsed.row.expDate
             }));
 
-            // Ensure the high-volume requirement is enforced here too:
-            // Capital Required per row = strike * 100
+            const contractsInput = rowEl.querySelector(".contracts-input");
+            const contracts = parseInt(contractsInput?.value, 10) || 1;
+
             if (analyzed[0] && Number.isFinite(parsed.row.strike)) {
-                analyzed[0].capitalRequired = parsed.row.strike * 100;
+                const premium = analyzed[0].premium;
+                analyzed[0].contracts = contracts;
+                analyzed[0].capitalRequired = parsed.row.strike * 100 * contracts;
+                analyzed[0].dollarReturn = premium * 100 * contracts;
             }
 
             const key = rowKey(rung.id, rowIndex);
@@ -359,12 +388,16 @@ function updateHighVolumeSummary() {
             const currentlySelected = selectedRowIndexByKey[key] === 0;
             selectedRowIndexByKey[key] = currentlySelected ? 0 : null;
 
-            renderTable(analyzed, parsed.row.expDate || "", parsed.row.dte, resultsEl, {
+            renderLadderAnalysisTable(resultsEl, analyzed, parsed.row.expDate || "", parsed.row.dte, {
                 rungKey: key,
                 selectedRowIndex: selectedRowIndexByKey[key]
             });
 
-            updateHighVolumeSummary();
+            if (currentlySelected && analyzed[0]) {
+                selectRung(key, analyzed[0], 0);
+            } else {
+                updateHighVolumeSummary();
+            }
         });
     }
 
