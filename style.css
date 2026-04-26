@@ -655,6 +655,24 @@ body {
     margin-left: auto;
 }
 
+/* CSP Ladder – High Volume (ladder-high-volume.html): room for nine fields + actions */
+.ladder-container .ladder-row.ladder-input-row {
+    max-width: 100%;
+    width: 102% !important;
+    grid-template-columns: repeat(9, minmax(80px, 1fr)) auto;
+    column-gap: 14px;
+}
+
+.ladder-container .ladder-field .ladder-inp-ticker,
+.ladder-container .ladder-field .ladder-inp-strike,
+.ladder-container .ladder-field .ladder-inp-bid,
+.ladder-container .ladder-field .ladder-inp-ask,
+.ladder-container .ladder-field .ladder-inp-prob-itm,
+.ladder-container .ladder-field .ladder-inp-delta,
+.ladder-container .ladder-field .contracts-input {
+    width: 110px;
+}
+
 .analyze-button,
 .ladder-analyze {
     white-space: nowrap;
