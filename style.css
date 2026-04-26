@@ -767,6 +767,12 @@ body {
 }
 
 /* Covered Calls ladder (cc-ladder.html) */
+/* Expand CC ladder width (Option B: Extra Wide) */
+.cc-ladder-container {
+    max-width: 1500px;
+    width: 100%;
+}
+
 .cc-input-stack {
     display: flex;
     flex-direction: column;
@@ -781,8 +787,9 @@ body {
     margin-right: 14px;
 }
 
+/* Slightly widen inputs for better readability */
 .cc-field input {
-    width: 110px;
+    width: 130px;
     padding: 8px 10px;
     font-size: 0.95rem;
     font-family: inherit;
@@ -798,16 +805,20 @@ body {
     box-shadow: 0 0 0 2px rgba(58, 122, 254, 0.15);
 }
 
+/* Keep expiration input wider */
 .cc-field input.cc-inp-exp {
-    width: 152px;
-    min-width: 152px;
+    width: 172px;
+    min-width: 172px;
 }
 
+/* Ensure rows stretch fully across the new width */
 .cc-row {
     display: flex;
     flex-wrap: nowrap;
     align-items: flex-end;
     margin-bottom: 18px;
+    max-width: 1500px;
+    width: 100%;
 }
 
 .cc-field-label {
