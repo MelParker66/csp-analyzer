@@ -1,0 +1,12 @@
+{
+  "name": "cspmodel",
+  "private": true,
+  "description": "CSP ladder tools; run `npm start` to serve the app and Excel export API.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "xlsx": "^0.18.5"
+  }
+}

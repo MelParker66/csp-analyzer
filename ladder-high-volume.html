@@ -58,6 +58,29 @@
         </aside>
 
         <div class="ladder-content-column main-content">
+            <div class="ladder-subtabs" role="tablist" aria-label="Ladder views">
+                <button
+                    type="button"
+                    class="ladder-subtab ladder-subtab-active"
+                    id="ladder-subtab-ladder"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="ladder-tab-panel-ladder"
+                >
+                    Ladder
+                </button>
+                <button
+                    type="button"
+                    class="ladder-subtab"
+                    id="ladder-subtab-export"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="ladder-tab-panel-export"
+                >
+                    Ladder Export
+                </button>
+            </div>
+            <div id="ladder-tab-panel-ladder" class="ladder-tab-panel" role="tabpanel" aria-labelledby="ladder-subtab-ladder">
             <div id="ladder-root" class="ladder-root">
                 <section class="card ladder-rung" data-rung-id="1">
                     <h2 class="card-title ladder-rung-title">Rung 1: Short-Cycle CSPs</h2>
@@ -237,10 +260,28 @@
                     </div>
                 </section>
             </div>
+            </div>
+            <div
+                id="ladder-tab-panel-export"
+                class="ladder-tab-panel"
+                role="tabpanel"
+                aria-labelledby="ladder-subtab-export"
+                hidden
+            >
+                <section class="card ladder-export-card">
+                    <h2 class="card-title">Ladder Export</h2>
+                    <p class="ladder-export-intro">Selected rows from each rung appear below.</p>
+                    <div id="ladder-export-table-wrap" class="ladder-export-table-wrap"></div>
+                    <p class="ladder-export-actions">
+                        <button type="button" class="btn" id="ladder-export-excel-btn">Export to Excel</button>
+                    </p>
+                </section>
+            </div>
         </div>
     </main>
 
     <script src="csp-shared.js"></script>
     <script src="ladder-high-volume.js"></script>
+    <script src="ladder-export.js"></script>
 </body>
 </html>
