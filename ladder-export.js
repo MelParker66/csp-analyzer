@@ -1,4 +1,4 @@
-// Ladder Export tab: read-only view of window.selectedRows + Excel download via /api/export-ladder
+// Ladder Export tab: read-only view of window.selectedRows
 
 (function () {
     function toNum(v) {
@@ -102,9 +102,8 @@
         const panelLadder = document.getElementById("ladder-tab-panel-ladder");
         const panelExport = document.getElementById("ladder-tab-panel-export");
         const wrap = document.getElementById("ladder-export-table-wrap");
-        const btnExcel = document.getElementById("ladder-export-excel-btn");
 
-        if (!tabLadder || !tabExport || !panelLadder || !panelExport || !wrap || !btnExcel) return;
+        if (!tabLadder || !tabExport || !panelLadder || !panelExport || !wrap) return;
 
         function showLadder() {
             tabLadder.setAttribute("aria-selected", "true");
@@ -127,51 +126,6 @@
 
         tabLadder.addEventListener("click", showLadder);
         tabExport.addEventListener("click", showExport);
-
-        btnExcel.addEventListener("click", async () => {
-            const rows = collectSelectedExportRows();
-            const payload = {
-                rows: rows.map(r => ({
-                    ticker: r.ticker,
-                    expiration: r.expiration,
-                    strike: r.strike,
-                    premium: r.premium,
-                    returnPercent: r.returnPercent,
-                    annualizedReturn: r.annualizedReturn,
-                    probOTM: r.probOTM,
-                    delta: r.delta,
-                    capitalRequired: r.capitalRequired
-                }))
-            };
-
-            try {
-                const res = await fetch("/api/export-ladder", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-                if (!res.ok) {
-                    const errText = await res.text().catch(() => "");
-                    throw new Error(errText || `Export failed (${res.status})`);
-                }
-                const blob = await res.blob();
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "csp-ladder-export.xlsx";
-                a.rel = "noopener";
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-            } catch (e) {
-                const msg =
-                    e && e.message
-                        ? String(e.message)
-                        : "Could not export. Serve this app with `npm start` so /api/export-ladder is available.";
-                window.alert(msg);
-            }
-        });
     }
 
     function init() {
