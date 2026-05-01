@@ -33,7 +33,8 @@
                     annualizedReturn: toNum(a.annualized),
                     probOTM: toNum(a.probOTM),
                     delta: toNum(a.delta),
-                    capitalRequired: toNum(entry.capitalRequired)
+                    capitalRequired: toNum(entry.capitalRequired),
+                    dollarReturn: toNum(entry.dollarReturn)
                 });
             }
         }
@@ -74,6 +75,7 @@
                     <td>${r.probOTM != null ? escapeHtml(r.probOTM.toFixed(2)) + "%" : "—"}</td>
                     <td>${r.delta != null ? escapeHtml(String(r.delta)) : "—"}</td>
                     <td>${r.capitalRequired != null ? escapeHtml(formatMoney2(r.capitalRequired)) : "—"}</td>
+                    <td>${r.dollarReturn != null ? escapeHtml(formatMoney2(r.dollarReturn)) : "—"}</td>
                 </tr>`;
         }
 
@@ -90,6 +92,7 @@
                         <th>ProbOTM</th>
                         <th>Delta</th>
                         <th>CapitalRequired</th>
+                        <th>DollarReturn</th>
                     </tr>
                 </thead>
                 <tbody>${body}</tbody>

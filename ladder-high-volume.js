@@ -68,9 +68,14 @@ function selectRung(key, rowData, rowIndex) {
             ? String(rowData.ticker).trim()
             : "";
 
+    const contracts =
+        Number.isFinite(rowData.contracts) && rowData.contracts >= 1 ? rowData.contracts : 1;
+    const dollarReturn =
+        Number.isFinite(rowData.premium) ? rowData.premium * 100 * contracts : 0;
+
     bucket[parsed.rowIndex] = {
         ticker,
-        dollarReturn: rowData.dollarReturn,
+        dollarReturn,
         capitalRequired: rowData.capitalRequired,
         probOTM: rowData.probOTM,
         delta: rowData.delta,
