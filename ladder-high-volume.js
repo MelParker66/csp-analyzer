@@ -1,7 +1,9 @@
-// CSP Ladder – High Volume (single rung, 5 fixed rows); depends on csp-shared.js
+// CSP Ladder – High Volume (single rung, 10 fixed rows); depends on csp-shared.js
+
+const HV_LADDER_ROW_COUNT = 10;
 
 const selectedRows = {
-    rung1: [null, null, null, null, null]
+    rung1: Array.from({ length: HV_LADDER_ROW_COUNT }, () => null)
 };
 
 window.selectedRows = selectedRows;
@@ -160,7 +162,7 @@ function updateCapitalInvestPanel() {
 
     usedEl.textContent = formatMoneyFixed2(capitalUsed);
     remEl.textContent = formatMoneyFixed2(capitalRemaining);
-    tradesEl.textContent = `${tradesSelected}/5`;
+    tradesEl.textContent = `${tradesSelected}/${HV_LADDER_ROW_COUNT}`;
     depEl.textContent = `${(deploymentPct * 100).toFixed(1)}%`;
 }
 
@@ -267,7 +269,7 @@ function updateHighVolumeSummary() {
 
 (function () {
     const RUNG = { id: 1 };
-    const ROWS = 5;
+    const ROWS = HV_LADDER_ROW_COUNT;
 
     function readRow(rowEl) {
         const ticker = rowEl.querySelector(".ladder-inp-ticker")?.value?.trim() ?? "";
@@ -338,19 +340,6 @@ function updateHighVolumeSummary() {
             }
             return mount;
         }
-
-        rowEl.querySelector(".ladder-add-row").addEventListener("click", () => {
-            const nextIndex = rowIndex + 1;
-            const nextRowEl = stackEl.querySelector(
-                `.ladder-input-row[data-row-index="${CSS.escape(String(nextIndex))}"]`
-            );
-            if (!nextRowEl) {
-                alert("This rung is already at its maximum row count.");
-                return;
-            }
-            nextRowEl.scrollIntoView({ behavior: "smooth", block: "center" });
-            nextRowEl.querySelector(".ladder-inp-ticker")?.focus();
-        });
 
         rowEl.querySelector(".ladder-analyze").addEventListener("click", () => {
             const resultsEl = getOrCreateInlineResultsEl();
