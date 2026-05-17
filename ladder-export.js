@@ -1,4 +1,4 @@
-// Ladder Export tab: read-only view of window.selectedRows + Excel export via /api/export-ladder
+// Ladder Export tab: read-only view of window.selectedRows
 
 (function () {
     function toNum(v) {
@@ -72,107 +72,13 @@
         );
     }
 
-    function computeExportSummary(data) {
-        if (!data.length) return null;
-
-        let totalCapital = 0;
-        let totalDollarReturn = 0;
-        let sumDelta = 0;
-        let sumProbOtm = 0;
-        let sumAnnualizedReturn = 0;
-        let countDelta = 0;
-        let countProbOtm = 0;
-        let countAnnualized = 0;
-
-        for (const row of data) {
-            if (row.capitalRequired != null) totalCapital += row.capitalRequired;
-            if (row.dollarReturn != null) totalDollarReturn += row.dollarReturn;
-
-            if (row.delta != null) {
-                sumDelta += row.delta;
-                countDelta += 1;
-            }
-
-            const probOtmNum = toNum(row.probOtm);
-            if (probOtmNum != null) {
-                sumProbOtm += probOtmNum;
-                countProbOtm += 1;
-            }
-
-            if (row.annualizedReturn != null) {
-                sumAnnualizedReturn += row.annualizedReturn;
-                countAnnualized += 1;
-            }
-        }
-
-        return {
-            totalCapital,
-            totalDollarReturn,
-            avgDelta: countDelta > 0 ? sumDelta / countDelta : 0,
-            avgProbOtm: countProbOtm > 0 ? sumProbOtm / countProbOtm : 0,
-            avgAnnualizedReturn: countAnnualized > 0 ? sumAnnualizedReturn / countAnnualized : 0
-        };
-    }
-
-    function renderExportSummary(mount, data) {
-        if (!mount) return;
-
-        if (!data.length) {
-            mount.innerHTML = "";
-            return;
-        }
-
-        const s = computeExportSummary(data);
-        if (!s) {
-            mount.innerHTML = "";
-            return;
-        }
-
-        const capStr = s.totalCapital.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD"
-        });
-        const dollarStr = s.totalDollarReturn.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD"
-        });
-
-        mount.innerHTML = `
-            <section class="card ladder-summary-card ladder-export-summary-card">
-                <h2 class="card-title ladder-summary-title">Export Summary</h2>
-                <hr class="ladder-summary-rule" />
-                <div class="summary-row ladder-summary-line">
-                    <span class="summary-label"><strong>Total Capital Required:</strong></span>
-                    <span class="summary-value">${escapeHtml(capStr)}</span>
-                </div>
-                <div class="summary-row ladder-summary-line">
-                    <span class="summary-label"><strong>Total Dollar Return:</strong></span>
-                    <span class="summary-value">${escapeHtml(dollarStr)}</span>
-                </div>
-                <div class="summary-row ladder-summary-line">
-                    <span class="summary-label"><strong>Average Delta:</strong></span>
-                    <span class="summary-value">${escapeHtml(s.avgDelta.toFixed(3))}</span>
-                </div>
-                <div class="summary-row ladder-summary-line">
-                    <span class="summary-label"><strong>Average Prob OTM:</strong></span>
-                    <span class="summary-value">${escapeHtml(s.avgProbOtm.toFixed(2))}%</span>
-                </div>
-                <div class="summary-row ladder-summary-line">
-                    <span class="summary-label"><strong>Average Annualized Return:</strong></span>
-                    <span class="summary-value">${escapeHtml(s.avgAnnualizedReturn.toFixed(2))}%</span>
-                </div>
-            </section>`;
-    }
-
     function renderExportTable(wrap) {
         if (!wrap) return;
         const data = collectSelectedExportRows();
-        const summaryMount = document.getElementById("ladder-export-summary-mount");
 
         if (data.length === 0) {
             wrap.innerHTML =
                 '<p class="results-empty ladder-export-empty">No rows selected. Select trades on the Ladder tab, then return here.</p>';
-            renderExportSummary(summaryMount, data);
             return;
         }
 
@@ -211,44 +117,8 @@
                 </thead>
                 <tbody>${body}</tbody>
             </table>`;
-
-        renderExportSummary(summaryMount, data);
     }
 
-    function exportLadderToExcel() {
-        const data = collectSelectedExportRows();
-        if (data.length === 0) {
-            alert("Select at least one trade on the Ladder tab before exporting.");
-            return;
-        }
-
-        fetch("/api/export-ladder", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ rows: data })
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error("Export request failed");
-                }
-                return res.blob();
-            })
-            .then(blob => {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "csp-ladder-export.xlsx";
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-            })
-            .catch(() => {
-                alert("Export failed. Start the app with node server.js (not http-server) so /api/export-ladder is available.");
-            });
-    }
-
-    window.exportLadderToExcel = exportLadderToExcel;
     window.renderLadderExportTable = renderExportTable;
 
     function wireTabs() {
@@ -257,7 +127,6 @@
         const panelLadder = document.getElementById("ladder-tab-panel-ladder");
         const panelExport = document.getElementById("ladder-tab-panel-export");
         const wrap = document.getElementById("ladder-export-table-wrap");
-        const exportBtn = document.getElementById("export-panel-export-btn");
 
         if (!tabLadder || !tabExport || !panelLadder || !panelExport || !wrap) return;
 
@@ -282,13 +151,6 @@
 
         tabLadder.addEventListener("click", showLadder);
         tabExport.addEventListener("click", showExport);
-
-        if (exportBtn) {
-            exportBtn.addEventListener("click", () => {
-                renderExportTable(wrap);
-                exportLadderToExcel();
-            });
-        }
     }
 
     function init() {
