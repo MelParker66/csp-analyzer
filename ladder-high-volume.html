@@ -9,79 +9,278 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <header class="app-header">
-        CSP Ladder – High Volume
-    </header>
-    <p class="header-ref">10 total trades — analyze + select trades, then monitor capital deployment.</p>
-
-    <nav class="site-nav" aria-label="Main">
-        <a href="ladder-high-volume.html" class="site-nav-current" aria-current="page">CSP Ladder – High Volume</a>
-        <span class="site-nav-sep" aria-hidden="true">·</span>
-        <a href="cc-ladder.html">Covered Calls</a>
+<body class="app-with-sidebar">
+    <nav class="sidebar" aria-label="Application">
+        <button type="button" class="sidebar-icon sidebar-active" data-panel="playbook" id="sidebar-playbook" aria-label="Playbook">
+            <svg class="sidebar-icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                <rect x="9" y="3" width="6" height="4" rx="1"/>
+                <path d="M9 12h6M9 16h6"/>
+            </svg>
+            <span class="sidebar-tooltip">Playbook</span>
+        </button>
+        <button type="button" class="sidebar-icon" data-panel="overview" id="sidebar-overview" aria-label="Overview">
+            <svg class="sidebar-icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <span class="sidebar-tooltip">Overview</span>
+        </button>
+        <button type="button" class="sidebar-icon" data-panel="ladder" id="sidebar-ladder" aria-label="Ladder">
+            <svg class="sidebar-icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="6" y1="20" x2="6" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="18" y1="20" x2="18" y2="14"/>
+            </svg>
+            <span class="sidebar-tooltip">Ladder</span>
+        </button>
+        <button type="button" class="sidebar-icon" data-panel="export" id="sidebar-export" aria-label="Ladder Export">
+            <svg class="sidebar-icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span class="sidebar-tooltip">Ladder Export</span>
+        </button>
     </nav>
 
-    <main class="layout layout-single ladder-page ladder-main-split ladder-container">
-        <aside class="ladder-sidebar ladder-sidebar-sticky capital-panel" aria-label="Capital">
-            <section class="card ladder-capital-card" aria-labelledby="capital-invest-heading">
-                <h2 id="capital-invest-heading" class="card-title ladder-capital-card-title">Capital to Invest</h2>
-                <label class="ladder-capital-label" for="capital-to-invest">Amount (USD)</label>
-                <input
-                    type="text"
-                    id="capital-to-invest"
-                    class="ladder-capital-input"
-                    value="$0.00"
-                    inputmode="decimal"
-                    autocomplete="off"
-                />
-                <div class="ladder-capital-substats">
-                    <p class="ladder-capital-stat">
-                        <strong>Capital Used:</strong>
-                        <span id="capital-used-display">$0.00</span>
-                    </p>
-                    <p class="ladder-capital-stat">
-                        <strong>Capital Remaining:</strong>
-                        <span id="capital-remaining-display">$0.00</span>
-                    </p>
-                    <p class="ladder-capital-stat">
-                        <strong>Trades Selected:</strong>
-                        <span id="trades-selected-display">0/10</span>
-                    </p>
-                    <p class="ladder-capital-stat">
-                        <strong>Deployment %:</strong>
-                        <span id="deployment-pct-display">0.0%</span>
-                    </p>
+    <div class="app-body">
+        <main class="app-main">
+            <div id="playbook-panel" class="content-panel content-panel-active">
+                <div class="content-panel-inner">
+                    <header class="panel-header">
+                        <h1 class="panel-title">Playbook</h1>
+                    </header>
+                    <section class="playbook-section" aria-labelledby="playbook-readiness-heading">
+                        <h2 id="playbook-readiness-heading" class="playbook-section-title">CSP Readiness Checklist</h2>
+                        <ul class="playbook-checklist">
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>Confirm total capital available</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">How much cash is available to sell puts.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Monitor → Account Statement → Cash &amp; Sweep Vehicle.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>Set target deployment</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">Decide what % of capital to deploy this week.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Personal target (not in TOS).</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>Confirm Delta target (14–17)</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">Choose strikes with delta between 0.14–0.17.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Trade → Option Chain → Delta column.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>Confirm DTE (10 days)</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">Choose expirations around 7–12 days.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Trade → Option Chain → Expiration column.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>RSI 40–50</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">Look for tickers pulling back but not oversold.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Charts → Studies → RSI.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>IV</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">Higher IV = higher premium; avoid extremely low IV.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Trade → Option Chain → IV column.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>OTM &gt; 79%</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">Choose strikes with at least 79% probability OTM.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Trade → Option Chain → Prob OTM column.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>Avoid earnings week</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">Do not sell CSPs into earnings.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Charts → Earnings icon OR MarketWatch → Calendar → Earnings.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="playbook-section" aria-labelledby="playbook-itm-heading">
+                        <h2 id="playbook-itm-heading" class="playbook-section-title">If Position Is ITM</h2>
+                        <ul class="playbook-checklist">
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>Close position</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def">Close the CSP if the underlying trades below your strike AND delta rises above 0.30. This indicates the position is no longer a high‑probability winner and risk is increasing.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Monitor → Positions → Right‑click → Create Closing Order.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="playbook-checklist-item">
+                                <article class="card playbook-item">
+                                    <div class="playbook-item-grid">
+                                        <div class="playbook-item-check">
+                                            <label class="playbook-checklist-label">
+                                                <input type="checkbox" class="playbook-checklist-input" disabled />
+                                                <span>If Delta is &gt; 0.28 and Theta is &lt; 2.0</span>
+                                            </label>
+                                        </div>
+                                        <div class="playbook-item-detail">
+                                            <p class="playbook-item-def"><strong>Example:</strong> If Delta &gt; 0.28 AND Theta &lt; 2.0, consider closing or rolling early.</p>
+                                            <p class="playbook-item-def">Rising delta means increasing assignment risk; falling theta means the trade is no longer paying you enough to justify holding.</p>
+                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Monitor → Positions → Add Delta and Theta columns.</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </li>
+                        </ul>
+                    </section>
                 </div>
-            </section>
-
-            <div id="ladder-summary" class="ladder-summary-mount"></div>
-        </aside>
-
-        <div class="ladder-content-column main-content">
-            <div class="ladder-subtabs" role="tablist" aria-label="Ladder views">
-                <button
-                    type="button"
-                    class="ladder-subtab ladder-subtab-active"
-                    id="ladder-subtab-ladder"
-                    role="tab"
-                    aria-selected="true"
-                    aria-controls="ladder-tab-panel-ladder"
-                >
-                    Ladder
-                </button>
-                <button
-                    type="button"
-                    class="ladder-subtab"
-                    id="ladder-subtab-export"
-                    role="tab"
-                    aria-selected="false"
-                    aria-controls="ladder-tab-panel-export"
-                >
-                    Ladder Export
-                </button>
             </div>
-            <div id="ladder-tab-panel-ladder" class="ladder-tab-panel" role="tabpanel" aria-labelledby="ladder-subtab-ladder">
-            <div id="ladder-root" class="ladder-root">
+
+            <div id="overview-panel" class="content-panel">
+                <div class="content-panel-inner">
+                    <header class="panel-header">
+                        <h1 class="panel-title">Overview</h1>
+                    </header>
+                    <div class="overview-cards-grid">
+                        <section class="card ladder-capital-card capital-panel" aria-labelledby="capital-invest-heading">
+                            <h2 id="capital-invest-heading" class="card-title ladder-capital-card-title">Capital to Invest</h2>
+                            <label class="ladder-capital-label" for="capital-to-invest">Amount (USD)</label>
+                            <input
+                                type="text"
+                                id="capital-to-invest"
+                                class="ladder-capital-input"
+                                value="$0.00"
+                                inputmode="decimal"
+                                autocomplete="off"
+                            />
+                            <div class="ladder-capital-substats">
+                                <p class="ladder-capital-stat">
+                                    <strong>Capital Used:</strong>
+                                    <span id="capital-used-display">$0.00</span>
+                                </p>
+                                <p class="ladder-capital-stat">
+                                    <strong>Capital Remaining:</strong>
+                                    <span id="capital-remaining-display">$0.00</span>
+                                </p>
+                                <p class="ladder-capital-stat">
+                                    <strong>Trades Selected:</strong>
+                                    <span id="trades-selected-display">0/10</span>
+                                </p>
+                                <p class="ladder-capital-stat">
+                                    <strong>Deployment %:</strong>
+                                    <span id="deployment-pct-display">0.0%</span>
+                                </p>
+                            </div>
+                        </section>
+
+                        <div id="ladder-summary" class="ladder-summary-mount card"></div>
+                    </div>
+                    <hr class="overview-divider" aria-hidden="true" />
+                    <section class="overview-future" aria-label="Future overview content"></section>
+                </div>
+            </div>
+
+            <div id="ladder-panel" class="content-panel">
+                <div class="content-panel-inner">
+                    <header class="panel-header panel-header--divider">
+                        <h1 class="panel-title">CSP Ladder – High Volume</h1>
+                        <p class="panel-subtitle">10 total trades — analyze + select trades, then monitor capital deployment.</p>
+                    </header>
+                    <div class="ladder-subtabs ladder-subtabs-sr-only" aria-hidden="true">
+                    <button type="button" class="ladder-subtab ladder-subtab-active" id="ladder-subtab-ladder" tabindex="-1">Ladder</button>
+                    <button type="button" class="ladder-subtab" id="ladder-subtab-export" tabindex="-1">Ladder Export</button>
+                </div>
+                <div id="ladder-tab-panel-ladder" class="ladder-tab-panel">
+                    <div id="ladder-root" class="ladder-root ladder-container">
                 <section class="card ladder-rung" data-rung-id="1">
                     <h2 class="card-title ladder-rung-title">Rung 1: Short-Cycle CSPs</h2>
                     <div class="ladder-input-stack" id="hv-stack-rung1">
@@ -419,26 +618,76 @@
                         <div class="ladder-results" id="hv-results-rung1-row9"></div>
                     </div>
                 </section>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <div id="export-panel" class="content-panel">
+                <div class="content-panel-inner">
+                    <header class="panel-header panel-header--actions">
+                        <h1 class="panel-title">Ladder Export</h1>
+                        <button type="button" class="btn export-panel-export-btn" id="export-panel-export-btn">Export</button>
+                    </header>
+                    <div
+                        id="ladder-tab-panel-export"
+                        class="ladder-tab-panel ladder-export-panel-body"
+                        hidden
+                    >
+                        <section class="card ladder-export-card">
+                            <p class="ladder-export-intro">Selected rows from each rung appear below.</p>
+                            <div id="ladder-export-table-wrap" class="ladder-export-table-wrap"></div>
+                        </section>
+                    </div>
+                </div>
             </div>
-            <div
-                id="ladder-tab-panel-export"
-                class="ladder-tab-panel"
-                role="tabpanel"
-                aria-labelledby="ladder-subtab-export"
-                hidden
-            >
-                <section class="card ladder-export-card">
-                    <h2 class="card-title">Ladder Export</h2>
-                    <p class="ladder-export-intro">Selected rows from each rung appear below.</p>
-                    <div id="ladder-export-table-wrap" class="ladder-export-table-wrap"></div>
-                </section>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script src="csp-shared.js"></script>
     <script src="ladder-high-volume.js"></script>
     <script src="ladder-export.js"></script>
+    <script>
+    (function () {
+        var panels = {
+            playbook: document.getElementById("playbook-panel"),
+            overview: document.getElementById("overview-panel"),
+            ladder: document.getElementById("ladder-panel"),
+            export: document.getElementById("export-panel")
+        };
+        var icons = document.querySelectorAll(".sidebar-icon[data-panel]");
+        var tabLadder = document.getElementById("ladder-subtab-ladder");
+        var tabExport = document.getElementById("ladder-subtab-export");
+        var exportBtn = document.getElementById("export-panel-export-btn");
+
+        function showPanel(name) {
+            Object.keys(panels).forEach(function (key) {
+                var el = panels[key];
+                if (!el) return;
+                var active = key === name;
+                el.classList.toggle("content-panel-active", active);
+            });
+            icons.forEach(function (btn) {
+                btn.classList.toggle("sidebar-active", btn.getAttribute("data-panel") === name);
+            });
+            if (name === "ladder" && tabLadder) tabLadder.click();
+            if (name === "export" && tabExport) tabExport.click();
+        }
+
+        icons.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                showPanel(btn.getAttribute("data-panel"));
+            });
+        });
+
+        if (exportBtn && tabExport) {
+            exportBtn.addEventListener("click", function () {
+                tabExport.click();
+            });
+        }
+
+        showPanel("playbook");
+    })();
+    </script>
 </body>
 </html>
