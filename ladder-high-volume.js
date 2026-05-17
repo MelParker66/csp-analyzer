@@ -24,6 +24,29 @@ function parseRowKey(key) {
     return { rungId, rowIndex };
 }
 
+/** Read display-only Prob OTM from the ladder row DOM (no calculation). */
+function readProbOtmFromDom(key) {
+    const parsed = parseRowKey(key);
+    if (!parsed) return null;
+
+    const byId = document.getElementById(`probOtm${parsed.rowIndex}`);
+    if (byId && byId.value != null) {
+        const raw = String(byId.value).trim();
+        return raw === "" ? null : raw;
+    }
+
+    const stack = document.getElementById("hv-stack-rung1");
+    if (!stack) return null;
+    const rowEl = stack.querySelector(
+        `.ladder-input-row[data-row-index="${CSS.escape(String(parsed.rowIndex))}"]`
+    );
+    if (!rowEl) return null;
+    const inp = rowEl.querySelector(".ladder-inp-prob-otm, [data-prob-otm]");
+    if (!inp || inp.value == null) return null;
+    const raw = String(inp.value).trim();
+    return raw === "" ? null : raw;
+}
+
 /** After shared renderTable, inject Contracts line into the ladder detail block (high-volume only). */
 function augmentLadderAnalysisContractsDisplay(resultsEl, contracts) {
     const block = resultsEl.querySelector(".csp-ladder-analysis-block");
@@ -79,6 +102,7 @@ function selectRung(key, rowData, rowIndex) {
         ticker,
         dollarReturn,
         capitalRequired: rowData.capitalRequired,
+        probOtm: readProbOtmFromDom(key),
         probOTM: rowData.probOTM,
         delta: rowData.delta,
         dte: rowData.dte,

@@ -364,6 +364,33 @@ body {
     box-shadow: var(--shadow-card);
 }
 
+.ladder-export-summary-mount {
+    margin-top: var(--space-xl);
+    max-width: 540px;
+}
+
+.ladder-export-summary-mount .ladder-export-summary-card {
+    margin-bottom: 0;
+}
+
+.ladder-export-summary-mount .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.ladder-export-summary-mount .summary-label {
+    flex: 1;
+    white-space: nowrap;
+}
+
+.ladder-export-summary-mount .summary-value {
+    white-space: nowrap;
+    margin-left: 10px;
+}
+
 .ladder-subtabs-sr-only {
     position: absolute;
     width: 1px;
@@ -1083,8 +1110,15 @@ body {
 .ladder-field .ladder-inp-bid,
 .ladder-field .ladder-inp-ask,
 .ladder-field .ladder-inp-prob-itm,
+.ladder-field .ladder-inp-prob-otm,
 .ladder-field .ladder-inp-delta {
     width: 96px;
+}
+
+.ladder-field .ladder-inp-prob-otm {
+    background: #f8fafc;
+    color: #1a1a1a;
+    cursor: default;
 }
 
 .ladder-row-actions {
@@ -1099,7 +1133,7 @@ body {
 .ladder-container .ladder-row.ladder-input-row {
     max-width: 100%;
     width: 102% !important;
-    grid-template-columns: repeat(9, minmax(80px, 1fr)) auto;
+    grid-template-columns: repeat(10, minmax(80px, 1fr)) auto;
     column-gap: 14px;
 }
 
@@ -1108,6 +1142,7 @@ body {
 .ladder-container .ladder-field .ladder-inp-bid,
 .ladder-container .ladder-field .ladder-inp-ask,
 .ladder-container .ladder-field .ladder-inp-prob-itm,
+.ladder-container .ladder-field .ladder-inp-prob-otm,
 .ladder-container .ladder-field .ladder-inp-delta,
 .ladder-container .ladder-field .contracts-input {
     width: 110px;
