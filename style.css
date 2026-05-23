@@ -412,6 +412,11 @@ body {
 #call-ladder-panel .ladder-container .ladder-row.ladder-input-row {
     width: 100% !important;
     max-width: 100%;
+    grid-template-columns: repeat(10, minmax(80px, 1fr)) auto;
+}
+
+#call-ladder-panel .ladder-field .call-inp-cost-basis {
+    width: 96px;
 }
 
 @media (max-width: 1180px) {

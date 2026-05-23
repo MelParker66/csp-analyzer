@@ -53,7 +53,11 @@
                     annualizedReturn: toNum(a.annualized),
                     probOtm,
                     delta: toNum(a.delta),
-                    dollarReturn: toNum(entry.dollarReturn)
+                    dollarReturn: toNum(entry.dollarReturn),
+                    stockGainTotal: toNum(a.stockGainTotal),
+                    totalProfit: toNum(a.totalProfit),
+                    totalReturnPercent: toNum(a.totalReturnPercent),
+                    totalAnnualizedReturn: toNum(a.totalAnnualized)
                 });
             }
         }
@@ -69,6 +73,11 @@
                 maximumFractionDigits: 2
             })
         );
+    }
+
+    function formatPct(n) {
+        if (!Number.isFinite(n)) return "—";
+        return escapeHtml(n.toFixed(2)) + "%";
     }
 
     function renderCallExportTable(wrap) {
@@ -89,11 +98,15 @@
                     <td>${escapeHtml(r.expiration)}</td>
                     <td>${r.strike != null ? escapeHtml(String(r.strike)) : "—"}</td>
                     <td>${r.premium != null ? escapeHtml("$" + r.premium.toFixed(2)) : "—"}</td>
-                    <td>${r.returnPercent != null ? escapeHtml(r.returnPercent.toFixed(2)) + "%" : "—"}</td>
-                    <td>${r.annualizedReturn != null ? escapeHtml(r.annualizedReturn.toFixed(2)) + "%" : "—"}</td>
+                    <td>${r.returnPercent != null ? formatPct(r.returnPercent) : "—"}</td>
+                    <td>${r.annualizedReturn != null ? formatPct(r.annualizedReturn) : "—"}</td>
                     <td>${formatProbOtmDisplay(r.probOtm)}</td>
                     <td>${r.delta != null ? escapeHtml(String(r.delta)) : "—"}</td>
                     <td>${r.dollarReturn != null ? escapeHtml(formatMoney2(r.dollarReturn)) : "—"}</td>
+                    <td>${r.stockGainTotal != null ? escapeHtml(formatMoney2(r.stockGainTotal)) : "—"}</td>
+                    <td>${r.totalProfit != null ? escapeHtml(formatMoney2(r.totalProfit)) : "—"}</td>
+                    <td>${r.totalReturnPercent != null ? formatPct(r.totalReturnPercent) : "—"}</td>
+                    <td>${r.totalAnnualizedReturn != null ? formatPct(r.totalAnnualizedReturn) : "—"}</td>
                 </tr>`;
         }
 
@@ -110,6 +123,10 @@
                         <th>Prob OTM</th>
                         <th>Delta</th>
                         <th>DollarReturn</th>
+                        <th>StockGainTotal</th>
+                        <th>TotalProfit</th>
+                        <th>TotalReturnPercent</th>
+                        <th>TotalAnnualizedReturn</th>
                     </tr>
                 </thead>
                 <tbody>${body}</tbody>

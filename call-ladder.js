@@ -24,17 +24,79 @@ function parseCallRowKey(key) {
     return { rungId, rowIndex };
 }
 
-function augmentCallAnalysisSharesDisplay(resultsEl, sharesOwned) {
+/** Apply covered-call metrics on top of analyzeCSP output. */
+function analyzeCallRow(inputRow) {
+    const base = analyzeCSP([inputRow], inputRow.dte)[0];
+    const { strike, sharesOwned, costBasis, dte } = inputRow;
+    const premium = base.premium;
+
+    const stockGainPerShare = strike - costBasis;
+    const stockGainTotal = stockGainPerShare * sharesOwned;
+
+    const premiumReturnPercent = (premium / strike) * 100;
+    const premiumAnnualized = premiumReturnPercent / (dte / 365);
+
+    const totalProfit = stockGainTotal + premium * sharesOwned;
+    const totalReturnPercent = (totalProfit / (costBasis * sharesOwned)) * 100;
+    const totalAnnualized = totalReturnPercent / (dte / 365);
+
+    return {
+        ...base,
+        ...inputRow,
+        expDate: inputRow.expDate,
+        sharesOwned,
+        costBasis,
+        capitalRequired: sharesOwned * 100,
+        dollarReturn: premium * sharesOwned,
+        stockGainPerShare,
+        stockGainTotal,
+        premiumReturnPercent,
+        premiumAnnualized,
+        returnPct: premiumReturnPercent,
+        annualized: premiumAnnualized,
+        totalProfit,
+        totalReturnPercent,
+        totalAnnualized
+    };
+}
+
+function formatCallMoney(amount) {
+    return Number(amount).toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+}
+
+function augmentCallAnalysisDisplay(resultsEl, row) {
     const block = resultsEl.querySelector(".csp-ladder-analysis-block");
-    if (!block) return;
-    block.querySelectorAll("[data-call-shares-line]").forEach(el => el.remove());
-    const firstDetail = block.querySelector(".rec-detail");
-    if (!firstDetail) return;
-    const p = document.createElement("p");
-    p.className = "rec-detail";
-    p.setAttribute("data-call-shares-line", "1");
-    p.innerHTML = `<strong>Shares Owned:</strong> ${escapeHtml(String(sharesOwned))}`;
-    firstDetail.insertAdjacentElement("afterend", p);
+    if (!block || !row) return;
+
+    block.querySelectorAll("[data-call-extra-line]").forEach(el => el.remove());
+
+    const lines = [
+        ["Shares Owned", String(row.sharesOwned)],
+        ["Cost Basis", formatCallMoney(row.costBasis)],
+        ["Stock Gain (per share)", formatCallMoney(row.stockGainPerShare)],
+        ["Stock Gain (total)", formatCallMoney(row.stockGainTotal)],
+        ["Total Profit (premium + stock gain)", formatCallMoney(row.totalProfit)],
+        ["Total Return %", `${row.totalReturnPercent.toFixed(2)}%`],
+        ["Total Annualized Return %", `${row.totalAnnualized.toFixed(2)}%`]
+    ];
+
+    const anchor = block.querySelector(".rec-detail");
+    let insertAfter = anchor;
+    for (const [label, value] of lines) {
+        const p = document.createElement("p");
+        p.className = "rec-detail";
+        p.setAttribute("data-call-extra-line", "1");
+        p.innerHTML = `<strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}`;
+        if (insertAfter) {
+            insertAfter.insertAdjacentElement("afterend", p);
+            insertAfter = p;
+        } else {
+            block.appendChild(p);
+        }
+    }
 }
 
 function renderCallLadderAnalysisTable(resultsEl, data, expDate, dte, tableOptions) {
@@ -44,8 +106,8 @@ function renderCallLadderAnalysisTable(resultsEl, data, expDate, dte, tableOptio
         selectRungVariant: "call"
     });
     const row0 = data[0];
-    if (row0 && Number.isFinite(row0.sharesOwned) && row0.sharesOwned >= 0) {
-        augmentCallAnalysisSharesDisplay(resultsEl, row0.sharesOwned);
+    if (row0) {
+        augmentCallAnalysisDisplay(resultsEl, row0);
     }
 }
 
@@ -127,6 +189,7 @@ window.deselectCallRung = deselectCallRung;
         const expDate = rowEl.querySelector(".ladder-inp-exp")?.value ?? "";
         const dte = parseInt(rowEl.querySelector(".ladder-inp-dte")?.value, 10);
         const sharesOwned = parseInt(rowEl.querySelector(".call-inp-shares")?.value, 10);
+        const costBasis = parseFloat(rowEl.querySelector(".call-inp-cost-basis")?.value);
         const strike = parseFloat(rowEl.querySelector(".ladder-inp-strike")?.value);
         const bid = parseFloat(rowEl.querySelector(".ladder-inp-bid")?.value);
         const ask = parseFloat(rowEl.querySelector(".ladder-inp-ask")?.value);
@@ -138,6 +201,7 @@ window.deselectCallRung = deselectCallRung;
             rowEl.querySelector(".ladder-inp-exp")?.value?.trim() ?? "",
             rowEl.querySelector(".ladder-inp-dte")?.value?.trim() ?? "",
             rowEl.querySelector(".call-inp-shares")?.value?.trim() ?? "",
+            rowEl.querySelector(".call-inp-cost-basis")?.value?.trim() ?? "",
             rowEl.querySelector(".ladder-inp-strike")?.value?.trim() ?? "",
             rowEl.querySelector(".ladder-inp-bid")?.value?.trim() ?? "",
             rowEl.querySelector(".ladder-inp-ask")?.value?.trim() ?? "",
@@ -149,8 +213,11 @@ window.deselectCallRung = deselectCallRung;
 
         if (
             !Number.isFinite(dte) ||
+            dte <= 0 ||
             !Number.isFinite(sharesOwned) ||
-            sharesOwned < 0 ||
+            sharesOwned <= 0 ||
+            !Number.isFinite(costBasis) ||
+            costBasis <= 0 ||
             !Number.isFinite(strike) ||
             !Number.isFinite(bid) ||
             !Number.isFinite(ask) ||
@@ -159,12 +226,11 @@ window.deselectCallRung = deselectCallRung;
         ) {
             return {
                 error:
-                    "Each non-empty row must have DTE, Shares Owned, Strike, Bid, Ask, Prob ITM, and Delta filled with valid numbers."
+                    "Each non-empty row must have positive DTE, Shares Owned, Cost Basis, Strike, Bid, Ask, Prob ITM, and Delta filled with valid numbers."
             };
         }
 
         if (strike <= 0) return { error: "Strike must be greater than zero." };
-        if (sharesOwned <= 0) return { error: "Shares Owned must be greater than zero." };
 
         return {
             row: {
@@ -173,6 +239,7 @@ window.deselectCallRung = deselectCallRung;
                 bid,
                 ask,
                 sharesOwned,
+                costBasis,
                 probITM,
                 delta,
                 dte,
@@ -218,18 +285,7 @@ window.deselectCallRung = deselectCallRung;
                 return;
             }
 
-            const analyzed = analyzeCSP([parsed.row], parsed.row.dte).map(a => ({
-                ...a,
-                expDate: parsed.row.expDate
-            }));
-
-            if (analyzed[0] && Number.isFinite(parsed.row.sharesOwned)) {
-                const sharesOwned = parsed.row.sharesOwned;
-                const premium = analyzed[0].premium;
-                analyzed[0].sharesOwned = sharesOwned;
-                analyzed[0].capitalRequired = sharesOwned * 100;
-                analyzed[0].dollarReturn = premium * sharesOwned;
-            }
+            const analyzed = [analyzeCallRow(parsed.row)];
 
             const key = callRowKey(rung.id, rowIndex);
             callAnalysisCacheByKey[key] = {
