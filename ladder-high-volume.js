@@ -233,7 +233,7 @@ function updateHighVolumeSummary() {
 
     mount.innerHTML = `
         <section class="card ladder-summary-card">
-            <h2 class="card-title ladder-summary-title">Summary</h2>
+            <h2 class="card-title ladder-summary-title">Summary — CSP</h2>
             <hr class="ladder-summary-rule" />
             <div class="summary-row ladder-summary-line">
                 <span class="summary-label"><strong>Total Capital Required:</strong></span>
@@ -271,7 +271,112 @@ function updateHighVolumeSummary() {
     `;
 
     updateCapitalInvestPanel();
+    updateCallOverviewSummary();
 }
+
+function collectSelectedCallEntries() {
+    const sr = window.selectedCallRows;
+    if (!sr || typeof sr !== "object") return [];
+
+    const entries = [];
+    for (const bucket of Object.values(sr)) {
+        if (!Array.isArray(bucket)) continue;
+        for (const entry of bucket) {
+            if (entry != null && entry.analysis) entries.push(entry);
+        }
+    }
+    return entries;
+}
+
+function overviewSummaryRow(label, valueHtml) {
+    return `
+            <div class="summary-row ladder-summary-line">
+                <span class="summary-label"><strong>${escapeHtml(label)}</strong></span>
+                <span class="summary-value">${valueHtml}</span>
+            </div>`;
+}
+
+function updateCallOverviewSummary() {
+    const mount = document.getElementById("call-overview-summary");
+    if (!mount) return;
+
+    let totalSharesCovered = 0;
+    let totalPremiumCollected = 0;
+    let totalStockGainPotential = 0;
+    let totalProfit = 0;
+    let sumDelta = 0;
+    let sumProbOTM = 0;
+    let sumTotalReturnPercent = 0;
+    let sumTotalAnnualizedReturn = 0;
+    let count = 0;
+
+    for (const entry of collectSelectedCallEntries()) {
+        const a = entry.analysis;
+        const sharesOwned = Number.isFinite(a.sharesOwned) ? a.sharesOwned : 0;
+        const premium = Number.isFinite(a.premium) ? a.premium : 0;
+
+        totalSharesCovered += sharesOwned;
+        totalPremiumCollected += premium * sharesOwned;
+        totalStockGainPotential += Number.isFinite(a.stockGainTotal) ? a.stockGainTotal : 0;
+        totalProfit += Number.isFinite(a.totalProfit) ? a.totalProfit : 0;
+
+        const delta = Number.isFinite(entry.delta)
+            ? entry.delta
+            : Number.isFinite(a.delta)
+              ? a.delta
+              : 0;
+        const probOTM = Number.isFinite(entry.probOTM)
+            ? entry.probOTM
+            : Number.isFinite(a.probOTM)
+              ? a.probOTM
+              : 0;
+
+        sumDelta += delta;
+        sumProbOTM += probOTM;
+        sumTotalReturnPercent += Number.isFinite(a.totalReturnPercent) ? a.totalReturnPercent : 0;
+        sumTotalAnnualizedReturn += Number.isFinite(a.totalAnnualized) ? a.totalAnnualized : 0;
+        count += 1;
+    }
+
+    const averageDelta = count > 0 ? sumDelta / count : 0;
+    const averageProbOTM = count > 0 ? sumProbOTM / count : 0;
+    const averageTotalReturnPercent = count > 0 ? sumTotalReturnPercent / count : 0;
+    const averageTotalAnnualizedReturn = count > 0 ? sumTotalAnnualizedReturn / count : 0;
+
+    const premiumStr = totalPremiumCollected.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+    const stockGainStr = totalStockGainPotential.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+    const profitStr = totalProfit.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+
+    mount.innerHTML = `
+        <section class="card ladder-summary-card">
+            <h2 class="card-title ladder-summary-title">Summary — CALLS</h2>
+            <hr class="ladder-summary-rule" />
+            ${overviewSummaryRow("Total Shares Covered:", escapeHtml(String(totalSharesCovered)))}
+            ${overviewSummaryRow("Total Premium Collected:", escapeHtml(premiumStr))}
+            ${overviewSummaryRow("Total Stock Gain Potential:", escapeHtml(stockGainStr))}
+            ${overviewSummaryRow("Total Profit (premium + stock gain):", escapeHtml(profitStr))}
+            ${overviewSummaryRow("Average Delta:", escapeHtml(averageDelta.toFixed(3)))}
+            ${overviewSummaryRow("Average Prob OTM:", escapeHtml(`${averageProbOTM.toFixed(2)}%`))}
+            ${overviewSummaryRow("Average Total Return %:", escapeHtml(`${averageTotalReturnPercent.toFixed(2)}%`))}
+            ${overviewSummaryRow(
+                "Average Total Annualized Return %:",
+                escapeHtml(`${averageTotalAnnualizedReturn.toFixed(2)}%`)
+            )}
+            ${overviewSummaryRow("Number of Calls Selected:", escapeHtml(String(count)))}
+        </section>
+    `;
+}
+
+window.updateCallOverviewSummary = updateCallOverviewSummary;
 
 (function () {
     const RUNG = { id: 1 };

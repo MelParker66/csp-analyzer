@@ -256,39 +256,44 @@
                     <header class="panel-header">
                         <h1 class="panel-title">Overview</h1>
                     </header>
-                    <div class="overview-cards-grid">
-                        <section class="card ladder-capital-card capital-panel" aria-labelledby="capital-invest-heading">
-                            <h2 id="capital-invest-heading" class="card-title ladder-capital-card-title">Capital to Invest</h2>
-                            <label class="ladder-capital-label" for="capital-to-invest">Amount (USD)</label>
-                            <input
-                                type="text"
-                                id="capital-to-invest"
-                                class="ladder-capital-input"
-                                value="$0.00"
-                                inputmode="decimal"
-                                autocomplete="off"
-                            />
-                            <div class="ladder-capital-substats">
-                                <p class="ladder-capital-stat">
-                                    <strong>Capital Used:</strong>
-                                    <span id="capital-used-display">$0.00</span>
-                                </p>
-                                <p class="ladder-capital-stat">
-                                    <strong>Capital Remaining:</strong>
-                                    <span id="capital-remaining-display">$0.00</span>
-                                </p>
-                                <p class="ladder-capital-stat">
-                                    <strong>Trades Selected:</strong>
-                                    <span id="trades-selected-display">0/10</span>
-                                </p>
-                                <p class="ladder-capital-stat">
-                                    <strong>Deployment %:</strong>
-                                    <span id="deployment-pct-display">0.0%</span>
-                                </p>
-                            </div>
-                        </section>
+                    <div class="overview-columns">
+                        <div class="overview-column overview-column--csp">
+                            <section class="card ladder-capital-card capital-panel" aria-labelledby="capital-invest-heading">
+                                <h2 id="capital-invest-heading" class="card-title ladder-capital-card-title">Capital to Invest — CSP</h2>
+                                <label class="ladder-capital-label" for="capital-to-invest">Amount (USD)</label>
+                                <input
+                                    type="text"
+                                    id="capital-to-invest"
+                                    class="ladder-capital-input"
+                                    value="$0.00"
+                                    inputmode="decimal"
+                                    autocomplete="off"
+                                />
+                                <div class="ladder-capital-substats">
+                                    <p class="ladder-capital-stat">
+                                        <strong>Capital Used:</strong>
+                                        <span id="capital-used-display">$0.00</span>
+                                    </p>
+                                    <p class="ladder-capital-stat">
+                                        <strong>Capital Remaining:</strong>
+                                        <span id="capital-remaining-display">$0.00</span>
+                                    </p>
+                                    <p class="ladder-capital-stat">
+                                        <strong>Trades Selected:</strong>
+                                        <span id="trades-selected-display">0/10</span>
+                                    </p>
+                                    <p class="ladder-capital-stat">
+                                        <strong>Deployment %:</strong>
+                                        <span id="deployment-pct-display">0.0%</span>
+                                    </p>
+                                </div>
+                            </section>
 
-                        <div id="ladder-summary" class="ladder-summary-mount card"></div>
+                            <div id="ladder-summary" class="ladder-summary-mount card"></div>
+                        </div>
+                        <div class="overview-column overview-column--calls">
+                            <div id="call-overview-summary" class="ladder-summary-mount card"></div>
+                        </div>
                     </div>
                     <hr class="overview-divider" aria-hidden="true" />
                     <section class="overview-future" aria-label="Future overview content"></section>
@@ -927,7 +932,27 @@
             if (name === "total-ladder" && typeof window.renderTotalLadderTable === "function") {
                 window.renderTotalLadderTable(document.getElementById("total-ladder-table-wrap"));
             }
+            if (name === "overview" && typeof window.updateCallOverviewSummary === "function") {
+                window.updateCallOverviewSummary();
+            }
         }
+
+        (function wrapCallOverviewRefresh() {
+            function wrap(fnName) {
+                var orig = window[fnName];
+                if (typeof orig !== "function" || orig.__overviewWrapped) return;
+                window[fnName] = function () {
+                    var result = orig.apply(this, arguments);
+                    if (typeof window.updateCallOverviewSummary === "function") {
+                        window.updateCallOverviewSummary();
+                    }
+                    return result;
+                };
+                window[fnName].__overviewWrapped = true;
+            }
+            wrap("selectCallRung");
+            wrap("deselectCallRung");
+        })();
 
         icons.forEach(function (btn) {
             btn.addEventListener("click", function () {
