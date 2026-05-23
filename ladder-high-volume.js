@@ -164,6 +164,12 @@ function updateCapitalInvestPanel() {
     remEl.textContent = formatMoneyFixed2(capitalRemaining);
     tradesEl.textContent = `${tradesSelected}/${HV_LADDER_ROW_COUNT}`;
     depEl.textContent = `${(deploymentPct * 100).toFixed(1)}%`;
+
+    const inlineRemEl = document.getElementById("csp-capital-remaining-inline");
+    if (inlineRemEl) {
+        const formattedRemaining = formatMoneyFixed2(capitalRemaining).replace(/^\$/, "");
+        inlineRemEl.textContent = "Capital Remaining: $" + formattedRemaining;
+    }
 }
 
 function wireCapitalInvestInput() {

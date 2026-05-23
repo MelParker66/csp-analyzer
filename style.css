@@ -8,6 +8,7 @@
     --radius-control: 8px;
     --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.06);
     --color-sidebar-active: #3a7afe;
+    --accent-color: #3a7afe;
     --color-btn: #3a7afe;
     --color-btn-hover: #2f6ae6;
     --color-border: #d8e2f3;
@@ -384,6 +385,20 @@ body {
 
 #ladder-panel .card.ladder-rung {
     margin-bottom: var(--space-xl);
+}
+
+#ladder-panel .panel-header--divider .panel-title {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.capital-inline {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-left: 20px;
+    vertical-align: baseline;
 }
 
 /* Call Ladder — same width treatment as CSP Ladder (#ladder-panel) */
