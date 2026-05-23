@@ -64,11 +64,16 @@ function renderCspDetailBox(row, fallbackExp, fallbackDte, detailOpts) {
         ? `<p class="rec-detail"><strong>Expiration Date:</strong> ${escapeHtml(exp)}</p>`
         : `<p class="rec-detail"><strong>Expiration Date:</strong> —</p>`;
 
-    const capReqLadder = `<p class="rec-detail"><strong>Capital Required:</strong> ${formatMoneyFixed2(row.capitalRequired)}</p>`;
-    const capReqDefault = `<p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(row.capitalRequired)}</p>`;
+    const hideCapitalInDetail = detailOpts && detailOpts.hideCapitalColumn;
+    const capReqLadder = hideCapitalInDetail
+        ? ""
+        : `<p class="rec-detail"><strong>Capital Required:</strong> ${formatMoneyFixed2(row.capitalRequired)}</p>`;
+    const capReqDefault = hideCapitalInDetail
+        ? ""
+        : `<p class="rec-detail"><strong>Capital Required:</strong> ${formatMoney(row.capitalRequired)}</p>`;
 
     const inner = `
-                    ${ladderBlock ? capReqLadder : ""}
+                    ${ladderBlock && !hideCapitalInDetail ? capReqLadder : ""}
                     <p class="rec-detail"><strong>Strike:</strong> ${row.strike}</p>
                     <p class="rec-detail"><strong>Premium:</strong> $${row.premium.toFixed(2)}</p>
                     <p class="rec-detail"><strong>Return %:</strong> ${row.returnPct.toFixed(2)}%</p>
@@ -104,8 +109,10 @@ function renderTable(data, expDate, dte, resultsEl, tableOptions) {
     const selectedIndices = tableOptions && tableOptions.selectedIndices;
 
     const hasSelectColumn = Boolean(rungKey || analyzerPanel);
-    const ladderCapCol = Boolean(rungKey);
+    const ladderCapCol = Boolean(rungKey) && !(tableOptions && tableOptions.hideCapitalColumn);
     const detailColspan = ladderCapCol ? 9 : hasSelectColumn ? 8 : 7;
+    const selectRungVariant =
+        tableOptions && tableOptions.selectRungVariant === "call" ? "call" : "csp";
 
     const expLine = expDate && String(expDate).trim()
         ? `<p class="analysis-intro"><strong>Expiration:</strong> ${escapeHtml(String(expDate).trim())}</p>`
@@ -181,7 +188,16 @@ function renderTable(data, expDate, dte, resultsEl, tableOptions) {
             </tr>
             <tr id="${detailId}" class="csp-detail-row" hidden>
                 <td colspan="${detailColspan}">
-                    ${renderCspDetailBox(row, expDate, dte, ladderCapCol ? { ladderDetailBlock: true } : undefined)}
+                    ${renderCspDetailBox(
+                        row,
+                        expDate,
+                        dte,
+                        ladderCapCol
+                            ? { ladderDetailBlock: true }
+                            : rungKey && tableOptions && tableOptions.hideCapitalColumn
+                              ? { ladderDetailBlock: true, hideCapitalColumn: true }
+                              : undefined
+                    )}
                 </td>
             </tr>
         `;
@@ -205,19 +221,27 @@ function renderTable(data, expDate, dte, resultsEl, tableOptions) {
         });
     });
 
-    if (rungKey && typeof window.selectRung === "function") {
-        resultsEl.querySelectorAll(".ladder-select-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const idx = parseInt(btn.getAttribute("data-row-index"), 10);
-                if (!Number.isFinite(idx) || data[idx] === undefined) return;
-                window.selectRung(rungKey, data[idx], idx);
+    if (rungKey) {
+        const selectFn =
+            selectRungVariant === "call" ? window.selectCallRung : window.selectRung;
+        const deselectFn =
+            selectRungVariant === "call" ? window.deselectCallRung : window.deselectRung;
+        if (typeof selectFn === "function") {
+            resultsEl.querySelectorAll(".ladder-select-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const idx = parseInt(btn.getAttribute("data-row-index"), 10);
+                    if (!Number.isFinite(idx) || data[idx] === undefined) return;
+                    selectFn(rungKey, data[idx], idx);
+                });
             });
-        });
-        resultsEl.querySelectorAll(".ladder-deselect-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-                if (typeof window.deselectRung === "function") window.deselectRung(rungKey);
+        }
+        if (typeof deselectFn === "function") {
+            resultsEl.querySelectorAll(".ladder-deselect-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    deselectFn(rungKey);
+                });
             });
-        });
+        }
     }
 
     if (analyzerPanel && typeof window.selectAnalyzerRow === "function") {
