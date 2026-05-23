@@ -62,7 +62,6 @@
                           : a.probOTM != null
                             ? a.probOTM
                             : null;
-                const returnPercent = toNum(a.returnPct);
                 const dollarReturn = toNum(entry.dollarReturn);
                 rows.push({
                     type: "PUT",
@@ -75,7 +74,7 @@
                     expiration: a.expDate != null ? String(a.expDate) : "",
                     delta: toNum(a.delta),
                     probOtm,
-                    analyzedReturn: returnPercent,
+                    analyzedReturn: toNum(a.annualized),
                     totalProfit: dollarReturn
                 });
             }
@@ -121,7 +120,7 @@
                     expiration: a.expDate != null ? String(a.expDate) : "",
                     delta: toNum(a.delta),
                     probOtm,
-                    analyzedReturn: toNum(a.totalReturnPercent),
+                    analyzedReturn: toNum(a.totalAnnualized),
                     totalProfit: toNum(a.totalProfit)
                 });
             }
