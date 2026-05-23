@@ -386,6 +386,34 @@ body {
     margin-bottom: var(--space-xl);
 }
 
+/* Call Ladder — same width treatment as CSP Ladder (#ladder-panel) */
+#call-ladder-panel .content-panel-inner {
+    max-width: none;
+}
+
+#call-ladder-panel .call-ladder-container,
+#call-ladder-panel .ladder-container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+#call-ladder-panel .card.ladder-rung {
+    margin-bottom: var(--space-xl);
+    width: 100%;
+    max-width: 100%;
+}
+
+#call-ladder-panel .ladder-input-stack {
+    width: 100%;
+}
+
+#call-ladder-panel .ladder-container .ladder-row.ladder-input-row {
+    width: 100% !important;
+    max-width: 100%;
+}
+
 @media (max-width: 1180px) {
     .overview-cards-grid {
         grid-template-columns: 1fr;
