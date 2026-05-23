@@ -59,6 +59,15 @@
             </svg>
             <span class="sidebar-tooltip">Call Ladder Export</span>
         </button>
+        <button type="button" class="sidebar-icon" data-panel="total-ladder" id="sidebar-total-ladder" aria-label="Total Ladder">
+            <svg class="sidebar-icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="19" x2="5" y2="11"/>
+                <line x1="12" y1="19" x2="12" y2="5"/>
+                <line x1="19" y1="19" x2="19" y2="9"/>
+                <polyline points="3 7 8 12 13 9 21 3"/>
+            </svg>
+            <span class="sidebar-tooltip">Total Ladder</span>
+        </button>
     </nav>
 
     <div class="app-body">
@@ -860,6 +869,18 @@
                     </section>
                 </div>
             </div>
+
+            <div id="total-ladder-panel" class="content-panel">
+                <div class="content-panel-inner">
+                    <header class="panel-header">
+                        <h1 class="panel-title">Total Ladder</h1>
+                    </header>
+                    <section class="card ladder-export-card">
+                        <p class="ladder-export-intro">Combined view of selected CSP puts and covered calls.</p>
+                        <div id="total-ladder-table-wrap" class="ladder-export-table-wrap"></div>
+                    </section>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -868,6 +889,7 @@
     <script src="ladder-export.js"></script>
     <script src="call-ladder.js"></script>
     <script src="call-ladder-export.js"></script>
+    <script src="total-ladder.js"></script>
     <script>
     (function () {
         var panels = {
@@ -876,7 +898,8 @@
             ladder: document.getElementById("ladder-panel"),
             export: document.getElementById("export-panel"),
             "call-ladder": document.getElementById("call-ladder-panel"),
-            "call-ladder-export": document.getElementById("call-ladder-export-panel")
+            "call-ladder-export": document.getElementById("call-ladder-export-panel"),
+            "total-ladder": document.getElementById("total-ladder-panel")
         };
         var icons = document.querySelectorAll(".sidebar-icon[data-panel]");
         var tabLadder = document.getElementById("ladder-subtab-ladder");
@@ -899,6 +922,9 @@
             }
             if (name === "call-ladder-export" && typeof window.renderCallLadderExportTable === "function") {
                 window.renderCallLadderExportTable(document.getElementById("call-ladder-export-table-wrap"));
+            }
+            if (name === "total-ladder" && typeof window.renderTotalLadderTable === "function") {
+                window.renderTotalLadderTable(document.getElementById("total-ladder-table-wrap"));
             }
         }
 

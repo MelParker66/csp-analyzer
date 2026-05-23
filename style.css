@@ -1405,3 +1405,24 @@ body {
 .ladder-export-empty {
     margin: 0;
 }
+
+.total-ladder-type-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.total-ladder-type-badge--put {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.total-ladder-type-badge--call {
+    background: #dcfce7;
+    color: #15803d;
+}
