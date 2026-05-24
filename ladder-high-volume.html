@@ -73,181 +73,465 @@
     <div class="app-body">
         <main class="app-main">
             <div id="playbook-panel" class="content-panel content-panel-active">
-                <div class="content-panel-inner">
-                    <header class="panel-header">
-                        <h1 class="panel-title">Playbook</h1>
-                    </header>
-                    <section class="playbook-section" aria-labelledby="playbook-readiness-heading">
-                        <h2 id="playbook-readiness-heading" class="playbook-section-title">CSP Readiness Checklist</h2>
-                        <ul class="playbook-checklist">
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>Confirm total capital available</span>
-                                            </label>
-                                        </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">How much cash is available to sell puts.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Monitor → Account Statement → Cash &amp; Sweep Vehicle.</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>Set target deployment</span>
-                                            </label>
-                                        </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">Decide what % of capital to deploy this week.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Personal target (not in TOS).</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>Confirm Delta target (14–17)</span>
-                                            </label>
-                                        </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">Choose strikes with delta between 0.14–0.17.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Trade → Option Chain → Delta column.</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>Confirm DTE (10 days)</span>
-                                            </label>
-                                        </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">Choose expirations around 7–12 days.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Trade → Option Chain → Expiration column.</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>RSI 40–50</span>
-                                            </label>
-                                        </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">Look for tickers pulling back but not oversold.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Charts → Studies → RSI.</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>IV</span>
-                                            </label>
-                                        </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">Higher IV = higher premium; avoid extremely low IV.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Trade → Option Chain → IV column.</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>OTM &gt; 79%</span>
-                                            </label>
-                                        </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">Choose strikes with at least 79% probability OTM.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Trade → Option Chain → Prob OTM column.</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>Avoid earnings week</span>
-                                            </label>
-                                        </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">Do not sell CSPs into earnings.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Charts → Earnings icon OR MarketWatch → Calendar → Earnings.</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
+                <div class="playbook-shell">
+                    <nav class="playbook-subsidebar" aria-label="Playbook sections">
+                        <p class="playbook-subsidebar-title">Playbook</p>
+                        <ul class="playbook-subnav">
+                            <li><button type="button" class="playbook-subnav-link playbook-subnav-active" data-playbook-page="overview">Playbook Overview</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="company">Company Overview</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="graph">Graph of Company</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="checklist">CSP Checklist</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="itm">Possible ITM</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="quickstart">Quick Start Guide</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="routine">Weekly Routine</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="timing">Best Timing Rules</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="glossary">Definitions Glossary</button></li>
                         </ul>
-                    </section>
-                    <section class="playbook-section" aria-labelledby="playbook-itm-heading">
-                        <h2 id="playbook-itm-heading" class="playbook-section-title">If Position Is ITM</h2>
-                        <ul class="playbook-checklist">
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>Close position</span>
-                                            </label>
+                    </nav>
+                    <div class="playbook-pages">
+                        <div id="playbook-page-overview" class="playbook-page playbook-page-active" data-playbook-page="overview">
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Playbook Overview</h1>
+                                </header>
+                                <div class="playbook-overview-sections">
+                                    <section class="playbook-overview-section" aria-labelledby="playbook-group-analysis">
+                                        <h2 id="playbook-group-analysis" class="playbook-section-title">Company Analysis</h2>
+                                        <div class="playbook-overview-grid">
+                                            <button type="button" class="card playbook-tile" data-playbook-page="company">
+                                                <h3 class="playbook-tile-title">Company Overview</h3>
+                                                <p class="playbook-tile-desc">Review the company&rsquo;s fundamentals before entering a trade.</p>
+                                            </button>
+                                            <button type="button" class="card playbook-tile" data-playbook-page="graph">
+                                                <h3 class="playbook-tile-title">Graph of Company</h3>
+                                                <p class="playbook-tile-desc">Review the company&rsquo;s technical trend and volatility.</p>
+                                            </button>
                                         </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def">Close the CSP if the underlying trades below your strike AND delta rises above 0.30. This indicates the position is no longer a high‑probability winner and risk is increasing.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Monitor → Positions → Right‑click → Create Closing Order.</p>
+                                    </section>
+                                    <section class="playbook-overview-section" aria-labelledby="playbook-group-execution">
+                                        <h2 id="playbook-group-execution" class="playbook-section-title">CSP Execution</h2>
+                                        <div class="playbook-overview-grid">
+                                            <button type="button" class="card playbook-tile" data-playbook-page="checklist">
+                                                <h3 class="playbook-tile-title">CSP Checklist</h3>
+                                                <p class="playbook-tile-desc">Step-by-step rules before selling a cash-secured put.</p>
+                                            </button>
+                                            <button type="button" class="card playbook-tile" data-playbook-page="itm">
+                                                <h3 class="playbook-tile-title">Possible ITM</h3>
+                                                <p class="playbook-tile-desc">What to do if your CSP goes in-the-money.</p>
+                                            </button>
+                                            <button type="button" class="card playbook-tile" data-playbook-page="quickstart">
+                                                <h3 class="playbook-tile-title">Quick Start Guide</h3>
+                                                <p class="playbook-tile-desc">The three fastest checks before selling a CSP.</p>
+                                            </button>
                                         </div>
-                                    </div>
-                                </article>
-                            </li>
-                            <li class="playbook-checklist-item">
-                                <article class="card playbook-item">
-                                    <div class="playbook-item-grid">
-                                        <div class="playbook-item-check">
-                                            <label class="playbook-checklist-label">
-                                                <input type="checkbox" class="playbook-checklist-input" disabled />
-                                                <span>If Delta is &gt; 0.28 and Theta is &lt; 2.0</span>
-                                            </label>
+                                    </section>
+                                    <section class="playbook-overview-section" aria-labelledby="playbook-group-workflow">
+                                        <h2 id="playbook-group-workflow" class="playbook-section-title">Trading Workflow</h2>
+                                        <div class="playbook-overview-grid">
+                                            <button type="button" class="card playbook-tile" data-playbook-page="routine">
+                                                <h3 class="playbook-tile-title">Weekly Routine</h3>
+                                                <p class="playbook-tile-desc">A simple weekly workflow for consistent CSP trading.</p>
+                                            </button>
+                                            <button type="button" class="card playbook-tile" data-playbook-page="timing">
+                                                <h3 class="playbook-tile-title">Best Timing Rules</h3>
+                                                <p class="playbook-tile-desc">The best days and times to sell CSPs.</p>
+                                            </button>
+                                            <button type="button" class="card playbook-tile" data-playbook-page="glossary">
+                                                <h3 class="playbook-tile-title">Definitions Glossary</h3>
+                                                <p class="playbook-tile-desc">Simple definitions of common trading terms.</p>
+                                            </button>
                                         </div>
-                                        <div class="playbook-item-detail">
-                                            <p class="playbook-item-def"><strong>Example:</strong> If Delta &gt; 0.28 AND Theta &lt; 2.0, consider closing or rolling early.</p>
-                                            <p class="playbook-item-def">Rising delta means increasing assignment risk; falling theta means the trade is no longer paying you enough to justify holding.</p>
-                                            <p class="playbook-item-tos"><span class="playbook-item-tos-label">Where in TOS:</span> Monitor → Positions → Add Delta and Theta columns.</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </li>
-                        </ul>
-                    </section>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-company" class="playbook-page" data-playbook-page="company" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Company Overview</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Earnings Date</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> The date the company reports earnings.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Avoid selling options near earnings because price becomes unpredictable.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Market Cap</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Total value of the company.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Larger companies tend to be more stable.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Free Cash Flow</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Cash left after expenses and investments.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Positive FCF means the company generates real cash.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Gross Profit Margin</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Percentage of revenue left after cost of goods.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Shows pricing power and product strength.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Operating Margin</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Profit after operating expenses.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Shows business efficiency.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Net Profit Margin</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Profit after all expenses.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Shows true profitability.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Financial Leverage</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> How much debt the company uses.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Lower or declining leverage = healthier balance sheet.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Quick Ratio</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Ability to pay short-term bills using liquid assets.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Higher = safer.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Current Ratio</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Ability to cover short-term obligations.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Shows liquidity strength.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-graph" class="playbook-page" data-playbook-page="graph" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Graph of Company</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Stock Price Trend</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Direction of the stock (uptrend/downtrend).</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Uptrend = safer CSPs; downtrend = higher risk.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">RSI</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Momentum indicator (0&ndash;100). Ideal CSP zone: RSI 40&ndash;50.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Shows a pullback without being oversold.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Fibonacci Retracements</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Support and resistance levels based on price waves.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Helps identify safer CSP strike zones.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">IV / Implied Volatility %</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Expected future volatility.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Higher IV = higher premium; low IV = weak premium.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-checklist" class="playbook-page" data-playbook-page="checklist" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">CSP Checklist</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Confirm Total Capital Available</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Cash available to sell puts.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Set Target Deployment</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Percentage of capital you plan to use this week.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Confirm Delta Target (&le; 17)</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Delta measures probability of finishing ITM.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Lower delta = safer CSP.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">OTM &gt; 79%</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Probability the option expires worthless.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Higher % = safer trade.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">DTE (7&ndash;12 days or your preference)</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Days until expiration.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Shorter DTE = faster premium decay.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">RSI 40&ndash;50</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Pullback zone for safer entries.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">IV Check</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Higher IV = higher premium.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Avoid Earnings</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Do not sell CSPs into earnings.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Liquidity Check</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Tight bid/ask + good volume.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Contingent Order (How-To)</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Auto-trigger order based on stock price.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-itm" class="playbook-page" data-playbook-page="itm" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Possible ITM</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Delta Increase</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Higher delta = higher assignment risk.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Rule:</span> If delta rises above your threshold (ex: 0.28&ndash;0.30), evaluate action.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Theta Decrease</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Theta = daily premium decay.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Rule:</span> If theta drops too low, the trade is no longer paying you.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Close Position</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Exit the trade.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Use when:</span> You want capital back or risk is rising.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Roll Position</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Move to a later expiration or lower strike.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Use when:</span> You want to stay in the trade.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Assignment Plan</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> If assigned, you now own shares.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Next step:</span> Move to covered calls.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-quickstart" class="playbook-page" data-playbook-page="quickstart" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Quick Start Guide</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">RSI 40&ndash;50</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Ideal pullback zone for safer CSP entries.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Delta &le; 17</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Lower delta = lower probability of finishing ITM.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">OTM &ge; 79%</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Higher probability the option expires worthless.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                                <p class="playbook-ref-note">This is the fastest way to screen a CSP candidate.</p>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-routine" class="playbook-page" data-playbook-page="routine" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Weekly Routine</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Sunday Night Prep</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Review fundamentals, trend, RSI, IV, and earnings.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Helps build your watchlist for the week.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Monday Morning Setup</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Sell CSPs 15&ndash;45 minutes after market open.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Best fills and best premium.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Mid-Week Check</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Review delta, theta, and price trend.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Early warning for ITM risk.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Friday Review</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Close winners early if most premium is gone.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Frees up capital for next week.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-timing" class="playbook-page" data-playbook-page="timing" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Best Timing Rules</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Best Day to Sell CSPs</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Monday or Tuesday.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Captures the most theta decay.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Best Time of Day</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> 15&ndash;45 minutes after market open.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Spreads tighten and IV stabilizes.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Avoid Macro Event Days</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> CPI, FOMC, Jobs Report.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Price becomes unpredictable.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Avoid Fridays</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Premium collapses late in the week.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> You take weekend risk for little reward.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-glossary" class="playbook-page" data-playbook-page="glossary" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Definitions Glossary</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Delta</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Probability the option finishes in-the-money.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Theta</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Daily premium decay.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Implied Volatility (IV)</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Expected future volatility.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">OTM Probability</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Chance the option expires worthless.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Support / Resistance</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Price levels where buyers or sellers step in.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">DTE</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Days until expiration.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card">
+                                            <h2 class="playbook-ref-title">Assignment</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Receiving shares when a CSP finishes in-the-money.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -959,6 +1243,107 @@
                 showPanel(btn.getAttribute("data-panel"));
             });
         });
+
+        var playbookPages = document.querySelectorAll(".playbook-page");
+        var playbookNavLinks = document.querySelectorAll(".playbook-subnav-link");
+        var playbookNavTargets = document.querySelectorAll(
+            ".playbook-subnav-link[data-playbook-page], .playbook-tile[data-playbook-page]"
+        );
+
+        var PLAYBOOK_PAGE_ORDER = [
+            "overview",
+            "company",
+            "graph",
+            "checklist",
+            "itm",
+            "quickstart",
+            "routine",
+            "timing",
+            "glossary"
+        ];
+
+        function showPlaybookPage(pageId) {
+            if (!pageId) return;
+            playbookPages.forEach(function (page) {
+                var active = page.getAttribute("data-playbook-page") === pageId;
+                page.classList.toggle("playbook-page-active", active);
+                page.hidden = !active;
+            });
+            playbookNavLinks.forEach(function (link) {
+                link.classList.toggle(
+                    "playbook-subnav-active",
+                    link.getAttribute("data-playbook-page") === pageId
+                );
+            });
+        }
+
+        function initPlaybookPageNav() {
+            PLAYBOOK_PAGE_ORDER.forEach(function (pageId, index) {
+                if (pageId === "overview") return;
+                var page = document.querySelector(
+                    '.playbook-page[data-playbook-page="' + pageId + '"]'
+                );
+                if (!page) return;
+                var inner = page.querySelector(".playbook-page-inner");
+                if (!inner || inner.querySelector(".playbook-back")) return;
+
+                var back = document.createElement("button");
+                back.type = "button";
+                back.className = "playbook-back";
+                back.textContent = "Back to Playbook Overview";
+                back.addEventListener("click", function () {
+                    showPlaybookPage("overview");
+                });
+                inner.insertBefore(back, inner.firstChild);
+
+                var nav = document.createElement("nav");
+                nav.className = "playbook-page-nav";
+                nav.setAttribute("aria-label", "Playbook page navigation");
+
+                var prevId = PLAYBOOK_PAGE_ORDER[index - 1];
+                var nextId = PLAYBOOK_PAGE_ORDER[index + 1];
+
+                if (prevId) {
+                    var prevBtn = document.createElement("button");
+                    prevBtn.type = "button";
+                    prevBtn.className = "btn playbook-nav-btn";
+                    prevBtn.textContent = "\u2190 Previous";
+                    prevBtn.addEventListener("click", function () {
+                        showPlaybookPage(prevId);
+                    });
+                    nav.appendChild(prevBtn);
+                }
+
+                if (nextId) {
+                    var nextBtn = document.createElement("button");
+                    nextBtn.type = "button";
+                    nextBtn.className = "btn playbook-nav-btn";
+                    nextBtn.textContent = "Next \u2192";
+                    nextBtn.addEventListener("click", function () {
+                        showPlaybookPage(nextId);
+                    });
+                    nav.appendChild(nextBtn);
+                }
+
+                inner.appendChild(nav);
+            });
+        }
+
+        initPlaybookPageNav();
+
+        playbookNavTargets.forEach(function (el) {
+            el.addEventListener("click", function () {
+                showPlaybookPage(el.getAttribute("data-playbook-page"));
+            });
+        });
+
+        var origShowPanel = showPanel;
+        showPanel = function (name) {
+            origShowPanel(name);
+            if (name === "playbook") {
+                showPlaybookPage("overview");
+            }
+        };
 
         showPanel("playbook");
     })();
