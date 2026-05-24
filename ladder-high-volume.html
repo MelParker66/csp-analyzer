@@ -80,6 +80,7 @@
                             <li><button type="button" class="playbook-subnav-link playbook-subnav-active" data-playbook-page="overview">Playbook Overview</button></li>
                             <li><button type="button" class="playbook-subnav-link" data-playbook-page="company">Company Overview</button></li>
                             <li><button type="button" class="playbook-subnav-link" data-playbook-page="graph">Graph of Company</button></li>
+                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="business-model">Business Model</button></li>
                             <li><button type="button" class="playbook-subnav-link" data-playbook-page="checklist">CSP Checklist</button></li>
                             <li><button type="button" class="playbook-subnav-link" data-playbook-page="itm">Possible ITM</button></li>
                             <li><button type="button" class="playbook-subnav-link" data-playbook-page="quickstart">Quick Start Guide</button></li>
@@ -105,6 +106,10 @@
                                             <button type="button" class="card playbook-tile" data-playbook-page="graph">
                                                 <h3 class="playbook-tile-title">Graph of Company</h3>
                                                 <p class="playbook-tile-desc">Review the company&rsquo;s technical trend and volatility.</p>
+                                            </button>
+                                            <button type="button" class="card playbook-tile" data-playbook-page="business-model">
+                                                <h3 class="playbook-tile-title">Business Model</h3>
+                                                <p class="playbook-tile-desc">Understand how the company makes money and whether it has a durable moat.</p>
                                             </button>
                                         </div>
                                     </section>
@@ -251,6 +256,36 @@
                                             <h2 class="playbook-ref-title">IV / Implied Volatility %</h2>
                                             <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Expected future volatility.</p>
                                             <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Higher IV = higher premium; low IV = weak premium.</p>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="playbook-page-business-model" class="playbook-page" data-playbook-page="business-model" hidden>
+                            <div class="playbook-page-inner">
+                                <header class="panel-header">
+                                    <h1 class="panel-title">Business Model</h1>
+                                </header>
+                                <ul class="playbook-ref-list">
+                                    <li>
+                                        <article class="card playbook-ref-card playbook-card">
+                                            <h2 class="playbook-ref-title">1. Understand the Business</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Buffett only invests in businesses he fully understands. If you cannot explain a company&rsquo;s business model in simple terms and know exactly how it makes money, you should pass.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Stick to industries where you can reasonably predict demand and earnings 5&ndash;10 years into the future.</p>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <article class="card playbook-ref-card playbook-card">
+                                            <h2 class="playbook-ref-title">2. Look for a Durable Moat</h2>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> A great business needs a protective &ldquo;moat&rdquo; that keeps competitors away and maintains pricing power.</p>
+                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Examples of moats:</span></p>
+                                            <ul class="playbook-ref-bullets">
+                                                <li>Brand power &mdash; recognizable brands consumers trust globally</li>
+                                                <li>High switching costs</li>
+                                                <li>Network effects</li>
+                                                <li>Cost advantages</li>
+                                            </ul>
                                         </article>
                                     </li>
                                 </ul>
@@ -1254,6 +1289,7 @@
             "overview",
             "company",
             "graph",
+            "business-model",
             "checklist",
             "itm",
             "quickstart",

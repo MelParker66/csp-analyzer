@@ -650,7 +650,27 @@ textarea::placeholder {
     margin: 0;
 }
 
-.playbook-ref-card {
+.playbook-ref-card,
+.playbook-card {
+    margin-bottom: 0;
+    background-color: #1f1f1f;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.playbook-ref-bullets {
+    margin: 0 0 var(--space-md);
+    padding-left: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+.playbook-ref-bullets li {
+    margin-bottom: var(--space-md);
+}
+
+.playbook-ref-bullets li:last-child {
     margin-bottom: 0;
 }
 
