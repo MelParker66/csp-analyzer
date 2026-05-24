@@ -586,16 +586,16 @@ textarea::placeholder {
 }
 
 .playbook-tile {
-    width: 30%;
-    min-width: 280px;
-    height: 180px;
+    width: 31%;
+    min-width: 300px;
+    height: 210px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
-    padding: 20px;
+    padding: 24px;
     margin: 15px;
-    border-radius: 10px;
+    border-radius: 12px;
     background-color: #1f1f1f;
     border: 1px solid var(--border-color);
     color: #fff;
@@ -622,16 +622,16 @@ textarea::placeholder {
 
 .playbook-tile h3,
 .playbook-tile .playbook-tile-title {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     font-weight: 600;
-    margin: 0 0 8px;
+    margin: 0 0 10px;
     color: #fff;
 }
 
 .playbook-tile p,
 .playbook-tile .playbook-tile-desc {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.45;
     opacity: 0.85;
     color: #fff;
@@ -770,6 +770,7 @@ textarea::placeholder {
     .playbook-tile {
         width: 100%;
         min-width: 0;
+        height: 210px;
         margin: 0;
     }
 
