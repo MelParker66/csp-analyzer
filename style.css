@@ -308,37 +308,47 @@ textarea::placeholder {
     line-height: 1.4;
 }
 
-.overview-columns {
+.overview-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     gap: 20px;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 20px;
     margin-bottom: var(--space-xl);
-    max-width: 100%;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
-.overview-column {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-    flex: 0 1 var(--overview-card-width);
-    width: var(--overview-card-width);
-    max-width: 100%;
-    min-width: 0;
+.overview-container .overview-card {
+    flex: 1;
+    min-width: 280px;
+    background-color: #1f1f1f;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.overview-column .capital-panel,
-.overview-column .ladder-summary-mount {
+.overview-container .overview-card .card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.overview-container .overview-card .ladder-summary-mount {
     width: 100%;
     max-width: 100%;
     margin: 0;
 }
 
-.overview-column .ladder-capital-card,
-.overview-column .ladder-summary-mount.card {
-    margin-bottom: 0;
+.overview-container .overview-card .capital-panel {
+    width: 100%;
+    flex: 1 1 auto;
 }
 
 .overview-divider {
@@ -451,7 +461,8 @@ textarea::placeholder {
     flex-direction: column;
 }
 
-.playbook-shell {
+.playbook-shell,
+.playbook-container {
     display: flex;
     flex: 1;
     min-height: 0;
@@ -461,9 +472,10 @@ textarea::placeholder {
 
 .playbook-subsidebar,
 .playbook-sidebar {
-    flex: 0 0 330px;
-    width: 330px;
-    min-width: 330px;
+    flex: 0 0 35%;
+    width: 35%;
+    min-width: 300px;
+    max-width: 420px;
     background-color: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
     padding: var(--space-lg) 10px var(--space-lg) 0;
@@ -643,8 +655,8 @@ textarea::placeholder {
 
 .playbook-pages,
 .playbook-content {
-    flex: 1;
-    width: calc(100% - 330px);
+    flex: 1 1 65%;
+    width: 65%;
     min-width: 0;
     min-height: 0;
     overflow: hidden;
@@ -895,6 +907,7 @@ textarea::placeholder {
         flex: 0 0 auto;
         width: 100%;
         min-width: 0;
+        max-width: none;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
         padding: var(--space-md) 0;
@@ -902,6 +915,7 @@ textarea::placeholder {
 
     .playbook-pages,
     .playbook-content {
+        flex: 1 1 auto;
         width: 100%;
     }
 
@@ -1048,14 +1062,14 @@ textarea::placeholder {
 }
 
 @media (max-width: 1180px) {
-    .overview-columns {
+    .overview-container {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
     }
 
-    .overview-column {
+    .overview-container .overview-card {
         width: 100%;
-        max-width: var(--overview-card-width);
+        max-width: none;
     }
 }
 

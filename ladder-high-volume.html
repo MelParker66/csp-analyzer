@@ -793,8 +793,8 @@
                     <header class="panel-header">
                         <h1 class="panel-title">Overview</h1>
                     </header>
-                    <div class="overview-columns">
-                        <div class="overview-column overview-column--csp">
+                    <div class="overview-container">
+                        <div class="overview-card" id="capital-to-invest-csp">
                             <section class="card ladder-capital-card capital-panel" aria-labelledby="capital-invest-heading">
                                 <h2 id="capital-invest-heading" class="card-title ladder-capital-card-title">Capital to Invest — CSP</h2>
                                 <label class="ladder-capital-label" for="capital-to-invest">Amount (USD)</label>
@@ -825,10 +825,11 @@
                                     </p>
                                 </div>
                             </section>
-
+                        </div>
+                        <div class="overview-card" id="summary-csp">
                             <div id="ladder-summary" class="ladder-summary-mount card"></div>
                         </div>
-                        <div class="overview-column overview-column--calls">
+                        <div class="overview-card" id="summary-calls">
                             <div id="call-overview-summary" class="ladder-summary-mount card"></div>
                         </div>
                     </div>
