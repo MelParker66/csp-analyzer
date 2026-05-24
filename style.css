@@ -461,9 +461,9 @@ textarea::placeholder {
 
 .playbook-subsidebar,
 .playbook-sidebar {
-    flex: 0 0 280px;
-    width: 280px;
-    min-width: 280px;
+    flex: 0 0 300px;
+    width: 300px;
+    min-width: 300px;
     background-color: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
     padding: var(--space-lg) 0;
@@ -569,7 +569,7 @@ textarea::placeholder {
 .playbook-pages,
 .playbook-content {
     flex: 1;
-    width: calc(100% - 280px);
+    width: calc(100% - 300px);
     min-width: 0;
     min-height: 0;
     overflow: hidden;
