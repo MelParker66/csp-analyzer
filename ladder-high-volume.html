@@ -435,6 +435,14 @@
                                             <h2 class="playbook-ref-title">Assignment Plan</h2>
                                             <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> If assigned, you now own shares.</p>
                                             <p class="playbook-ref-line"><span class="playbook-ref-label">Next step:</span> Move to covered calls.</p>
+                                            <p class="cross-link">
+                                                Related:
+                                                <button type="button" class="playbook-link" data-playbook-page="call-strike">CALL &ndash; Strike Selection</button>
+                                                &bull;
+                                                <button type="button" class="playbook-link" data-playbook-page="call-delta">CALL &ndash; Delta Rules</button>
+                                                &bull;
+                                                <button type="button" class="playbook-link" data-playbook-page="call-itm">CALL &ndash; If Price Goes ITM</button>
+                                            </p>
                                         </article>
                                     </li>
                                 </ul>
@@ -502,6 +510,10 @@
                                             <h2 class="playbook-ref-title">Friday Review</h2>
                                             <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Close winners early if most premium is gone.</p>
                                             <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Frees up capital for next week.</p>
+                                            <p class="cross-link">
+                                                Related:
+                                                <button type="button" class="playbook-link" data-playbook-page="call-routine">CALL &ndash; Weekly Routine</button>
+                                            </p>
                                         </article>
                                     </li>
                                 </ul>
@@ -609,6 +621,10 @@
                                             <h2 class="playbook-ref-title">Covered Calls</h2>
                                             <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> A Covered Call is when you sell a call option against shares you already own.</p>
                                             <p class="playbook-ref-line"><span class="playbook-ref-label">Purpose:</span> Generate income while holding the stock or sell the stock at a profit.</p>
+                                            <p class="cross-link">
+                                                Related:
+                                                <button type="button" class="playbook-link" data-playbook-page="overview">CSP &ndash; Playbook Overview</button>
+                                            </p>
                                         </article>
                                     </li>
                                 </ul>
@@ -707,6 +723,10 @@
                                                 <li>Close early.</li>
                                                 <li>Keep shares if long-term bullish.</li>
                                             </ul>
+                                            <p class="cross-link">
+                                                Related:
+                                                <button type="button" class="playbook-link" data-playbook-page="itm">CSP &ndash; Possible ITM</button>
+                                            </p>
                                         </article>
                                     </li>
                                 </ul>
@@ -751,6 +771,10 @@
                                                 <li>Sell call.</li>
                                                 <li>Manage ITM.</li>
                                             </ul>
+                                            <p class="cross-link">
+                                                Related:
+                                                <button type="button" class="playbook-link" data-playbook-page="routine">CSP &ndash; Weekly Routine</button>
+                                            </p>
                                         </article>
                                     </li>
                                 </ul>
@@ -1499,6 +1523,20 @@
             "call-routine"
         ];
 
+        function openPlaybookSidebarGroup(pageId) {
+            var groups = document.querySelectorAll(".playbook-subsidebar .sidebar-group");
+            if (!groups.length || !pageId) return;
+            var isCall = pageId.indexOf("call-") === 0;
+            groups.forEach(function (group, index) {
+                var open = isCall ? index === 1 : index === 0;
+                group.classList.toggle("open", open);
+                var header = group.querySelector(".sidebar-group-header");
+                if (header) {
+                    header.setAttribute("aria-expanded", open ? "true" : "false");
+                }
+            });
+        }
+
         function showPlaybookPage(pageId) {
             if (!pageId) return;
             playbookPages.forEach(function (page) {
@@ -1512,6 +1550,7 @@
                     link.getAttribute("data-playbook-page") === pageId
                 );
             });
+            openPlaybookSidebarGroup(pageId);
         }
 
         function initPlaybookPageNavForOrder(pageOrder, overviewPageId, backLabel) {
@@ -1588,6 +1627,12 @@
         playbookNavTargets.forEach(function (el) {
             el.addEventListener("click", function () {
                 showPlaybookPage(el.getAttribute("data-playbook-page"));
+            });
+        });
+
+        document.querySelectorAll(".playbook-link[data-playbook-page]").forEach(function (link) {
+            link.addEventListener("click", function () {
+                showPlaybookPage(link.getAttribute("data-playbook-page"));
             });
         });
 

@@ -461,9 +461,9 @@ textarea::placeholder {
 
 .playbook-subsidebar,
 .playbook-sidebar {
-    flex: 0 0 300px;
-    width: 300px;
-    min-width: 300px;
+    flex: 0 0 310px;
+    width: 310px;
+    min-width: 310px;
     background-color: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
     padding: var(--space-lg) 0;
@@ -569,7 +569,7 @@ textarea::placeholder {
 .playbook-pages,
 .playbook-content {
     flex: 1;
-    width: calc(100% - 300px);
+    width: calc(100% - 310px);
     min-width: 0;
     min-height: 0;
     overflow: hidden;
@@ -784,6 +784,30 @@ textarea::placeholder {
 .playbook-nav-btn {
     padding: 8px 14px;
     font-size: 0.875rem;
+}
+
+.cross-link {
+    margin-top: 12px;
+    margin-bottom: 0;
+    font-size: 13px;
+    opacity: 0.8;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.playbook-link {
+    display: inline;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    color: #4da3ff;
+}
+
+.playbook-link:hover {
+    text-decoration: underline;
 }
 
 @media (max-width: 768px) {
