@@ -461,12 +461,12 @@ textarea::placeholder {
 
 .playbook-subsidebar,
 .playbook-sidebar {
-    flex: 0 0 310px;
-    width: 310px;
-    min-width: 310px;
+    flex: 0 0 330px;
+    width: 330px;
+    min-width: 330px;
     background-color: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
-    padding: var(--space-lg) 0;
+    padding: var(--space-lg) 10px var(--space-lg) 0;
     overflow-y: auto;
     box-sizing: border-box;
 }
@@ -486,6 +486,12 @@ textarea::placeholder {
     padding: 0 var(--space-md);
 }
 
+.playbook-subsidebar .sidebar-group + .sidebar-group {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+}
+
 .playbook-subsidebar .sidebar-group-header {
     display: block;
     width: 100%;
@@ -503,17 +509,28 @@ textarea::placeholder {
     box-sizing: border-box;
 }
 
+.playbook-subsidebar .sidebar-group--csp .sidebar-group-header {
+    border-left: 4px solid #4da3ff;
+}
+
+.playbook-subsidebar .sidebar-group--call .sidebar-group-header {
+    border-left: 4px solid #4dff8c;
+}
+
 .playbook-subsidebar .sidebar-group-header:hover {
     background-color: #2a2a2a;
 }
 
 .playbook-subsidebar .sidebar-group-content {
-    display: none;
-    margin-top: 6px;
+    overflow: hidden;
+    max-height: 0;
+    margin-top: 0;
+    transition: max-height 0.25s ease;
 }
 
 .playbook-subsidebar .sidebar-group.open .sidebar-group-content {
-    display: block;
+    max-height: 1000px;
+    margin-top: 6px;
 }
 
 .playbook-subsidebar .sidebar-group-content .playbook-subnav {
@@ -528,48 +545,106 @@ textarea::placeholder {
 
 .playbook-subnav li {
     margin: 0;
-    padding: 0 var(--space-md);
+    padding: 0;
 }
 
 .playbook-subnav-link,
 .playbook-subnav-item {
     display: flex;
     align-items: center;
+    gap: 10px;
     width: 100%;
-    height: 42px;
-    padding: 12px 16px;
+    min-height: 42px;
+    padding: 10px 14px;
     margin: 4px 0;
     border: none;
     border-radius: 6px;
     background: transparent;
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 15px;
     font-family: inherit;
     text-align: left;
+    white-space: nowrap;
     cursor: pointer;
     box-sizing: border-box;
-    transition: background-color 0.2s ease, padding-left 0.2s ease;
+    transition: background-color 0.2s ease;
+}
+
+.playbook-subnav-link::before,
+.playbook-subnav-item::before {
+    content: "\1F4D8";
+    font-size: 16px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.playbook-subnav-link[data-playbook-page^="call-"]::before,
+.playbook-subnav-item[data-playbook-page^="call-"]::before,
+.playbook-subnav-item[data-target^="call"]::before {
+    content: "\1F4D7";
 }
 
 .playbook-subnav-link:hover,
 .playbook-subnav-item:hover {
     background-color: #2a2a2a;
-    padding-left: 20px;
     color: var(--text-primary);
 }
 
 .playbook-subnav-link.playbook-subnav-active,
 .playbook-subnav-item.active {
     background-color: #333;
-    padding-left: 20px;
     color: #fff;
     font-weight: 600;
+}
+
+.playbook-launcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: var(--space-xl);
+}
+
+.playbook-button {
+    width: 360px;
+    max-width: 100%;
+    height: 120px;
+    font-size: 22px;
+    font-weight: 600;
+    font-family: inherit;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.playbook-button.csp {
+    background-color: #1e3a5f;
+    border: 2px solid #4da3ff;
+    color: #dcecff;
+}
+
+.playbook-button.csp:hover {
+    background-color: #264a78;
+}
+
+.playbook-button.call {
+    background-color: #1e5f3a;
+    border: 2px solid #4dff8c;
+    color: #dfffe9;
+}
+
+.playbook-button.call:hover {
+    background-color: #2b7a4d;
 }
 
 .playbook-pages,
 .playbook-content {
     flex: 1;
-    width: calc(100% - 310px);
+    width: calc(100% - 330px);
     min-width: 0;
     min-height: 0;
     overflow: hidden;
@@ -848,17 +923,23 @@ textarea::placeholder {
         margin: 4px;
     }
 
-    .playbook-subnav-link:hover,
-    .playbook-subnav-item:hover,
-    .playbook-subnav-link.playbook-subnav-active,
-    .playbook-subnav-item.active {
-        padding-left: 20px;
-    }
-
     .playbook-subnav-link.playbook-subnav-active,
     .playbook-subnav-item.active {
         background-color: #333;
         color: #fff;
+    }
+
+    .playbook-launcher {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .playbook-button {
+        width: 100%;
+    }
+
+    .playbook-subsidebar .sidebar-group.open .sidebar-group-content {
+        max-height: 2000px;
     }
 
     .playbook-tile {

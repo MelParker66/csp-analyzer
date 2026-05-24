@@ -75,7 +75,7 @@
             <div id="playbook-panel" class="content-panel content-panel-active">
                 <div class="playbook-shell">
                     <nav class="playbook-subsidebar" aria-label="Playbook sections">
-                        <div class="sidebar-group">
+                        <div class="sidebar-group sidebar-group--csp" data-sidebar-group="csp">
                             <button type="button" class="sidebar-group-header" aria-expanded="false">CSP Playbook</button>
                             <div class="sidebar-group-content">
                                 <ul class="playbook-subnav">
@@ -91,7 +91,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="sidebar-group">
+                        <div class="sidebar-group sidebar-group--call" data-sidebar-group="call">
                             <button type="button" class="sidebar-group-header" aria-expanded="false">CALL Playbook</button>
                             <div class="sidebar-group-content">
                                 <ul class="playbook-subnav">
@@ -113,6 +113,10 @@
                                 <header class="panel-header">
                                     <h1 class="panel-title">Playbook Overview</h1>
                                 </header>
+                                <div class="playbook-launcher">
+                                    <button type="button" class="playbook-button csp" data-playbook-page="overview">CSP Playbook</button>
+                                    <button type="button" class="playbook-button call" data-playbook-page="call-overview">CALL Playbook</button>
+                                </div>
                                 <div class="playbook-overview-sections">
                                     <section class="playbook-overview-section" aria-labelledby="playbook-group-analysis">
                                         <h2 id="playbook-group-analysis" class="playbook-section-title">Company Analysis</h2>
@@ -1496,7 +1500,7 @@
         var playbookPages = document.querySelectorAll(".playbook-page");
         var playbookNavLinks = document.querySelectorAll(".playbook-subnav-link");
         var playbookNavTargets = document.querySelectorAll(
-            ".playbook-subnav-link[data-playbook-page], .playbook-tile[data-playbook-page]"
+            ".playbook-subnav-link[data-playbook-page], .playbook-tile[data-playbook-page], .playbook-button[data-playbook-page]"
         );
 
         var PLAYBOOK_PAGE_ORDER = [
@@ -1523,12 +1527,23 @@
             "call-routine"
         ];
 
+        function ensureSidebarGroupOpen(group) {
+            if (!group || group.classList.contains("open")) return;
+            group.classList.add("open");
+            var header = group.querySelector(".sidebar-group-header");
+            if (header) {
+                header.setAttribute("aria-expanded", "true");
+            }
+        }
+
         function openPlaybookSidebarGroup(pageId) {
             var groups = document.querySelectorAll(".playbook-subsidebar .sidebar-group");
             if (!groups.length || !pageId) return;
             var isCall = pageId.indexOf("call-") === 0;
-            groups.forEach(function (group, index) {
-                var open = isCall ? index === 1 : index === 0;
+            groups.forEach(function (group) {
+                var open =
+                    (isCall && group.getAttribute("data-sidebar-group") === "call") ||
+                    (!isCall && group.getAttribute("data-sidebar-group") === "csp");
                 group.classList.toggle("open", open);
                 var header = group.querySelector(".sidebar-group-header");
                 if (header) {
@@ -1626,7 +1641,11 @@
 
         playbookNavTargets.forEach(function (el) {
             el.addEventListener("click", function () {
-                showPlaybookPage(el.getAttribute("data-playbook-page"));
+                var pageId = el.getAttribute("data-playbook-page");
+                if (el.classList.contains("playbook-subnav-link")) {
+                    ensureSidebarGroupOpen(el.closest(".sidebar-group"));
+                }
+                showPlaybookPage(pageId);
             });
         });
 
