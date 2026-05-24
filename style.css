@@ -459,9 +459,11 @@ textarea::placeholder {
     width: 100%;
 }
 
-.playbook-subsidebar {
-    flex: 0 0 220px;
-    min-width: 200px;
+.playbook-subsidebar,
+.playbook-sidebar {
+    flex: 0 0 260px;
+    width: 260px;
+    min-width: 260px;
     background-color: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
     padding: var(--space-lg) 0;
@@ -477,6 +479,45 @@ textarea::placeholder {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--text-secondary);
+}
+
+.playbook-subsidebar .sidebar-group {
+    margin-bottom: 12px;
+    padding: 0 var(--space-md);
+}
+
+.playbook-subsidebar .sidebar-group-header {
+    display: block;
+    width: 100%;
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-header);
+    padding: 12px 16px;
+    cursor: pointer;
+    background-color: #1f1f1f;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    user-select: none;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.playbook-subsidebar .sidebar-group-header:hover {
+    background-color: #2a2a2a;
+}
+
+.playbook-subsidebar .sidebar-group-content {
+    display: none;
+    margin-top: 6px;
+}
+
+.playbook-subsidebar .sidebar-group.open .sidebar-group-content {
+    display: block;
+}
+
+.playbook-subsidebar .sidebar-group-content .playbook-subnav {
+    padding: 0;
 }
 
 .playbook-subnav {
@@ -525,12 +566,15 @@ textarea::placeholder {
     font-weight: 600;
 }
 
-.playbook-pages {
+.playbook-pages,
+.playbook-content {
     flex: 1;
+    width: calc(100% - 260px);
     min-width: 0;
     min-height: 0;
     overflow: hidden;
     background-color: var(--bg-app);
+    box-sizing: border-box;
 }
 
 .playbook-page {
@@ -747,13 +791,19 @@ textarea::placeholder {
         flex-direction: column;
     }
 
-    .playbook-subsidebar {
+    .playbook-subsidebar,
+    .playbook-sidebar {
         flex: 0 0 auto;
         width: 100%;
         min-width: 0;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
         padding: var(--space-md) 0;
+    }
+
+    .playbook-pages,
+    .playbook-content {
+        width: 100%;
     }
 
     .playbook-subnav {

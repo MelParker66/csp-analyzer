@@ -75,18 +75,22 @@
             <div id="playbook-panel" class="content-panel content-panel-active">
                 <div class="playbook-shell">
                     <nav class="playbook-subsidebar" aria-label="Playbook sections">
-                        <p class="playbook-subsidebar-title">Playbook</p>
-                        <ul class="playbook-subnav">
-                            <li><button type="button" class="playbook-subnav-link playbook-subnav-active" data-playbook-page="overview">CSP &ndash; Playbook Overview</button></li>
-                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="company">CSP &ndash; Company Overview</button></li>
-                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="graph">CSP &ndash; Graph of Company</button></li>
-                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="business-model">CSP &ndash; Business Model</button></li>
-                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="checklist">CSP &ndash; Checklist</button></li>
-                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="itm">CSP &ndash; Possible ITM</button></li>
-                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="quickstart">CSP &ndash; Quick Start Guide</button></li>
-                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="routine">CSP &ndash; Weekly Routine</button></li>
-                            <li><button type="button" class="playbook-subnav-link" data-playbook-page="timing">CSP &ndash; Best Timing Rules</button></li>
-                        </ul>
+                        <div class="sidebar-group">
+                            <button type="button" class="sidebar-group-header" aria-expanded="false">CSP Playbook</button>
+                            <div class="sidebar-group-content">
+                                <ul class="playbook-subnav">
+                                    <li><button type="button" class="playbook-subnav-link playbook-subnav-active" data-playbook-page="overview">CSP &ndash; Playbook Overview</button></li>
+                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="company">CSP &ndash; Company Overview</button></li>
+                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="graph">CSP &ndash; Graph of Company</button></li>
+                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="business-model">CSP &ndash; Business Model</button></li>
+                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="checklist">CSP &ndash; Checklist</button></li>
+                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="itm">CSP &ndash; Possible ITM</button></li>
+                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="quickstart">CSP &ndash; Quick Start Guide</button></li>
+                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="routine">CSP &ndash; Weekly Routine</button></li>
+                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="timing">CSP &ndash; Best Timing Rules</button></li>
+                                </ul>
+                            </div>
+                        </div>
                     </nav>
                     <div class="playbook-pages">
                         <div id="playbook-page-overview" class="playbook-page playbook-page-active" data-playbook-page="overview">
@@ -1378,6 +1382,14 @@
         }
 
         initPlaybookPageNav();
+
+        document.querySelectorAll(".playbook-subsidebar .sidebar-group-header").forEach(function (header) {
+            header.addEventListener("click", function () {
+                var group = header.parentElement;
+                group.classList.toggle("open");
+                header.setAttribute("aria-expanded", group.classList.contains("open") ? "true" : "false");
+            });
+        });
 
         playbookNavTargets.forEach(function (el) {
             el.addEventListener("click", function () {
