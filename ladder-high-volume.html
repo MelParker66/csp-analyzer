@@ -1581,10 +1581,12 @@
             var groups = document.querySelectorAll(".playbook-subsidebar .sidebar-group");
             if (!groups.length || !pageId) return;
             var isCall = pageId.indexOf("call-") === 0;
+            var isOverview = pageId === "overview" || pageId === "call-overview";
             groups.forEach(function (group) {
                 var open =
-                    (isCall && group.getAttribute("data-sidebar-group") === "call") ||
-                    (!isCall && group.getAttribute("data-sidebar-group") === "csp");
+                    !isOverview &&
+                    ((isCall && group.getAttribute("data-sidebar-group") === "call") ||
+                        (!isCall && group.getAttribute("data-sidebar-group") === "csp"));
                 group.classList.toggle("open", open);
                 var header = group.querySelector(".sidebar-group-header");
                 if (header) {
