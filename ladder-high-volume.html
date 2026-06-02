@@ -26,6 +26,15 @@
             </svg>
             <span class="sidebar-tooltip">Overview</span>
         </button>
+        <button type="button" class="sidebar-icon" data-panel="industries" id="sidebar-industries" aria-label="Industries">
+            <svg class="sidebar-icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+            <span class="sidebar-tooltip">Industries</span>
+        </button>
         <button type="button" class="sidebar-icon" data-panel="ladder" id="sidebar-ladder" aria-label="CSP Ladder">
             <svg class="sidebar-icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="6" y1="20" x2="6" y2="10"/>
@@ -788,6 +797,21 @@
                 </div>
             </div>
 
+            <div id="industries-panel" class="content-panel">
+                <div class="industries-shell playbook-shell">
+                    <nav class="industries-subsidebar playbook-subsidebar" aria-label="Industries">
+                        <div class="sidebar-section" data-industries-menu>
+                            <button type="button" class="sidebar-item" aria-expanded="false">
+                                <span>Industries</span>
+                                <span class="sidebar-chevron" aria-hidden="true">&#9656;</span>
+                            </button>
+                            <div class="sidebar-submenu" data-industries-nav></div>
+                        </div>
+                    </nav>
+                    <div id="industries-pages" class="industries-pages playbook-pages"></div>
+                </div>
+            </div>
+
             <div id="overview-panel" class="content-panel">
                 <div class="content-panel-inner">
                     <header class="panel-header">
@@ -1429,6 +1453,8 @@
     </div>
 
     <script src="csp-shared.js"></script>
+    <script src="src/data/industryData.js"></script>
+    <script src="industries.js"></script>
     <script src="ladder-high-volume.js"></script>
     <script src="ladder-export.js"></script>
     <script src="call-ladder.js"></script>
@@ -1438,6 +1464,7 @@
     (function () {
         var panels = {
             playbook: document.getElementById("playbook-panel"),
+            industries: document.getElementById("industries-panel"),
             overview: document.getElementById("overview-panel"),
             ladder: document.getElementById("ladder-panel"),
             export: document.getElementById("export-panel"),
@@ -1472,6 +1499,19 @@
             }
             if (name === "overview" && typeof window.updateCallOverviewSummary === "function") {
                 window.updateCallOverviewSummary();
+            }
+            if (name === "industries" && typeof window.showIndustryPage === "function") {
+                var industryRoute =
+                    typeof window.parseIndustryRoute === "function"
+                        ? window.parseIndustryRoute()
+                        : null;
+                window.showIndustryPage(
+                    industryRoute && industryRoute.id ? industryRoute.id : "food",
+                    { replace: true }
+                );
+            }
+            if (name !== "industries" && /\/industries\/[^/]+\/?$/.test(window.location.pathname)) {
+                history.pushState({ panel: name }, "", "/ladder-high-volume.html");
             }
         }
 
@@ -1664,7 +1704,13 @@
             }
         };
 
-        showPanel("playbook");
+        window.showAppPanel = showPanel;
+
+        if (typeof window.bootstrapIndustryRoute === "function" && window.bootstrapIndustryRoute()) {
+            // Loaded directly at /industries/:id
+        } else {
+            showPanel("playbook");
+        }
     })();
     </script>
 </body>

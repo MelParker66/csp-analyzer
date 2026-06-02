@@ -467,9 +467,137 @@ textarea::placeholder {
 }
 
 /* Playbook — secondary sidebar + reference pages */
-#playbook-panel.content-panel-active {
+#playbook-panel.content-panel-active,
+#industries-panel.content-panel-active {
     display: flex;
     flex-direction: column;
+}
+
+/* Industries — collapsible sidebar menu (IndustriesMenu) */
+.industries-shell {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.industries-subsidebar .sidebar-section {
+    margin-bottom: 12px;
+    padding: 0 var(--space-md);
+}
+
+.industries-subsidebar .sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-header);
+    padding: 12px 16px;
+    cursor: pointer;
+    background-color: #1f1f1f;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    user-select: none;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease;
+}
+
+.industries-subsidebar .sidebar-item:hover {
+    background-color: #2a2a2a;
+}
+
+.industries-subsidebar .sidebar-chevron {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1;
+}
+
+.industries-subsidebar .sidebar-submenu {
+    display: none;
+    margin-top: 6px;
+}
+
+.industries-subsidebar .sidebar-section.open .sidebar-submenu {
+    display: block;
+}
+
+.industries-subsidebar .sidebar-submenu-link {
+    display: block;
+    width: 100%;
+    padding: 10px 14px 10px 24px;
+    margin: 4px 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.industries-subsidebar .sidebar-submenu-link:hover {
+    background-color: #2a2a2a;
+    color: var(--text-primary);
+}
+
+.industries-subsidebar .sidebar-submenu-link-active {
+    background-color: #333;
+    color: #fff;
+    font-weight: 600;
+}
+
+.industry-page-inner {
+    max-width: 720px;
+}
+
+.industry-page-inner h1 {
+    margin: 0 0 var(--space-lg);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-header);
+    letter-spacing: 0.04em;
+}
+
+.industry-description {
+    margin: 0 0 var(--space-xl);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.industry-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.industry-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    background-color: #1f1f1f;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.industry-row .symbol {
+    flex: 0 0 72px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.03em;
+}
+
+.industry-row .name {
+    color: var(--text-secondary);
+    line-height: 1.4;
 }
 
 .playbook-shell,
