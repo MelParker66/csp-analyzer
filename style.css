@@ -1876,13 +1876,26 @@ textarea::placeholder {
     width: 88px;
 }
 
-.ladder-field .ladder-inp-ticker,
 .ladder-field .ladder-inp-strike,
 .ladder-field .ladder-inp-bid,
 .ladder-field .ladder-inp-ask,
 .ladder-field .ladder-inp-prob-itm,
 .ladder-field .ladder-inp-delta {
     width: 96px;
+}
+
+.ladder-field .ladder-inp-ticker {
+    min-width: 80px;
+    width: auto;
+    padding: 4px 8px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.ladder-field:has(.ladder-inp-ticker) {
+    flex-shrink: 0;
+    min-width: 80px;
 }
 
 .ladder-row-actions {
@@ -1901,7 +1914,6 @@ textarea::placeholder {
     column-gap: 14px;
 }
 
-.ladder-container .ladder-field .ladder-inp-ticker,
 .ladder-container .ladder-field .ladder-inp-strike,
 .ladder-container .ladder-field .ladder-inp-bid,
 .ladder-container .ladder-field .ladder-inp-ask,
@@ -1909,6 +1921,12 @@ textarea::placeholder {
 .ladder-container .ladder-field .ladder-inp-delta,
 .ladder-container .ladder-field .contracts-input {
     width: 110px;
+}
+
+.ladder-container .ladder-field .ladder-inp-ticker {
+    min-width: 80px;
+    width: auto;
+    max-width: none;
 }
 
 .analyze-button,
