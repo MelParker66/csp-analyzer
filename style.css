@@ -203,22 +203,29 @@ textarea::placeholder {
     width: 100%;
 }
 
-.sidebar-logo {
+.sidebar-logo-text {
     position: absolute;
     bottom: 35px;
     left: 25px;
-    padding: 12px;
-    border-radius: 16px;
-    box-shadow:
-        0 0 55px rgba(70, 120, 165, 0.45),
-        0 0 30px rgba(70, 120, 165, 0.35),
-        0 0 15px rgba(70, 120, 165, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.sidebar-logo img {
-    width: 260px;
-    height: auto;
-    opacity: 0.95;
+.logo-main {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #e8f1ff;
+    text-shadow: 0 0 18px rgba(70, 120, 165, 0.55);
+}
+
+.logo-sub {
+    font-size: 18px;
+    font-weight: 500;
+    color: #b9c7d8;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 12px rgba(70, 120, 165, 0.35);
 }
 
 .sidebar-icon,
