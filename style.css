@@ -4,9 +4,9 @@
     --bg-app: #0F1115;
     --bg-app-gradient: radial-gradient(
         circle at 30% 20%,
-        rgba(60, 100, 140, 0.35) 0%,
-        rgba(30, 45, 60, 0.25) 35%,
-        rgba(15, 17, 21, 1) 80%
+        rgba(70, 120, 165, 0.45) 0%,
+        rgba(35, 55, 75, 0.32) 40%,
+        rgba(15, 17, 21, 1) 85%
     );
     --bg-card: #1A1D23;
     --bg-sidebar: #23272F;
