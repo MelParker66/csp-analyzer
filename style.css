@@ -2,6 +2,12 @@
 :root {
     /* Base UI */
     --bg-app: #0F1115;
+    --bg-app-gradient: radial-gradient(
+        circle at 30% 20%,
+        rgba(40, 60, 80, 0.25) 0%,
+        rgba(20, 25, 30, 0.15) 40%,
+        #0F1115 80%
+    );
     --bg-card: #1A1D23;
     --bg-sidebar: #23272F;
     --sidebar-bg: var(--bg-card);
@@ -77,9 +83,16 @@ html {
     box-sizing: border-box;
 }
 
+html {
+    min-height: 100%;
+    background-color: var(--bg-app);
+    background-image: var(--bg-app-gradient);
+    background-attachment: fixed;
+}
+
 body {
     font-family: "Inter", system-ui, sans-serif;
-    background-color: var(--bg-app);
+    background: transparent;
     color: var(--text-primary);
     margin: 0;
     padding: 0;
@@ -273,7 +286,7 @@ textarea::placeholder {
     overflow-x: hidden;
     padding: var(--space-xl);
     -webkit-overflow-scrolling: touch;
-    background-color: var(--bg-app);
+    background: transparent;
 }
 
 .panel-header {
@@ -869,7 +882,7 @@ textarea::placeholder {
     min-width: 0;
     min-height: 0;
     overflow: hidden;
-    background-color: var(--bg-app);
+    background: transparent;
     box-sizing: border-box;
 }
 
@@ -2119,7 +2132,7 @@ textarea::placeholder {
     max-width: 100%;
     box-sizing: border-box;
     padding: 20px 0 40px;
-    background-color: var(--bg-app);
+    background: transparent;
     min-height: 100vh;
     color: var(--text-primary);
 }
