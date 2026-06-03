@@ -208,22 +208,30 @@ textarea::placeholder {
     bottom: 35px;
     left: 25px;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
 }
 
 .logo-main {
     font-size: 42px;
     font-weight: 800;
     letter-spacing: 1px;
-    color: #e8f1ff;
-    text-shadow: 0 0 18px rgba(70, 120, 165, 0.55);
+    color: #f7d348;
+    text-shadow: 0 0 18px rgba(247, 211, 72, 0.45);
 }
 
 .logo-sub {
-    font-size: 18px;
-    font-weight: 500;
-    color: #b9c7d8;
+    font-size: 28px;
+    font-weight: 600;
+    background: linear-gradient(
+        90deg,
+        #0f2f5f 0%,
+        #3c6fb8 50%,
+        #8bbcff 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     letter-spacing: 0.5px;
     text-shadow: 0 0 12px rgba(70, 120, 165, 0.35);
 }
