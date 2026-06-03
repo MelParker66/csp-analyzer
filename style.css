@@ -205,14 +205,19 @@ textarea::placeholder {
 
 .sidebar-logo {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    opacity: 0.75;
+    bottom: 30px;
+    left: 25px;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow:
+        0 0 35px rgba(70, 120, 165, 0.35),
+        0 0 15px rgba(70, 120, 165, 0.25);
 }
 
 .sidebar-logo img {
-    width: 120px;
+    width: 200px;
     height: auto;
+    opacity: 0.9;
 }
 
 .sidebar-icon,
