@@ -27,6 +27,59 @@
             .replace(/"/g, "&quot;");
     }
 
+    function getMergedIndustries() {
+        var merged = {};
+        var core = typeof industries !== "undefined" ? industries : {};
+        var user = typeof userIndustries !== "undefined" ? userIndustries : {};
+        var keys = {};
+
+        Object.keys(core).forEach(function (key) {
+            keys[key] = true;
+        });
+        Object.keys(user).forEach(function (key) {
+            keys[key] = true;
+        });
+
+        Object.keys(keys).forEach(function (key) {
+            merged[key] = (core[key] || []).concat(user[key] || []);
+        });
+
+        return merged;
+    }
+
+    function getIndustryLabel(key) {
+        if (INDUSTRY_LABELS[key]) {
+            return INDUSTRY_LABELS[key];
+        }
+        return key
+            .split("-")
+            .map(function (part) {
+                return part.charAt(0).toUpperCase() + part.slice(1);
+            })
+            .join(" ");
+    }
+
+    function getIndustryOrder() {
+        var merged = getMergedIndustries();
+        var userKeys = Object.keys(typeof userIndustries !== "undefined" ? userIndustries : {})
+            .filter(function (key) {
+                return INDUSTRY_ORDER.indexOf(key) === -1;
+            })
+            .sort();
+
+        return INDUSTRY_ORDER.concat(userKeys).filter(function (key) {
+            return merged[key];
+        });
+    }
+
+    function slugifyIndustryKey(name) {
+        return String(name)
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+    }
+
     function renderIndustryPage(key, stocks) {
         var rows = (stocks || [])
             .map(function (stock) {
@@ -51,7 +104,7 @@
             '" hidden>' +
             '<div class="playbook-page-inner industry-page-inner">' +
             "<h1>" +
-            escapeHtml(key.toUpperCase()) +
+            escapeHtml(getIndustryLabel(key).toUpperCase()) +
             "</h1>" +
             '<p class="industry-description">' +
             "Use this page as a reference when exploring industries. " +
@@ -66,7 +119,7 @@
     }
 
     function isIndustryId(key) {
-        return Boolean(key && INDUSTRY_LABELS[key]);
+        return Boolean(key && getMergedIndustries()[key]);
     }
 
     function parseIndustryRoute() {
@@ -138,17 +191,39 @@
         }
     }
 
-    function initIndustriesMenu() {
-        var section = document.querySelector(".sidebar-section[data-industries-menu]");
+    function populateIndustrySelect() {
+        var select = document.getElementById("add-ticker-industry");
+        if (!select) return;
+
+        var activeKey = select.value;
+        select.innerHTML = "";
+
+        getIndustryOrder().forEach(function (key) {
+            var option = document.createElement("option");
+            option.value = key;
+            option.textContent = getIndustryLabel(key);
+            select.appendChild(option);
+        });
+
+        if (activeKey && isIndustryId(activeKey)) {
+            select.value = activeKey;
+        }
+    }
+
+    function rebuildIndustriesUI(activeKey) {
         var submenu = document.querySelector(".sidebar-submenu[data-industries-nav]");
         var pagesContainer = document.getElementById("industries-pages");
-        if (!section || !submenu || !pagesContainer || typeof industries === "undefined") {
+        if (!submenu || !pagesContainer || typeof industries === "undefined") {
             return;
         }
 
-        INDUSTRY_ORDER.forEach(function (key) {
-            var label = INDUSTRY_LABELS[key];
-            var stocks = industries[key] || [];
+        var mergedIndustries = getMergedIndustries();
+        submenu.innerHTML = "";
+        pagesContainer.innerHTML = "";
+
+        getIndustryOrder().forEach(function (key) {
+            var label = getIndustryLabel(key);
+            var stocks = mergedIndustries[key] || [];
 
             var link = document.createElement("button");
             link.type = "button";
@@ -163,6 +238,105 @@
             pagesContainer.insertAdjacentHTML("beforeend", renderIndustryPage(key, stocks));
         });
 
+        populateIndustrySelect();
+
+        if (activeKey && isIndustryId(activeKey)) {
+            showIndustryPage(activeKey, { updateUrl: false });
+        }
+    }
+
+    function initIndustryForms() {
+        var addIndustryForm = document.getElementById("add-industry-form");
+        var addTickerForm = document.getElementById("add-ticker-form");
+
+        if (addIndustryForm) {
+            addIndustryForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                var nameInput = document.getElementById("add-industry-name");
+                var name = nameInput ? nameInput.value.trim() : "";
+                var key = slugifyIndustryKey(name);
+
+                if (!key || typeof userIndustries === "undefined") {
+                    return;
+                }
+
+                if (typeof industries !== "undefined" && industries[key]) {
+                    rebuildIndustriesUI(key);
+                    showIndustryPage(key);
+                    if (nameInput) nameInput.value = "";
+                    return;
+                }
+
+                if (!userIndustries[key]) {
+                    userIndustries[key] = [];
+                }
+
+                if (typeof saveUserIndustries === "function") {
+                    saveUserIndustries();
+                }
+
+                rebuildIndustriesUI(key);
+                showIndustryPage(key);
+
+                if (nameInput) {
+                    nameInput.value = "";
+                }
+            });
+        }
+
+        if (addTickerForm) {
+            addTickerForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                var industrySelect = document.getElementById("add-ticker-industry");
+                var symbolInput = document.getElementById("add-ticker-symbol");
+                var nameInput = document.getElementById("add-ticker-name");
+                var industryKey = industrySelect ? industrySelect.value : "";
+                var symbol = symbolInput ? symbolInput.value.trim().toUpperCase() : "";
+                var companyName = nameInput ? nameInput.value.trim() : "";
+
+                if (!industryKey || !symbol || !companyName || typeof userIndustries === "undefined") {
+                    return;
+                }
+
+                if (!userIndustries[industryKey]) {
+                    userIndustries[industryKey] = [];
+                }
+
+                var merged = getMergedIndustries()[industryKey] || [];
+                var exists = merged.some(function (stock) {
+                    return stock.symbol.toUpperCase() === symbol;
+                });
+
+                if (exists) {
+                    return;
+                }
+
+                userIndustries[industryKey].push({
+                    symbol: symbol,
+                    name: companyName
+                });
+
+                if (typeof saveUserIndustries === "function") {
+                    saveUserIndustries();
+                }
+
+                rebuildIndustriesUI(industryKey);
+                showIndustryPage(industryKey);
+
+                if (symbolInput) symbolInput.value = "";
+                if (nameInput) nameInput.value = "";
+            });
+        }
+    }
+
+    function initIndustriesMenu() {
+        var section = document.querySelector(".sidebar-section[data-industries-menu]");
+        if (!section || typeof industries === "undefined") {
+            return;
+        }
+
+        rebuildIndustriesUI();
+
         var header = section.querySelector(".sidebar-item");
         if (header) {
             header.addEventListener("click", function () {
@@ -176,6 +350,7 @@
         }
 
         updateIndustriesMenuChevron(section);
+        initIndustryForms();
     }
 
     function bootstrapIndustryRoute() {
@@ -210,6 +385,7 @@
     window.showIndustryPage = showIndustryPage;
     window.parseIndustryRoute = parseIndustryRoute;
     window.bootstrapIndustryRoute = bootstrapIndustryRoute;
+    window.getMergedIndustries = getMergedIndustries;
     initIndustriesMenu();
     initIndustryRouting();
 })();

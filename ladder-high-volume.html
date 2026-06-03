@@ -751,6 +751,45 @@
                             </button>
                             <div class="sidebar-submenu" data-industries-nav></div>
                         </div>
+                        <div class="industry-user-forms">
+                            <form id="add-industry-form" class="industry-form card">
+                                <h2 class="industry-form-title">Add New Industry</h2>
+                                <label class="industry-form-label" for="add-industry-name">Industry name</label>
+                                <input
+                                    type="text"
+                                    id="add-industry-name"
+                                    class="industry-form-input"
+                                    placeholder="e.g. Biotech"
+                                    autocomplete="off"
+                                    required
+                                />
+                                <button type="submit" class="btn industry-form-submit">Add Industry</button>
+                            </form>
+                            <form id="add-ticker-form" class="industry-form card">
+                                <h2 class="industry-form-title">Add Ticker to Industry</h2>
+                                <label class="industry-form-label" for="add-ticker-industry">Industry</label>
+                                <select id="add-ticker-industry" class="industry-form-input" required></select>
+                                <label class="industry-form-label" for="add-ticker-symbol">Symbol</label>
+                                <input
+                                    type="text"
+                                    id="add-ticker-symbol"
+                                    class="industry-form-input industry-form-input--symbol"
+                                    placeholder="e.g. AAPL"
+                                    autocomplete="off"
+                                    required
+                                />
+                                <label class="industry-form-label" for="add-ticker-name">Company name</label>
+                                <input
+                                    type="text"
+                                    id="add-ticker-name"
+                                    class="industry-form-input"
+                                    placeholder="e.g. Apple"
+                                    autocomplete="off"
+                                    required
+                                />
+                                <button type="submit" class="btn industry-form-submit">Add Ticker</button>
+                            </form>
+                        </div>
                     </nav>
                     <div id="industries-pages" class="industries-pages playbook-pages"></div>
                 </div>
@@ -1398,6 +1437,7 @@
 
     <script src="csp-shared.js"></script>
     <script src="src/data/industryData.js"></script>
+    <script src="userIndustryData.js"></script>
     <script src="industries.js"></script>
     <script src="ladder-high-volume.js"></script>
     <script src="ladder-export.js"></script>
