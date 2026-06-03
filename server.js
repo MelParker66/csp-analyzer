@@ -10,6 +10,7 @@ const PORT = Number(process.env.PORT) || 5500;
 const ROOT = __dirname;
 const APP_HTML = path.join(ROOT, "ladder-high-volume.html");
 
+app.use(express.static(path.join(ROOT, "public")));
 app.use(express.static(ROOT));
 
 app.get("/industries/:id", (_req, res) => {
