@@ -1,21 +1,50 @@
 /* CSP Analyzer — global (dark theme) */
 :root {
-    --bg-app: #0f172a;
-    --bg-card: #1e293b;
-    --bg-table-even: #1c2533;
-    --bg-table-odd: #16202c;
-    --bg-sidebar: #0b1120;
+    /* Base UI */
+    --bg-app: #0F1115;
+    --bg-card: #1A1D23;
+    --bg-sidebar: #23272F;
+    --sidebar-bg: var(--bg-card);
+    --bg-hover: #2C313A;
+    --bg-active: #353B45;
+    --border-color: #3A3F48;
 
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --text-header: #e2e8f0;
+    /* Text */
+    --text-primary: #FFFFFF;
+    --text-secondary: #D1D5DB;
+    --text-header: var(--text-primary);
+    --color-text-muted: #9CA3AF;
 
-    --accent-put: #3b82f6;
-    --accent-call: #10b981;
+    /* Accents */
+    --accent-primary: #4C8BF5;
+    --accent-secondary: #5BC0BE;
+    --accent-primary-hover: #3A7AE0;
+    --accent-secondary-hover: #4AA8A6;
+    --accent-highlight: #A0AEC0;
     --accent-warn: #f59e0b;
     --accent-danger: #ef4444;
 
-    --border-color: #334155;
+    /* Legacy aliases (keep existing rules working) */
+    --accent-put: var(--accent-primary);
+    --accent-call: var(--accent-secondary);
+    --color-btn-hover: var(--accent-primary-hover);
+
+    /* Derived surfaces */
+    --bg-table-even: var(--bg-card);
+    --bg-table-odd: #151820;
+    --sidebar-pill-bg: var(--sidebar-bg);
+    --sidebar-pill-bg-hover: var(--bg-hover);
+    --color-header-bg: var(--bg-card);
+    --color-input-bg: #151820;
+
+    /* Focus & interaction */
+    --shadow-color: rgba(0, 0, 0, 0.35);
+    --focus-ring: rgba(76, 139, 245, 0.25);
+    --row-hover-bg: rgba(76, 139, 245, 0.12);
+    --color-selected-row: rgba(91, 192, 190, 0.18);
+    --color-detail-warn-bg: rgba(245, 158, 11, 0.12);
+    --color-detail-warn-border: var(--accent-warn);
+    --color-analysis-block-bg: rgba(91, 192, 190, 0.12);
 
     --space-md: 1rem;
     --space-lg: 1.25rem;
@@ -23,28 +52,20 @@
     --radius-card: 14px;
     --radius-btn: 8px;
     --radius-control: 8px;
-    --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.4);
-    --color-sidebar-active: var(--accent-put);
-    --accent-color: var(--accent-put);
-    --color-btn: var(--accent-put);
-    --color-btn-hover: #2563eb;
+    --shadow-card: 0 2px 6px var(--shadow-color);
+    --shadow-elevated: 0 4px 12px var(--shadow-color);
+    --shadow-sidebar: 2px 0 10px var(--shadow-color);
+    --color-sidebar-active: var(--accent-primary);
+    --accent-color: var(--accent-primary);
+    --color-btn: var(--accent-primary);
     --color-border: var(--border-color);
-    --color-text-muted: var(--text-secondary);
     --color-bg-app: var(--bg-app);
     --color-bg-panel-top: var(--bg-app);
     --color-bg-card: var(--bg-card);
     --sidebar-width: 260px;
-    --sidebar-pill-bg: #151c2e;
-    --sidebar-pill-bg-hover: #1e293b;
-    --color-header-bg: #1b2433;
     --color-header-text: var(--text-header);
     --color-header-border: var(--border-color);
     --color-zebra-odd: var(--bg-table-odd);
-    --color-input-bg: var(--bg-table-odd);
-    --color-selected-row: rgba(16, 185, 129, 0.18);
-    --color-detail-warn-bg: rgba(245, 158, 11, 0.12);
-    --color-detail-warn-border: var(--accent-warn);
-    --color-analysis-block-bg: rgba(16, 185, 129, 0.12);
     --overview-card-width: 540px;
 }
 
@@ -74,7 +95,10 @@ h4 {
 }
 
 .label,
-.subtext,
+.subtext {
+    color: var(--text-secondary);
+}
+
 .ladder-field-label,
 .ladder-capital-label,
 .cc-field-label,
@@ -86,7 +110,7 @@ h4 {
 .analysis-intro,
 .footnote,
 .header-ref {
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
 }
 
 table {
@@ -105,20 +129,20 @@ table tr:nth-child(odd) {
 
 table th {
     color: var(--text-header);
-    background-color: #1b2433;
+    background-color: var(--color-header-bg);
     border-bottom: 1px solid var(--border-color);
 }
 
 .badge-put,
 .total-ladder-type-badge--put {
-    background-color: var(--accent-put);
-    color: #ffffff;
+    background-color: var(--accent-primary);
+    color: var(--text-primary);
 }
 
 .badge-call,
 .total-ladder-type-badge--call {
-    background-color: var(--accent-call);
-    color: #ffffff;
+    background-color: var(--accent-secondary);
+    color: var(--text-primary);
 }
 
 input,
@@ -131,8 +155,8 @@ textarea {
 
 input::placeholder,
 textarea::placeholder {
-    color: var(--text-secondary);
-    opacity: 0.75;
+    color: var(--color-text-muted);
+    opacity: 0.85;
 }
 
 /* App shell — left sidebar + scrollable content panels */
@@ -150,7 +174,7 @@ textarea::placeholder {
     height: 100vh;
     background-color: var(--bg-sidebar);
     color: var(--text-primary);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--shadow-sidebar);
     z-index: 200;
     display: flex;
     flex-direction: column;
@@ -172,11 +196,11 @@ textarea::placeholder {
     align-items: center;
     width: 100%;
     min-height: 44px;
-    padding: 12px 16px;
+    padding: 10px 14px;
     margin: 0 0 6px;
-    border: none;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: var(--sidebar-pill-bg);
+    background: var(--sidebar-bg);
     color: var(--text-primary);
     font-size: 0.9rem;
     font-weight: 500;
@@ -186,24 +210,27 @@ textarea::placeholder {
     white-space: nowrap;
     cursor: pointer;
     box-sizing: border-box;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .sidebar-icon:hover,
 .left-sidebar .icon:hover {
-    background: var(--sidebar-pill-bg-hover);
+    background: var(--bg-hover);
     color: var(--text-primary);
+    border-color: var(--border-color);
 }
 
 .sidebar-icon.sidebar-active {
-    background: var(--color-sidebar-active);
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-primary);
     font-weight: 600;
+    border-color: var(--accent-primary);
 }
 
 .sidebar-icon.sidebar-active:hover {
-    background: #2563eb;
-    color: #fff;
+    background: var(--accent-primary-hover);
+    color: var(--text-primary);
+    border-color: var(--accent-primary-hover);
 }
 
 .app-body {
@@ -300,7 +327,7 @@ textarea::placeholder {
 .overview-container .overview-card {
     flex: 1;
     min-width: 280px;
-    background-color: #1f1f1f;
+    background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 20px;
@@ -463,24 +490,25 @@ textarea::placeholder {
     font-size: 0.9rem;
     font-family: inherit;
     color: var(--text-primary);
-    padding: 12px 16px;
+    padding: 10px 14px;
     margin: 0 0 6px;
     cursor: pointer;
-    background-color: var(--sidebar-pill-bg);
-    border: none;
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     user-select: none;
     box-sizing: border-box;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .industries-subsidebar .sidebar-item:hover {
-    background-color: var(--sidebar-pill-bg-hover);
+    background: var(--bg-hover);
+    border-color: var(--border-color);
 }
 
 .industries-subsidebar .sidebar-chevron {
     font-size: 0.85rem;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     line-height: 1;
     flex-shrink: 0;
 }
@@ -499,11 +527,11 @@ textarea::placeholder {
     align-items: center;
     width: 100%;
     min-height: 40px;
-    padding: 10px 16px;
+    padding: 10px 14px;
     margin: 0 0 6px;
-    border: none;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: var(--sidebar-pill-bg);
+    background: var(--sidebar-bg);
     color: var(--text-secondary);
     font-size: 0.875rem;
     font-family: inherit;
@@ -511,18 +539,20 @@ textarea::placeholder {
     white-space: nowrap;
     cursor: pointer;
     box-sizing: border-box;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .industries-subsidebar .sidebar-submenu-link:hover {
-    background-color: var(--sidebar-pill-bg-hover);
+    background: var(--bg-hover);
     color: var(--text-primary);
+    border-color: var(--border-color);
 }
 
 .industries-subsidebar .sidebar-submenu-link-active {
-    background-color: var(--color-sidebar-active);
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-primary);
     font-weight: 600;
+    border-color: var(--accent-primary);
 }
 
 .industry-page-inner {
@@ -555,7 +585,7 @@ textarea::placeholder {
     align-items: center;
     gap: 16px;
     padding: 12px 16px;
-    background-color: #1f1f1f;
+    background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 8px;
 }
@@ -582,7 +612,7 @@ textarea::placeholder {
 .industry-form {
     margin: 0;
     padding: var(--space-md);
-    background-color: #1f1f1f;
+    background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 8px;
 }
@@ -629,8 +659,8 @@ textarea::placeholder {
 
 .industry-form-input:focus {
     outline: none;
-    border-color: var(--accent-put);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--focus-ring);
 }
 
 .industry-form-submit {
@@ -667,7 +697,7 @@ textarea::placeholder {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
 }
 
 .playbook-subsidebar .sidebar-group {
@@ -678,7 +708,7 @@ textarea::placeholder {
 .playbook-subsidebar .sidebar-group + .sidebar-group {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--border-color);
 }
 
 .playbook-subsidebar .sidebar-group-header {
@@ -690,7 +720,7 @@ textarea::placeholder {
     color: var(--text-header);
     padding: 12px 16px;
     cursor: pointer;
-    background-color: #1f1f1f;
+    background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     user-select: none;
@@ -699,15 +729,15 @@ textarea::placeholder {
 }
 
 .playbook-subsidebar .sidebar-group--csp .sidebar-group-header {
-    border-left: 4px solid #4da3ff;
+    border-left: 4px solid var(--accent-primary);
 }
 
 .playbook-subsidebar .sidebar-group--call .sidebar-group-header {
-    border-left: 4px solid #4dff8c;
+    border-left: 4px solid var(--accent-secondary);
 }
 
 .playbook-subsidebar .sidebar-group-header:hover {
-    background-color: #2a2a2a;
+    background-color: var(--bg-hover);
 }
 
 .playbook-subsidebar .sidebar-group-content {
@@ -775,14 +805,14 @@ textarea::placeholder {
 
 .playbook-subnav-link:hover,
 .playbook-subnav-item:hover {
-    background-color: #2a2a2a;
+    background-color: var(--bg-hover);
     color: var(--text-primary);
 }
 
 .playbook-subnav-link.playbook-subnav-active,
 .playbook-subnav-item.active {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--bg-active);
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -811,23 +841,25 @@ textarea::placeholder {
 }
 
 .playbook-button.csp {
-    background-color: #1e3a5f;
-    border: 2px solid #4da3ff;
-    color: #dcecff;
+    background: var(--accent-primary);
+    border: 2px solid var(--accent-primary);
+    color: var(--text-primary);
 }
 
 .playbook-button.csp:hover {
-    background-color: #264a78;
+    background: var(--accent-primary-hover);
+    border-color: var(--accent-primary-hover);
 }
 
 .playbook-button.call {
-    background-color: #1e5f3a;
-    border: 2px solid #4dff8c;
-    color: #dfffe9;
+    background: var(--accent-secondary);
+    border: 2px solid var(--accent-secondary);
+    color: var(--text-primary);
 }
 
 .playbook-button.call:hover {
-    background-color: #2b7a4d;
+    background: var(--accent-secondary-hover);
+    border-color: var(--accent-secondary-hover);
 }
 
 .playbook-pages,
@@ -904,9 +936,9 @@ textarea::placeholder {
     padding: 24px;
     margin: 15px;
     border-radius: 12px;
-    background-color: #1f1f1f;
+    background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    color: #fff;
+    color: var(--text-primary);
     font-family: inherit;
     text-align: left;
     cursor: pointer;
@@ -917,15 +949,15 @@ textarea::placeholder {
 
 .playbook-tile.card {
     margin-bottom: 0;
-    background-color: #1f1f1f;
-    color: #fff;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
 }
 
 .playbook-tile:hover,
 .playbook-tile.card:hover {
-    background-color: #2a2a2a;
+    background-color: var(--bg-hover);
     transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--shadow-elevated);
 }
 
 .playbook-tile h3,
@@ -933,7 +965,7 @@ textarea::placeholder {
     font-size: 1.35rem;
     font-weight: 600;
     margin: 0 0 10px;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .playbook-tile p,
@@ -941,8 +973,7 @@ textarea::placeholder {
     margin: 0;
     font-size: 1rem;
     line-height: 1.45;
-    opacity: 0.85;
-    color: #fff;
+    color: var(--text-secondary);
 }
 
 .playbook-ref-list {
@@ -961,7 +992,8 @@ textarea::placeholder {
 .playbook-ref-card,
 .playbook-card {
     margin-bottom: 0;
-    background-color: #1f1f1f;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 10px;
 }
@@ -1054,7 +1086,6 @@ textarea::placeholder {
     margin-top: 12px;
     margin-bottom: 0;
     font-size: 13px;
-    opacity: 0.8;
     color: var(--text-secondary);
     line-height: 1.5;
 }
@@ -1067,7 +1098,7 @@ textarea::placeholder {
     font: inherit;
     font-size: inherit;
     cursor: pointer;
-    color: #4da3ff;
+    color: var(--accent-primary);
 }
 
 .playbook-link:hover {
@@ -1116,8 +1147,8 @@ textarea::placeholder {
 
     .playbook-subnav-link.playbook-subnav-active,
     .playbook-subnav-item.active {
-        background-color: #333;
-        color: #fff;
+        background-color: var(--bg-active);
+        color: var(--text-primary);
     }
 
     .playbook-launcher {
@@ -1278,8 +1309,8 @@ textarea::placeholder {
 
 /* Header bar */
 .app-header {
-    background: #0a2342;
-    color: #fff;
+    background: var(--bg-sidebar);
+    color: var(--text-primary);
     padding: 16px 24px;
     font-size: 22px;
     font-weight: 600;
@@ -1304,7 +1335,7 @@ textarea::placeholder {
 }
 
 .site-nav a {
-    color: var(--accent-put);
+    color: var(--accent-primary);
     font-weight: 500;
     text-decoration: none;
 }
@@ -1314,7 +1345,7 @@ textarea::placeholder {
 }
 
 .site-nav-sep {
-    color: var(--text-secondary);
+    color: var(--accent-highlight);
     margin: 0 0.5em;
 }
 
@@ -1436,8 +1467,8 @@ textarea::placeholder {
 
 .ladder-capital-input:focus {
     outline: none;
-    border-color: var(--accent-put);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--focus-ring);
 }
 
 .ladder-capital-substats {
@@ -1497,7 +1528,7 @@ textarea::placeholder {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-card);
     border-radius: var(--radius-card);
 }
 
@@ -1555,7 +1586,7 @@ textarea::placeholder {
 }
 
 .candidates-table thead th {
-    background-color: #1b2433;
+    background-color: var(--color-header-bg);
     font-weight: 600;
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -1584,7 +1615,7 @@ textarea::placeholder {
 }
 
 .candidates-table tbody tr:hover {
-    background-color: rgba(59, 130, 246, 0.12);
+    background-color: var(--row-hover-bg);
 }
 
 .candidates-table td {
@@ -1614,8 +1645,8 @@ textarea::placeholder {
 
 .candidates-table input:focus {
     outline: none;
-    border-color: var(--accent-put);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--focus-ring);
 }
 
 .candidates-table .remove-row {
@@ -1638,8 +1669,8 @@ textarea::placeholder {
 
 /* Buttons */
 .btn {
-    background: var(--color-btn);
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-primary);
     padding: 10px 18px;
     border-radius: var(--radius-btn);
     border: none;
@@ -1651,7 +1682,7 @@ textarea::placeholder {
 }
 
 .btn:hover {
-    background: var(--color-btn-hover);
+    background: var(--accent-primary-hover);
 }
 
 .btn:disabled {
@@ -1716,7 +1747,7 @@ textarea::placeholder {
 }
 
 .analysis-table thead th {
-    background-color: #1b2433;
+    background-color: var(--color-header-bg);
     font-weight: 600;
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -1930,8 +1961,8 @@ textarea::placeholder {
 
 .ladder-field input:focus {
     outline: none;
-    border-color: var(--accent-put);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--focus-ring);
 }
 
 .ladder-field .ladder-inp-exp {
@@ -2178,8 +2209,8 @@ textarea::placeholder {
 
 .cc-field input:focus {
     outline: none;
-    border-color: var(--accent-put);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--focus-ring);
 }
 
 .cc-field input.cc-inp-exp {
@@ -2217,12 +2248,12 @@ textarea::placeholder {
     border-bottom: none;
     border-radius: 8px 8px 0 0;
     background: transparent;
-    color: var(--accent-put);
+    color: var(--accent-primary);
     cursor: pointer;
 }
 
 .ladder-subtab:hover {
-    background: rgba(59, 130, 246, 0.12);
+    background: var(--row-hover-bg);
     color: var(--text-header);
 }
 
