@@ -84,6 +84,8 @@
 
         let body = "";
         for (const r of data) {
+            const costBasis =
+                r.strike != null && r.premium != null ? r.strike - r.premium : null;
             body += `
                 <tr>
                     <td>${escapeHtml(r.ticker)}</td>
@@ -96,6 +98,7 @@
                     <td>${r.delta != null ? escapeHtml(String(r.delta)) : "—"}</td>
                     <td>${r.capitalRequired != null ? escapeHtml(formatMoney2(r.capitalRequired)) : "—"}</td>
                     <td>${r.dollarReturn != null ? escapeHtml(formatMoney2(r.dollarReturn)) : "—"}</td>
+                    <td>${costBasis != null && Number.isFinite(costBasis) ? escapeHtml(costBasis.toFixed(2)) : "—"}</td>
                 </tr>`;
         }
 
@@ -113,6 +116,7 @@
                         <th>Delta</th>
                         <th>CapitalRequired</th>
                         <th>DollarReturn</th>
+                        <th>Cost Basis</th>
                     </tr>
                 </thead>
                 <tbody>${body}</tbody>
