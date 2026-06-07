@@ -17,9 +17,6 @@
             <button type="button" class="sidebar-icon" data-panel="industries" id="sidebar-industries">Industries</button>
             <button type="button" class="sidebar-icon" data-panel="ladder" id="sidebar-ladder">CSP Ladder</button>
             <button type="button" class="sidebar-icon" data-panel="export" id="sidebar-export">CSP Ladder Export</button>
-            <button type="button" class="sidebar-icon" data-panel="call-ladder" id="sidebar-call-ladder">Call Ladder</button>
-            <button type="button" class="sidebar-icon" data-panel="call-ladder-export" id="sidebar-call-ladder-export">Call Ladder Export</button>
-            <button type="button" class="sidebar-icon" data-panel="total-ladder" id="sidebar-total-ladder">Total Ladder</button>
         </div>
         <div class="sidebar-logo-text">
             <span class="logo-main">421</span>
@@ -48,21 +45,6 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="sidebar-group sidebar-group--call" data-sidebar-group="call">
-                            <button type="button" class="sidebar-group-header" aria-expanded="false">CALL Playbook</button>
-                            <div class="sidebar-group-content">
-                                <ul class="playbook-subnav">
-                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="call-overview">CALL &ndash; Playbook Overview</button></li>
-                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="call-shares">CALL &ndash; Shares Owned Check</button></li>
-                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="call-strike">CALL &ndash; Strike Selection</button></li>
-                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="call-delta">CALL &ndash; Delta Rules</button></li>
-                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="call-expiration">CALL &ndash; Expiration Rules</button></li>
-                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="call-itm">CALL &ndash; If Price Goes ITM</button></li>
-                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="call-quickstart">CALL &ndash; Quick Start Guide</button></li>
-                                    <li><button type="button" class="playbook-subnav-link" data-playbook-page="call-routine">CALL &ndash; Weekly Routine</button></li>
-                                </ul>
-                            </div>
-                        </div>
                     </nav>
                     <div class="playbook-pages">
                         <div id="playbook-page-overview" class="playbook-page playbook-page-active" data-playbook-page="overview">
@@ -72,7 +54,6 @@
                                 </header>
                                 <div class="playbook-launcher">
                                     <button type="button" class="playbook-button csp" data-playbook-page="overview">CSP Playbook</button>
-                                    <button type="button" class="playbook-button call" data-playbook-page="call-overview">CALL Playbook</button>
                                 </div>
                                 <div class="playbook-overview-sections">
                                     <section class="playbook-overview-section" aria-labelledby="playbook-group-analysis">
@@ -570,177 +551,6 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <div id="playbook-page-call-overview" class="playbook-page" data-playbook-page="call-overview" hidden>
-                            <div class="playbook-page-inner">
-                                <header class="panel-header">
-                                    <h1 class="panel-title">CALL &ndash; Playbook Overview</h1>
-                                </header>
-                                <ul class="playbook-ref-list">
-                                    <li>
-                                        <article class="card playbook-ref-card playbook-card">
-                                            <h2 class="playbook-ref-title">Covered Calls</h2>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> A Covered Call is when you sell a call option against shares you already own.</p>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Purpose:</span> Generate income while holding the stock or sell the stock at a profit.</p>
-                                            <p class="cross-link">
-                                                Related:
-                                                <button type="button" class="playbook-link" data-playbook-page="overview">CSP &ndash; Playbook Overview</button>
-                                            </p>
-                                        </article>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div id="playbook-page-call-shares" class="playbook-page" data-playbook-page="call-shares" hidden>
-                            <div class="playbook-page-inner">
-                                <header class="panel-header">
-                                    <h1 class="panel-title">CALL &ndash; Shares Owned Check</h1>
-                                </header>
-                                <ul class="playbook-ref-list">
-                                    <li>
-                                        <article class="card playbook-ref-card playbook-card">
-                                            <h2 class="playbook-ref-title">Shares Owned Check</h2>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> You must own 100 shares per contract before selling a call.</p>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> Selling a call without shares is a naked call &mdash; unlimited risk.</p>
-                                        </article>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div id="playbook-page-call-strike" class="playbook-page" data-playbook-page="call-strike" hidden>
-                            <div class="playbook-page-inner">
-                                <header class="panel-header">
-                                    <h1 class="panel-title">CALL &ndash; Strike Selection</h1>
-                                </header>
-                                <ul class="playbook-ref-list">
-                                    <li>
-                                        <article class="card playbook-ref-card playbook-card">
-                                            <h2 class="playbook-ref-title">Strike Selection</h2>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Choose a strike above your cost basis and above resistance levels.</p>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Why it matters:</span> This protects your shares and increases the chance of keeping them.</p>
-                                        </article>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div id="playbook-page-call-delta" class="playbook-page" data-playbook-page="call-delta" hidden>
-                            <div class="playbook-page-inner">
-                                <header class="panel-header">
-                                    <h1 class="panel-title">CALL &ndash; Delta Rules</h1>
-                                </header>
-                                <ul class="playbook-ref-list">
-                                    <li>
-                                        <article class="card playbook-ref-card playbook-card">
-                                            <h2 class="playbook-ref-title">Delta Rules</h2>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Delta tells you the probability your shares will be called away.</p>
-                                            <ul class="playbook-ref-bullets">
-                                                <li><strong>Strong chart:</strong> Use lower delta (10&ndash;16).</li>
-                                                <li><strong>Weak chart:</strong> Use higher delta (20&ndash;30).</li>
-                                                <li><strong>Neutral chart:</strong> Use mid delta (16&ndash;20).</li>
-                                            </ul>
-                                        </article>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div id="playbook-page-call-expiration" class="playbook-page" data-playbook-page="call-expiration" hidden>
-                            <div class="playbook-page-inner">
-                                <header class="panel-header">
-                                    <h1 class="panel-title">CALL &ndash; Expiration Rules</h1>
-                                </header>
-                                <ul class="playbook-ref-list">
-                                    <li>
-                                        <article class="card playbook-ref-card playbook-card">
-                                            <h2 class="playbook-ref-title">Expiration Rules</h2>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> Weekly expirations give the best premium decay.</p>
-                                            <ul class="playbook-ref-bullets">
-                                                <li>Use 7&ndash;10 DTE.</li>
-                                                <li>Avoid earnings week.</li>
-                                                <li>Avoid major news events.</li>
-                                            </ul>
-                                        </article>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div id="playbook-page-call-itm" class="playbook-page" data-playbook-page="call-itm" hidden>
-                            <div class="playbook-page-inner">
-                                <header class="panel-header">
-                                    <h1 class="panel-title">CALL &ndash; If Price Goes ITM</h1>
-                                </header>
-                                <ul class="playbook-ref-list">
-                                    <li>
-                                        <article class="card playbook-ref-card playbook-card">
-                                            <h2 class="playbook-ref-title">If Price Goes ITM</h2>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">Definition:</span> ITM means the stock is above your call strike.</p>
-                                            <ul class="playbook-ref-bullets">
-                                                <li>Let shares be called away.</li>
-                                                <li>Roll up/out.</li>
-                                                <li>Close early.</li>
-                                                <li>Keep shares if long-term bullish.</li>
-                                            </ul>
-                                            <p class="cross-link">
-                                                Related:
-                                                <button type="button" class="playbook-link" data-playbook-page="itm">CSP &ndash; Possible ITM</button>
-                                            </p>
-                                        </article>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div id="playbook-page-call-quickstart" class="playbook-page" data-playbook-page="call-quickstart" hidden>
-                            <div class="playbook-page-inner">
-                                <header class="panel-header">
-                                    <h1 class="panel-title">CALL &ndash; Quick Start Guide</h1>
-                                </header>
-                                <ul class="playbook-ref-list">
-                                    <li>
-                                        <article class="card playbook-ref-card playbook-card">
-                                            <h2 class="playbook-ref-title">Quick Start Guide</h2>
-                                            <p class="playbook-ref-line"><span class="playbook-ref-label">The 3 fastest checks:</span></p>
-                                            <ul class="playbook-ref-bullets">
-                                                <li>Do I own 100 shares?</li>
-                                                <li>Is the strike above my cost basis?</li>
-                                                <li>Is delta between 10&ndash;30?</li>
-                                            </ul>
-                                        </article>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div id="playbook-page-call-routine" class="playbook-page" data-playbook-page="call-routine" hidden>
-                            <div class="playbook-page-inner">
-                                <header class="panel-header">
-                                    <h1 class="panel-title">CALL &ndash; Weekly Routine</h1>
-                                </header>
-                                <ul class="playbook-ref-list">
-                                    <li>
-                                        <article class="card playbook-ref-card playbook-card">
-                                            <h2 class="playbook-ref-title">Weekly Routine</h2>
-                                            <ul class="playbook-ref-bullets">
-                                                <li>Check shares.</li>
-                                                <li>Check trend.</li>
-                                                <li>Pick strike.</li>
-                                                <li>Pick delta.</li>
-                                                <li>Sell call.</li>
-                                                <li>Manage ITM.</li>
-                                            </ul>
-                                            <p class="cross-link">
-                                                Related:
-                                                <button type="button" class="playbook-link" data-playbook-page="routine">CSP &ndash; Weekly Routine</button>
-                                            </p>
-                                        </article>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -839,9 +649,6 @@
                         </div>
                         <div class="overview-card" id="summary-csp">
                             <div id="ladder-summary" class="ladder-summary-mount card"></div>
-                        </div>
-                        <div class="overview-card" id="summary-calls">
-                            <div id="call-overview-summary" class="ladder-summary-mount card"></div>
                         </div>
                     </div>
                     <hr class="overview-divider" aria-hidden="true" />
@@ -1222,220 +1029,6 @@
                 </div>
             </div>
 
-            <div id="call-ladder-panel" class="content-panel">
-                <div class="content-panel-inner">
-                    <header class="panel-header panel-header--divider">
-                        <h1 class="panel-title">Call Ladder</h1>
-                        <p class="panel-subtitle">5 covered call positions — analyze and select trades for export.</p>
-                    </header>
-                    <div id="call-ladder-root" class="ladder-root ladder-container call-ladder-container">
-                        <section class="card ladder-rung" data-rung-id="1">
-                            <h2 class="card-title ladder-rung-title">Covered Calls</h2>
-                            <div class="ladder-input-stack" id="call-stack-rung1">
-                                <div class="ladder-input-row ladder-row" data-row-index="0">
-                                    <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                        <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Shares Owned</span>
-                                        <input type="number" class="call-inp-shares" step="1" min="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Cost Basis</span>
-                                        <input type="number" id="costBasis0" class="call-inp-cost-basis" step="any" min="0" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                        <input type="date" class="ladder-inp-exp" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                        <input type="number" class="ladder-inp-dte" step="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                        <input type="number" class="ladder-inp-strike" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                        <input type="number" class="ladder-inp-ask" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                        <input type="number" class="ladder-inp-bid" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                        <input type="number" class="ladder-inp-delta" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                        <input type="number" class="ladder-inp-prob-itm" step="any" />
-                                    </label>
-                                    <div class="ladder-row-actions">
-                                        <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                                    </div>
-                                </div>
-                                <div class="ladder-input-row ladder-row" data-row-index="1">
-                                    <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                        <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Shares Owned</span>
-                                        <input type="number" class="call-inp-shares" step="1" min="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Cost Basis</span>
-                                        <input type="number" id="costBasis1" class="call-inp-cost-basis" step="any" min="0" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                        <input type="date" class="ladder-inp-exp" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                        <input type="number" class="ladder-inp-dte" step="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                        <input type="number" class="ladder-inp-strike" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                        <input type="number" class="ladder-inp-ask" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                        <input type="number" class="ladder-inp-bid" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                        <input type="number" class="ladder-inp-delta" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                        <input type="number" class="ladder-inp-prob-itm" step="any" />
-                                    </label>
-                                    <div class="ladder-row-actions">
-                                        <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                                    </div>
-                                </div>
-                                <div class="ladder-input-row ladder-row" data-row-index="2">
-                                    <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                        <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Shares Owned</span>
-                                        <input type="number" class="call-inp-shares" step="1" min="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Cost Basis</span>
-                                        <input type="number" id="costBasis2" class="call-inp-cost-basis" step="any" min="0" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                        <input type="date" class="ladder-inp-exp" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                        <input type="number" class="ladder-inp-dte" step="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                        <input type="number" class="ladder-inp-strike" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                        <input type="number" class="ladder-inp-ask" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                        <input type="number" class="ladder-inp-bid" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                        <input type="number" class="ladder-inp-delta" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                        <input type="number" class="ladder-inp-prob-itm" step="any" />
-                                    </label>
-                                    <div class="ladder-row-actions">
-                                        <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                                    </div>
-                                </div>
-                                <div class="ladder-input-row ladder-row" data-row-index="3">
-                                    <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                        <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Shares Owned</span>
-                                        <input type="number" class="call-inp-shares" step="1" min="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Cost Basis</span>
-                                        <input type="number" id="costBasis3" class="call-inp-cost-basis" step="any" min="0" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                        <input type="date" class="ladder-inp-exp" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                        <input type="number" class="ladder-inp-dte" step="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                        <input type="number" class="ladder-inp-strike" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                        <input type="number" class="ladder-inp-ask" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                        <input type="number" class="ladder-inp-bid" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                        <input type="number" class="ladder-inp-delta" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                        <input type="number" class="ladder-inp-prob-itm" step="any" />
-                                    </label>
-                                    <div class="ladder-row-actions">
-                                        <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                                    </div>
-                                </div>
-                                <div class="ladder-input-row ladder-row" data-row-index="4">
-                                    <label class="ladder-field"><span class="ladder-field-label">Ticker</span>
-                                        <input type="text" class="ladder-inp-ticker" placeholder="e.g. AAPL" autocomplete="off" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Shares Owned</span>
-                                        <input type="number" class="call-inp-shares" step="1" min="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Cost Basis</span>
-                                        <input type="number" id="costBasis4" class="call-inp-cost-basis" step="any" min="0" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Expiration</span>
-                                        <input type="date" class="ladder-inp-exp" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">DTE</span>
-                                        <input type="number" class="ladder-inp-dte" step="1" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Strike</span>
-                                        <input type="number" class="ladder-inp-strike" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Ask</span>
-                                        <input type="number" class="ladder-inp-ask" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Bid</span>
-                                        <input type="number" class="ladder-inp-bid" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Delta</span>
-                                        <input type="number" class="ladder-inp-delta" step="any" />
-                                    </label>
-                                    <label class="ladder-field"><span class="ladder-field-label">Prob ITM</span>
-                                        <input type="number" class="ladder-inp-prob-itm" step="any" />
-                                    </label>
-                                    <div class="ladder-row-actions">
-                                        <button type="button" class="btn ladder-analyze analyze-button">Analyze</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-            </div>
-
-            <div id="call-ladder-export-panel" class="content-panel">
-                <div class="content-panel-inner">
-                    <header class="panel-header">
-                        <h1 class="panel-title">Call Ladder Export</h1>
-                    </header>
-                    <section class="card ladder-export-card">
-                        <p class="ladder-export-intro">Selected covered call rows appear below.</p>
-                        <div id="call-ladder-export-table-wrap" class="ladder-export-table-wrap"></div>
-                    </section>
-                </div>
-            </div>
-
-            <div id="total-ladder-panel" class="content-panel">
-                <div class="content-panel-inner">
-                    <header class="panel-header">
-                        <h1 class="panel-title">Total Ladder</h1>
-                    </header>
-                    <section class="card ladder-export-card">
-                        <p class="ladder-export-intro">Combined view of selected CSP puts and covered calls.</p>
-                        <div id="total-ladder-table-wrap" class="ladder-export-table-wrap"></div>
-                    </section>
-                </div>
-            </div>
         </main>
     </div>
 
@@ -1445,9 +1038,6 @@
     <script src="industries.js"></script>
     <script src="ladder-high-volume.js"></script>
     <script src="ladder-export.js"></script>
-    <script src="call-ladder.js"></script>
-    <script src="call-ladder-export.js"></script>
-    <script src="total-ladder.js"></script>
     <script>
     (function () {
         var panels = {
@@ -1455,10 +1045,7 @@
             industries: document.getElementById("industries-panel"),
             overview: document.getElementById("overview-panel"),
             ladder: document.getElementById("ladder-panel"),
-            export: document.getElementById("export-panel"),
-            "call-ladder": document.getElementById("call-ladder-panel"),
-            "call-ladder-export": document.getElementById("call-ladder-export-panel"),
-            "total-ladder": document.getElementById("total-ladder-panel")
+            export: document.getElementById("export-panel")
         };
         var icons = document.querySelectorAll(".sidebar-icon[data-panel]");
         var tabLadder = document.getElementById("ladder-subtab-ladder");
@@ -1479,15 +1066,6 @@
             if (name === "export" && typeof window.renderLadderExportTable === "function") {
                 window.renderLadderExportTable(document.getElementById("ladder-export-table-wrap"));
             }
-            if (name === "call-ladder-export" && typeof window.renderCallLadderExportTable === "function") {
-                window.renderCallLadderExportTable(document.getElementById("call-ladder-export-table-wrap"));
-            }
-            if (name === "total-ladder" && typeof window.renderTotalLadderTable === "function") {
-                window.renderTotalLadderTable(document.getElementById("total-ladder-table-wrap"));
-            }
-            if (name === "overview" && typeof window.updateCallOverviewSummary === "function") {
-                window.updateCallOverviewSummary();
-            }
             if (name === "industries" && typeof window.showIndustryPage === "function") {
                 var industryRoute =
                     typeof window.parseIndustryRoute === "function"
@@ -1502,23 +1080,6 @@
                 history.pushState({ panel: name }, "", "/ladder-high-volume.html");
             }
         }
-
-        (function wrapCallOverviewRefresh() {
-            function wrap(fnName) {
-                var orig = window[fnName];
-                if (typeof orig !== "function" || orig.__overviewWrapped) return;
-                window[fnName] = function () {
-                    var result = orig.apply(this, arguments);
-                    if (typeof window.updateCallOverviewSummary === "function") {
-                        window.updateCallOverviewSummary();
-                    }
-                    return result;
-                };
-                window[fnName].__overviewWrapped = true;
-            }
-            wrap("selectCallRung");
-            wrap("deselectCallRung");
-        })();
 
         icons.forEach(function (btn) {
             btn.addEventListener("click", function () {
@@ -1545,17 +1106,6 @@
             "glossary"
         ];
 
-        var CALL_PLAYBOOK_PAGE_ORDER = [
-            "call-overview",
-            "call-shares",
-            "call-strike",
-            "call-delta",
-            "call-expiration",
-            "call-itm",
-            "call-quickstart",
-            "call-routine"
-        ];
-
         function ensureSidebarGroupOpen(group) {
             if (!group || group.classList.contains("open")) return;
             group.classList.add("open");
@@ -1568,13 +1118,9 @@
         function openPlaybookSidebarGroup(pageId) {
             var groups = document.querySelectorAll(".playbook-subsidebar .sidebar-group");
             if (!groups.length || !pageId) return;
-            var isCall = pageId.indexOf("call-") === 0;
-            var isOverview = pageId === "overview" || pageId === "call-overview";
+            var isOverview = pageId === "overview";
             groups.forEach(function (group) {
-                var open =
-                    !isOverview &&
-                    ((isCall && group.getAttribute("data-sidebar-group") === "call") ||
-                        (!isCall && group.getAttribute("data-sidebar-group") === "csp"));
+                var open = !isOverview && group.getAttribute("data-sidebar-group") === "csp";
                 group.classList.toggle("open", open);
                 var header = group.querySelector(".sidebar-group-header");
                 if (header) {
@@ -1655,11 +1201,6 @@
             PLAYBOOK_PAGE_ORDER,
             "overview",
             "Back to Playbook Overview"
-        );
-        initPlaybookPageNavForOrder(
-            CALL_PLAYBOOK_PAGE_ORDER,
-            "call-overview",
-            "Back to CALL Playbook Overview"
         );
 
         document.querySelectorAll(".playbook-subsidebar .sidebar-group-header").forEach(function (header) {
